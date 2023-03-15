@@ -1,0 +1,30 @@
+{
+    "manifest_version": 3,
+    "name": "Slither Score",
+    "version": "1.0.0",
+    "description": "Add On pour concours slither.io",
+    "permissions": [
+        "tabs",
+        "activeTab",
+        "storage",
+        "contextMenus",
+        "scripting",
+        "notifications"
+    ],
+    "host_permissions": [
+        "https://www.slither.io"
+    ],
+    "options_ui": {
+        "page": "options/options.html",
+        "open_in_tab": false
+    },
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["https://*/*", "http://*/*"],
+            "js": ["content-script.js"]
+        }
+    ]
+}
