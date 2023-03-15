@@ -23,7 +23,7 @@
     },
     "content_scripts": [
         {
-            "matches": ["https://*/*", "http://*/*"],
+            "matches": ["https://www.slither.io/*", "http://www.slither.io/*", "https://www.slither.io", "http://www.slither.io"],
             "js": ["content-script.js"]
         }
     ]
