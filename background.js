@@ -1,11 +1,15 @@
-function loadLocalDatas() {
-    let localDatas = JSON.parse(localStorage.getItem('localDatas'));
-    if (!localDatas) {
-      localDatas = new LocalDatas();
-      localStorage.setItem('localDatas', JSON.stringify(localDatas));
-    }
-    return localDatas;
-  }
+import { LocalDatas } from './models.js';
 
-  
-  loadLocalDatas();
+function loadLocalDatas() {
+  chrome.storage.local.get('localDatas', function(data) {
+      let localDatas = data.localDatas;
+      if (!localDatas) {
+          localDatas = new LocalDatas();
+          chrome.storage.local.set({localDatas: localDatas});
+      }
+      return localDatas;
+  });
+}
+
+loadLocalDatas();
+

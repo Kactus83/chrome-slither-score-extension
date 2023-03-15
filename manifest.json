@@ -12,19 +12,20 @@
         "notifications"
     ],
     "host_permissions": [
-        "https://www.slither.io"
+        "https://www.slither.io/*"
     ],
     "options_ui": {
         "page": "options/options.html",
         "open_in_tab": false
     },
     "background": {
-        "service_worker": "background.js"
+        "service_worker": "background.js",
+        "type": "module"
     },
     "content_scripts": [
         {
-            "matches": ["https://www.slither.io/*", "http://www.slither.io/*", "https://www.slither.io", "http://www.slither.io"],
+            "matches": ["http://slither.io/*"],
             "js": ["content-script.js"]
         }
-    ]
+    ]    
 }

@@ -1,15 +1,15 @@
-class LocalDatas {
+export class LocalDatas {
     players = [];
 }
 
-class Player {
+export class Player {
     constructor(name) {
       this.name = name;
       this.scores = [];
     }
 }
   
-class Score {
+export class Score {
     constructor(value, date) {
       this.value = value;
       this.date = date;
