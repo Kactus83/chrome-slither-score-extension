@@ -19,6 +19,9 @@
           "matches": ["<all_urls>"],
           "resources": [
             "gui/main-gui.js",
+            "gui/components/player-select.js",
+            "gui/components/player-form.js",
+            "gui/components/toogle-form-button.js",
             "utils/player-service.js",
             "utils/local-datas.js",
             "models.js"
