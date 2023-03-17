@@ -14,10 +14,17 @@
     "host_permissions": [
         "https://www.slither.io/*"
     ],
-    "web_accessible_resources": [{
-        "matches": ["<all_urls>"],
-        "resources": ["gui/main-gui.js"]
-    }],
+    "web_accessible_resources": [
+        {
+          "matches": ["<all_urls>"],
+          "resources": [
+            "gui/main-gui.js",
+            "utils/player-service.js",
+            "utils/local-datas.js",
+            "models.js"
+          ]
+        }
+    ],
     "options_ui": {
         "page": "options/options.html",
         "open_in_tab": false
