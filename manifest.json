@@ -31,7 +31,8 @@
             "matches": ["http://slither.io/*"],
             "js": [
                 "content-script.js"
-            ]
+            ],
+            "type": "module"
         }
     ]     
 }
