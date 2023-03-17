@@ -1,37 +1,37 @@
-window.addEventListener('DOMContentLoaded', function() {
-  // bouton play
-  const play_btn = document.querySelector('.btnt.nsi.sadg1');;
-  // Div du bouton play
-  const playhDiv = document.getElementById('playh');
+// content-script.js
+function createAddPlayerForm() {
+  const form = document.createElement('form');
+  form.id = 'add-player-form';
 
-  // Elements du formulaire d'ajout de player
-  let createAddPlayerForm, addPlayer;
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.name = 'name';
+  input.placeholder = 'Nom du joueur';
+  form.appendChild(input);
 
-  const guiUrl = chrome.runtime.getURL("gui/main-gui.js");
-  fetch(guiUrl)
-    .then(response => response.text())
-    .then(data => {
-      const parser = new DOMParser();
-      const htmlDocument = parser.parseFromString(data, 'text/html');
-      createAddPlayerForm = htmlDocument.querySelector('#add-player-form').cloneNode(true);
-      addPlayer = createAddPlayerFunction(localDatas);
-      const scoresTable = createScoresTable(localDatas);
-      const chatbox = createChatbox(localDatas, playerName);
-      addScoresUpdateListener(localDatas, scoresTable, chatbox);
-      // Insertion du formulaire avant la div cible
-      playhDiv.parentNode.insertBefore(createAddPlayerForm, playhDiv);
-      form.addEventListener('submit', addPlayer);
-      document.body.appendChild(scoresTable);
-      document.body.appendChild(chatbox);
+  const button = document.createElement('button');
+  button.type = 'submit';
+  button.textContent = 'Ajouter';
+  form.appendChild(button);
 
-      play_btn.addEventListener('click', function() {
-        alert('Le bouton Jouer a été cliqué !');
-      });
-    });
+  return form;
+}
 
-  playhDiv.addEventListener('click', function(event) {
-  const clickedElement = event.target;
-  console.log(clickedElement);
-});
+function replaceNickHolderWithForm() {
+  const nickHolder = document.getElementById('nick_holder');
 
-});
+  if (!nickHolder) {
+    setTimeout(replaceNickHolderWithForm, 1000);
+    return;
+  }
+
+  const addPlayerForm = createAddPlayerForm();
+  nickHolder.replaceWith(addPlayerForm);
+
+  addPlayerForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    console.log('Le formulaire a été soumis !');
+  });
+}
+
+window.addEventListener('load', replaceNickHolderWithForm);

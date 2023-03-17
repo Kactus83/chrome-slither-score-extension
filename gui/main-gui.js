@@ -17,5 +17,5 @@ export function createAddPlayerForm() {
     form.appendChild(button);
   
     return form;
-}
+  }
   
