@@ -13,7 +13,13 @@ async function replaceNickHolderWithForm() {
   const getLocalDatas = () => {
     return new Promise((resolve) => {
       chrome.runtime.sendMessage({ type: 'GET_ALL_DATA' }, (response) => {
-        resolve(response);
+        console.log(response)
+        if (response && response.players) {
+          resolve(response);
+        } else {
+          console.error("Unexpected response:", response);
+          resolve({ players: [] }); // Retournez un objet vide avec un tableau de players vide comme solution temporaire
+        }
       });
     });
   };

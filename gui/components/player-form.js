@@ -1,4 +1,4 @@
-export async function createPlayerForm(localDatas, playerSelect) {
+export function createPlayerForm(localDatas, playerSelect) {
   const playerForm = document.createElement('form');
   playerForm.id = 'playerForm';
   playerForm.style.display = localDatas.players.length === 0 ? 'block' : 'none';
