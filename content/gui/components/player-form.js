@@ -1,4 +1,4 @@
-import { sendRegisterPlayer, onBackgroundMessage } from './messages/messages.js';
+import { sendRegisterPlayer } from '../../messages/messages.js';
 
 export function createPlayerForm(localDatas, playerSelect) {
   const playerForm = document.createElement('form');
@@ -19,19 +19,8 @@ export function createPlayerForm(localDatas, playerSelect) {
     event.preventDefault();
     const playerName = playerNameInput.value.trim();
     if (playerName !== '') {
-      // Utilisez sendRegisterPlayer pour envoyer la requête
-      const registerPlayerPromise = sendRegisterPlayer(playerName);
-
-      // Créez une nouvelle promesse pour écouter la réponse
-      const responsePromise = new Promise((resolve) => {
-        onBackgroundMessage((response) => {
-          resolve(response);
-        });
-      });
-
-      // Attendez la réponse
-      await registerPlayerPromise;
-      const response = await responsePromise;
+      // Utilisez sendRegisterPlayer pour envoyer la requête et attendre la réponse
+      const response = await sendRegisterPlayer(playerName);
 
       if (response.error) {
         console.error(response.error);

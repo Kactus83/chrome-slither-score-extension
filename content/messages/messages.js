@@ -1,29 +1,30 @@
-export function sendGetPlayers() {
-    return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type: 'GET_PLAYERS' }, (response) => {
-        resolve(response);
-      });
+import { showLoadingOverlay, hideLoadingOverlay } from '../gui/components/loading.js';
+
+function sendRequest(request) {
+  return new Promise((resolve) => {
+    chrome.runtime.sendMessage(request, (response) => {
+      onBackgroundMessage(response, resolve);
     });
+  });
 }
-  
+
+export function onBackgroundMessage(response, callback) {
+  if (response.processing) {
+    showLoadingOverlay();
+  } else {
+    hideLoadingOverlay();
+  }
+  callback(response);
+}
+
+export function sendGetPlayers() {
+  return sendRequest({ type: 'GET_PLAYERS' });
+}
+
 export function sendGetAllData() {
-    return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type: 'GET_ALL_DATA' }, (response) => {
-        resolve(response);
-      });
-    });
+  return sendRequest({ type: 'GET_ALL_DATA' });
 }
 
 export function sendRegisterPlayer(playerName) {
-    return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type: 'REGISTER_PLAYER', playerName }, (response) => {
-        resolve(response);
-      });
-    });
-}
-  
-export function onBackgroundMessage(callback) {
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      callback(request, sender, sendResponse);
-    });
+  return sendRequest({ type: 'REGISTER_PLAYER', playerName });
 }
