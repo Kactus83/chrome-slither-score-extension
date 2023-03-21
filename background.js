@@ -6,37 +6,30 @@ chrome.runtime.onInstalled.addListener(function() {
 });
 
 chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
-  if (request.type === 'REGISTER_PLAYER') {
-    const playerName = request.playerName;
-    const result = registerPlayer(playerName);
-    sendResponse({ success: result });
-  } else {
-    sendResponse({ error: 'Invalid request type' });
-  }
-  return false; // Indique que la réponse est synchrone
-});
+  console.log('Request received:', request);
+  const tabId = sender.tab.id; // Récupérez l'ID de l'onglet à partir du sender
 
-chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
   try {
     const localDatas = await loadLocalDatas();
 
     if (request.type === 'GET_PLAYERS') {
-      sendResponse({ players: localDatas.players });
+      chrome.tabs.sendMessage(tabId, { players: localDatas.players });
     } else if (request.type === 'GET_ALL_DATA') {
       console.log('localDatas in background.js:', localDatas);
-      sendResponse(localDatas);
+      chrome.tabs.sendMessage(tabId, localDatas);
     } else if (request.type === 'REGISTER_PLAYER') {
       const playerName = request.playerName;
       const result = registerPlayer(playerName);
-      sendResponse({ success: result });
+      chrome.tabs.sendMessage(tabId, { success: result });
     } else {
-      sendResponse({ error: 'Invalid request type' });
+      chrome.tabs.sendMessage(tabId, { error: 'Invalid request type' });
     }
   } catch (error) {
     console.error('Error in onMessage:', error);
-    sendResponse({ error: error.message });
+    chrome.tabs.sendMessage(tabId, { error: error.message });
   }
 
   return true; // Indique que la réponse sera asynchrone.
 });
+
 

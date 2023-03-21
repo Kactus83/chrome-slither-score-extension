@@ -12,8 +12,10 @@ async function replaceNickHolderWithForm() {
   // Charger les données locales en envoyant un message au script d'arrière-plan
   const getLocalDatas = () => {
     return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type: 'GET_ALL_DATA' }, (response) => {
-        console.log(response)
+      chrome.runtime.sendMessage({ type: 'GET_ALL_DATA' });
+  
+      chrome.runtime.onMessage.addListener((response) => {
+        console.log(response);
         if (response && response.players) {
           resolve(response);
         } else {
@@ -22,7 +24,7 @@ async function replaceNickHolderWithForm() {
         }
       });
     });
-  };
+  };  
 
   const localDatas = await getLocalDatas();
   const playerSelect = createPlayerSelect(localDatas);
