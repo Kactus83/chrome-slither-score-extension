@@ -1,3 +1,6 @@
+// Importez les fonctions nécessaires depuis messages.js
+import { sendGetAllData, onBackgroundMessage } from './messages/messages.js';
+
 async function replaceNickHolderWithForm() {
   const [
     { createPlayerSelect },
@@ -10,11 +13,13 @@ async function replaceNickHolderWithForm() {
   ]);
 
   // Charger les données locales en envoyant un message au script d'arrière-plan
-  const getLocalDatas = () => {
-    return new Promise((resolve) => {
-      chrome.runtime.sendMessage({ type: 'GET_ALL_DATA' });
-  
-      chrome.runtime.onMessage.addListener((response) => {
+  const getLocalDatas = async () => {
+    // Utilisez sendGetAllData pour envoyer la requête
+    const getAllDataPromise = sendGetAllData();
+
+    // Créez une nouvelle promesse pour écouter la réponse
+    const responsePromise = new Promise((resolve) => {
+      onBackgroundMessage((response) => {
         console.log(response);
         if (response && response.players) {
           resolve(response);
@@ -24,7 +29,12 @@ async function replaceNickHolderWithForm() {
         }
       });
     });
-  };  
+
+    // Attendez la réponse
+    await getAllDataPromise;
+    const localDatas = await responsePromise;
+    return localDatas;
+  };
 
   const localDatas = await getLocalDatas();
   const playerSelect = createPlayerSelect(localDatas);

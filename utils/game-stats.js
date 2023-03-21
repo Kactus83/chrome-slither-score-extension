@@ -1,6 +1,5 @@
-import { Player } from '../models.js';
 import { PlayerStatsService } from './player-stats.js';
-import { loadLocalDatas, saveLocalDatas } from './local-datas.js';
+import { loadLocalDatas } from './local-datas.js';
 
 export class GameStatsService {
     constructor() {

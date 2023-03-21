@@ -1,4 +1,4 @@
-import { Player } from '../models.js';
+import { Player } from '../models/models.js';
 import { loadLocalDatas, saveLocalDatas } from './local-datas.js';
 
 

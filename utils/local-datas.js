@@ -1,4 +1,4 @@
-import { LocalDatas } from '../models.js';
+import { LocalDatas } from '../models/models.js';
 
 export function loadLocalDatas() {
     return new Promise((resolve) => {

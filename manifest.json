@@ -18,13 +18,13 @@
         {
           "matches": ["<all_urls>"],
           "resources": [
-            "gui/main-gui.js",
-            "gui/components/player-select.js",
-            "gui/components/player-form.js",
-            "gui/components/toogle-form-button.js",
+            "content/gui/main-gui.js",
+            "content/gui/components/player-select.js",
+            "content/gui/components/player-form.js",
+            "content/gui/components/toogle-form-button.js",
             "utils/player-service.js",
             "utils/local-datas.js",
-            "models.js"
+            "models/models.js"
           ]
         }
     ],
@@ -33,14 +33,14 @@
         "open_in_tab": false
     },
     "background": {
-        "service_worker": "background.js",
+        "service_worker": "background/background.js",
         "type": "module"
     },
     "content_scripts": [
         {
             "matches": ["http://slither.io/*"],
             "js": [
-                "content-script.js"
+                "content/content-script.js"
             ],
             "type": "module"
         }
