@@ -1,5 +1,5 @@
-import { loadLocalDatas } from '../utils/local-datas.js';
-import { registerPlayer } from '../utils/player-service.js';
+import { loadLocalDatas } from './utils/local-datas.js';
+import { registerPlayer } from './utils/player-service.js';
 
 chrome.runtime.onInstalled.addListener(function () {
   loadLocalDatas();
