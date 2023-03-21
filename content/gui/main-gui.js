@@ -1,42 +1,68 @@
-import { sendGetAllData } from '../messages/messages.js';
+import {
+  showLoadingOverlay,
+  hideLoadingOverlay,
+} from './components/loading-overlay.js';
+import {
+  createContinueSessionOverlay,
+  removeContinueSessionOverlay,
+} from './components/continue-session-overlay.js';
+import {
+  createStartSessionOverlay,
+  removeStartSessionOverlay,
+} from './components/start-session-overlay.js';
+import {
+  createEndTurnDisplay,
+  removeEndTurnDisplay,
+} from './components/end-turn-display.js';
+import {
+  createNewTurnDisplay,
+  removeNewTurnDisplay,
+} from './components/new-turn-display.js';
 
-async function replaceNickHolderWithForm() {
-  const [
-    { createPlayerSelect },
-    { createPlayerForm },
-    { createToggleFormButton },
-  ] = await Promise.all([
-    import('./components/player-select.js'),
-    import('./components/player-form.js'),
-    import('./components/toogle-form-button.js'),
-  ]);
+export async function showLoadingScreen() {
+  showLoadingOverlay();
+}
 
-  // Charger les données locales en envoyant un message au script d'arrière-plan
-  const getLocalDatas = async () => {
-    // Utilisez sendGetAllData pour envoyer la requête et attendre la réponse
-    const response = await sendGetAllData();
-    console.log(response);
-    if (response && response.players) {
-      return response;
-    } else {
-      console.error("Unexpected response:", response);
-      return { players: [] }; // Retournez un objet vide avec un tableau de players vide comme solution temporaire
-    }
-  };
+export async function hideLoadingScreen() {
+  hideLoadingOverlay();
+}
 
-  const localDatas = await getLocalDatas();
-  const playerSelect = createPlayerSelect(localDatas);
+export async function showContinueSessionOverlay(session) {
+  const overlay = createContinueSessionOverlay(session);
+  document.body.appendChild(overlay);
+}
+
+export async function hideContinueSessionOverlay() {
+  removeContinueSessionOverlay();
+}
+
+export async function showStartSessionForm(players) {
+  const overlay = createStartSessionOverlay(players);
+  document.body.appendChild(overlay);
+}
+
+export async function hideStartSessionForm() {
+  removeStartSessionOverlay();
+}
+
+export async function showEndTurnScreen(score) {
+  const display = createEndTurnDisplay(score);
+  document.body.appendChild(display);
+}
+
+export async function hideEndTurnScreen() {
+  removeEndTurnDisplay();
+}
+
+export async function showNewTurnScreen(players) {
+  const display = createNewTurnDisplay(players);
   const nickHolder = document.getElementById('nick_holder');
   const parentElement = nickHolder.parentElement;
 
-  parentElement.insertBefore(playerSelect, nickHolder);
+  parentElement.insertBefore(display, nickHolder);
   parentElement.removeChild(nickHolder);
-
-  const playerForm = createPlayerForm(localDatas, playerSelect);
-  const toggleFormButton = createToggleFormButton(playerForm);
-
-  parentElement.appendChild(toggleFormButton);
-  parentElement.appendChild(playerForm);
 }
 
-replaceNickHolderWithForm();
+export async function hideNewTurnScreen() {
+  removeNewTurnDisplay();
+}
