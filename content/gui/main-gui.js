@@ -66,3 +66,12 @@ export async function showNewTurnScreen(players) {
 export async function hideNewTurnScreen() {
   removeNewTurnDisplay();
 }
+
+export async function showErrorOverlay() {
+  const overlay = createErrorOverlay();
+  document.body.appendChild(overlay);
+}
+
+export async function hideErrorOverlay() {
+  removeErrorOverlay();
+}

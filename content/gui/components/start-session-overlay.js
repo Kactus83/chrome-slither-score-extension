@@ -25,7 +25,20 @@ export function createStartSessionOverlay(players) {
   
     overlay.appendChild(playerSelect);
     overlay.appendChild(startButton);
-  
+
+    startButton.addEventListener('click', () => {
+      const selectedPlayer = playerSelect.value;
+      const event = new CustomEvent(eventNames.UserEvents.START_SESSION, { detail: { player: selectedPlayer } });
+      document.dispatchEvent(event);
+    });
+    
     return overlay;
+  }
+  
+  export function removeStartSessionOverlay() {
+    const overlay = document.querySelector('.start-session-overlay');
+    if (overlay) {
+      overlay.parentNode.removeChild(overlay);
+    }
   }
   

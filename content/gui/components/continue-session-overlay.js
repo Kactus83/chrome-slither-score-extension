@@ -9,7 +9,8 @@ export function createContinueSessionOverlay() {
   // Ajoutez des styles CSS pour rendre le bouton vert clair et moderne
 
   continueButton.addEventListener('click', () => {
-    // Appel à la fonction pour continuer la session
+    // Emits the "user:resumeSession" event
+    document.dispatchEvent(new CustomEvent(eventNames.UserEvents.RESUME_SESSION));
   });
 
   const newSessionButton = document.createElement('button');
@@ -18,11 +19,27 @@ export function createContinueSessionOverlay() {
   // Ajoutez des styles CSS pour rendre le bouton vert clair et moderne
 
   newSessionButton.addEventListener('click', () => {
-    // Appel à la fonction pour démarrer une nouvelle session
+    // Emits the "user:initializeSession" event
+    document.dispatchEvent(new CustomEvent(eventNames.UserEvents.INITIALIZE_SESSION));
   });
 
   overlay.appendChild(continueButton);
   overlay.appendChild(newSessionButton);
 
   return overlay;
+}
+
+export function removeContinueSessionOverlay() {
+  const overlay = document.querySelector('.continue-session-overlay');
+  if (overlay) {
+    overlay.parentElement.removeChild(overlay);
+  }
+}
+
+
+export function removeContinueSessionOverlay() {
+  const overlay = document.querySelector('.continue-session-overlay');
+  if (overlay) {
+    overlay.parentElement.removeChild(overlay);
+  }
 }

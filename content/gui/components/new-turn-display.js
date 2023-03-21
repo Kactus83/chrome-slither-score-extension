@@ -23,3 +23,10 @@ export function createNewTurnDisplay(players) {
     return newTurnDiv;
   }
   
+  export function removeNewTurnDisplay() {
+    const newTurnDiv = document.querySelector('.new-turn-display');
+    if (newTurnDiv) {
+      newTurnDiv.parentNode.removeChild(newTurnDiv);
+    }
+  }
+  

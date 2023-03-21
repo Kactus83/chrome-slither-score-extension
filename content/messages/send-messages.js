@@ -1,4 +1,5 @@
-import { showLoadingOverlay, hideLoadingOverlay } from '../gui/components/loading.js';
+import { onBackgroundMessage } from "./handle-messages";
+
 
 function sendRequest(request) {
   return new Promise((resolve) => {
@@ -6,15 +7,6 @@ function sendRequest(request) {
       onBackgroundMessage(response, resolve);
     });
   });
-}
-
-export function onBackgroundMessage(response, callback) {
-  if (response.processing) {
-    showLoadingOverlay();
-  } else {
-    hideLoadingOverlay();
-  }
-  callback(response);
 }
 
 export function sendGetPlayers() {

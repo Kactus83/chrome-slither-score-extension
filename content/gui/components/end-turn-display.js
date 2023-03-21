@@ -13,3 +13,10 @@ export function createEndTurnDisplay(playerName, score) {
     return overlay;
   }
   
+  export function removeEndTurnDisplay() {
+    const overlay = document.querySelector('.end-turn-display');
+    if (overlay) {
+      overlay.remove();
+    }
+  }
+  
