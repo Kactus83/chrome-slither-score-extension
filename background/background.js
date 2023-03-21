@@ -1,5 +1,11 @@
 import { loadLocalDatas } from './utils/local-datas.js';
 import { registerPlayer } from './utils/player-service.js';
+import {
+  startSession,
+  endSession,
+  updateSession,
+  addSessionScore
+} from './utils/sessions.js';
 
 chrome.runtime.onInstalled.addListener(function () {
   loadLocalDatas();
@@ -24,6 +30,27 @@ chrome.runtime.onMessage.addListener(async (request, sender, sendResponse) => {
       chrome.tabs.sendMessage(tabId, { processing: true });
       const result = registerPlayer(playerName);
       chrome.tabs.sendMessage(tabId, { processing: false, success: result });
+    } else if (request.type === 'START_SESSION') {
+      const playerNames = request.playerNames;
+      chrome.tabs.sendMessage(tabId, { processing: true });
+      await startSession(playerNames);
+      chrome.tabs.sendMessage(tabId, { processing: false });
+    } else if (request.type === 'END_SESSION') {
+      chrome.tabs.sendMessage(tabId, { processing: true });
+      await endSession();
+      chrome.tabs.sendMessage(tabId, { processing: false });
+    } else if (request.type === 'UPDATE_SESSION') {
+      const updatedSession = request.updatedSession;
+      chrome.tabs.sendMessage(tabId, { processing: true });
+      await updateSession(updatedSession);
+      chrome.tabs.sendMessage(tabId, { processing: false });
+    } else if (request.type === 'ADD_SESSION_SCORE') {
+      const playerName = request.playerName;
+      const value = request.value;
+      const date = request.date;
+      chrome.tabs.sendMessage(tabId, { processing: true });
+      await addSessionScore(playerName, value, date);
+      chrome.tabs.sendMessage(tabId, { processing: false });
     } else {
       chrome.tabs.sendMessage(tabId, { processing: false, error: 'Invalid request type' });
     }
