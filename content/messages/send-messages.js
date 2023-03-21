@@ -17,6 +17,10 @@ export function sendGetAllData() {
   return sendRequest({ type: 'GET_ALL_DATA' });
 }
 
+export function initLocalDatas() {
+  return sendRequest({ type: 'INIT_LOCAL_DATA' });
+}
+
 export function sendRegisterPlayer(playerName) {
   return sendRequest({ type: 'REGISTER_PLAYER', playerName });
 }

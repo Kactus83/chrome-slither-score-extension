@@ -37,9 +37,3 @@ export function removeContinueSessionOverlay() {
 }
 
 
-export function removeContinueSessionOverlay() {
-  const overlay = document.querySelector('.continue-session-overlay');
-  if (overlay) {
-    overlay.parentElement.removeChild(overlay);
-  }
-}
