@@ -19,7 +19,9 @@ export async function startSession(playerNames) {
   newSession.player_names = playerNames;
   localDatas.actual_session = newSession;
 
-  saveLocalDatas(localDatas);
+  await saveLocalDatas(localDatas);
+
+  return localDatas.actual_session;
 }
 
 export async function endSession() {

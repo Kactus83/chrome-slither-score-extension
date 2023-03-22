@@ -20,7 +20,7 @@ export async function onBackgroundMessage(response, callback) {
 
       case 'ADD_PLAYER_TO_DATAS':
         if(response.datas != "first-add") {
-          document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, { detail: { success: response.datas }}));
+          document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, { detail: response.datas }));
         }else{
           document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS));
         }
@@ -37,9 +37,21 @@ export async function onBackgroundMessage(response, callback) {
       case 'IN_GAME':
         document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME, { detail: response.datas }));
       break;
-
+  
+      case 'WAIT_NEXT_TURN':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME_WAITING, { detail: response.datas }));
+      break;
+    
+      case 'IN_PROGRESS':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME_PROGRESSING, { detail: response.datas }));
+      break;
+    
+      case 'GAME_OVER':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME_FINISHED, { detail: response.datas }));
+      break;
+      
       case 'ERROR':
-        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ERROR), { detail: { error: response.datas }});
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ERROR), { detail: response.datas });
       break;
 
       default:

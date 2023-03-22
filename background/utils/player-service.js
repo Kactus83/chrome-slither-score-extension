@@ -20,7 +20,7 @@ export async function registerPlayer(playerName) {
         console.log(player);
         localDatas.players.push(player);
         await saveLocalDatas(localDatas);
-        return true;
+        return player;
     } else {
         return false;
     }

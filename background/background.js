@@ -14,6 +14,7 @@ import {
 let isInit = false;
 let isInGame = false;
 let localDatas = null;
+let activePlayerName = null;
 
 const handleRequest = async (request, tabId) => {
   console.log('request received: ');
@@ -38,23 +39,39 @@ const handleRequest = async (request, tabId) => {
         }
 
       case 'RESUME_GAME_SESSION':
-        isInGame = true;
-        return { displayType: 'IN_GAME', datas: {} };
-
-      case 'INIT_GAME_SESSION':
-        await startSession(request.playerNames);
         localDatas = await loadLocalDatas();
         isInGame = true;
-        return { displayType: 'INIT_GAME_SESSION', datas: localDatas.actual_session };
+        return { displayType: 'IN_GAME', datas: localDatas.actual_session };
+
+      case 'INIT_GAME_SESSION':
+        const session = await startSession(request.playersNames);
+        isInGame = true;
+        localDatas = await loadLocalDatas();
+        return { displayType: 'INIT_GAME_SESSION', datas: session };
+
+      case 'WAIT_NEXT_TURN':
+        return { displayType: 'WAIT_NEXT_TURN', datas: localDatas.actual_session };
+
+      case 'IN_PROGRESS':
+        activePlayerName = request.playerName;
+        return { displayType: 'IN_PROGRESS', datas: { playerName: activePlayerName } };
+
+      case 'GAME_OVER':
+        const playerScore = request.playerScore;
+        await addSessionScore(activePlayerName, playerScore, new Date());
+        localDatas = await loadLocalDatas();
+        return { displayType: 'GAME_OVER', datas: { playerScore } };
 
       case 'END_GAME_SESSION':
         await endSession();
         isInGame = false;
+        localDatas = await loadLocalDatas();
         return { displayType: 'PAGE_VISITED', datas: { initialized: isInit } };
 
       case 'ADD_PLAYER_TO_DATAS':
         const playerName = request.playerName;
         const result = await registerPlayer(playerName);
+        localDatas = await loadLocalDatas();
         return { displayType: 'ADD_PLAYER_TO_DATAS', datas: result.name };
 
       case 'LAUNCH_ADD_PLAYER_TO_DATAS':

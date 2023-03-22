@@ -20,8 +20,8 @@ export function sendPageLoaded() {
   return sendRequest({ type: 'PAGE_LOADED' });
 }
 
-export function sendInitGameSession() {
-  return sendRequest({ type: 'INIT_GAME_SESSION' });
+export function sendInitGameSession(playersNames) {
+  return sendRequest({ type: 'INIT_GAME_SESSION', playersNames });
 }
 
 export function sendResumeGameSession() {
@@ -30,6 +30,18 @@ export function sendResumeGameSession() {
 
 export function sendEndGameSession() {
   return sendRequest({ type: 'END_GAME_SESSION' });
+}
+
+export function sendGameStatusWaitTurn(playersNames) {
+  return sendRequest({ type: 'WAIT_NEXT_TURN', playersNames });
+}
+
+export function sendGameStatusInProgress(playerName) {
+  return sendRequest({ type: 'IN_PROGRESS', playerName });
+}
+
+export function sendGameStatusGameOver(playerScore) {
+  return sendRequest({ type: 'GAME_OVER', playerScore });
 }
 
 export function sendAddPlayerToDatas(playerName) {

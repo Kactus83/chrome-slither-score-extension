@@ -4,6 +4,9 @@ const DisplayEvents = {
   RESUME_SESSION: 'display:resumeSession',
   INIT_SESSION: 'display:initSession',
   IN_GAME: 'display:inGame',
+  IN_GAME_WAITING: 'display:inGameWaiting',
+  IN_GAME_PROGRESSING: 'display:inGameProgressing',
+  IN_GAME_FINISHED: 'display:inGameFinished',
   ERROR: 'display:error',
 };
 

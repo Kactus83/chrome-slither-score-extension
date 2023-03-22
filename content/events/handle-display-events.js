@@ -1,4 +1,5 @@
 import eventNames from './eventNames.js';
+import { analyzePageAndDispatchEvents } from './handle-in-game.js';
 import {
   showLoadingScreen,
   hideLoadingScreen,
@@ -21,6 +22,7 @@ export function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS:
       hideLoadingScreen();
+      console.log(event);
       if(event.detail != "first-add") {
         const playerAdded = event.detail;
         showRegisterPlayerOverlay(playerAdded);
@@ -31,7 +33,7 @@ export function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.RESUME_SESSION:
       hideLoadingScreen();
-      showContinueSessionOverlay(event.detail.session);
+      showContinueSessionOverlay(event.detail);
       break;
 
     case eventNames.DisplayEvents.INIT_SESSION:
@@ -40,6 +42,19 @@ export function handleDisplayEvents(event) {
       break;
 
     case eventNames.DisplayEvents.IN_GAME:
+      analyzePageAndDispatchEvents(event.detail);
+      break;
+
+    case eventNames.DisplayEvents.IN_GAME_WAITING:
+      hideLoadingScreen();
+      showNewTurnScreen(event.detail);
+      break;
+
+    case eventNames.DisplayEvents.IN_GAME_PROGRESSING:
+      hideLoadingScreen();
+      break;
+
+    case eventNames.DisplayEvents.IN_GAME_FINISHED:
       hideLoadingScreen();
       break;
 
@@ -49,6 +64,9 @@ export function handleDisplayEvents(event) {
 }
 
 // Ajouter des écouteurs d'événements pour les événements DisplayEvents
+document.addEventListener(eventNames.DisplayEvents.IN_GAME_WAITING, handleDisplayEvents);
+document.addEventListener(eventNames.DisplayEvents.IN_GAME_PROGRESSING, handleDisplayEvents);
+document.addEventListener(eventNames.DisplayEvents.IN_GAME_FINISHED, handleDisplayEvents);
 document.addEventListener(eventNames.DisplayEvents.LOADING, handleDisplayEvents);
 document.addEventListener(eventNames.DisplayEvents.ERROR, handleDisplayEvents);
 document.addEventListener(eventNames.DisplayEvents.RESUME_SESSION, handleDisplayEvents);

@@ -24,6 +24,7 @@
             "content/messages/send-messages.js",
             "content/events/eventNames.js",
             "content/events/handle-display-events.js",
+            "content/events/handle-in-game.js",
             "content/events/handle-user-events.js",
             "content/events/handle-page-events.js",
             "content/events/handle-game-events.js",
