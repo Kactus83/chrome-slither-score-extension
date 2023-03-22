@@ -3,6 +3,7 @@ const DisplayEvents = {
   ADD_PLAYER_TO_DATAS: 'display:addPlayerTodatas',
   RESUME_SESSION: 'display:resumeSession',
   INIT_SESSION: 'display:initSession',
+  IN_GAME: 'display:inGame',
   ERROR: 'display:error',
 };
 

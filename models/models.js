@@ -17,6 +17,7 @@ export class Session {
 
 // La classe Player représente un joueur, avec son nom et les sessions auxquelles il a participé.
 export class Player {
+  name;
   session_ids = []; // Liste des identifiants de session auxquelles le joueur a participé
   constructor(name) {
     this.name = name; // Nom du joueur

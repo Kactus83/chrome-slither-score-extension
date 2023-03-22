@@ -1,46 +1,62 @@
-import { loadLocalDatas } from './utils/local-datas.js';
-import { registerPlayer } from './utils/player-service.js';
+import {
+  loadLocalDatas,
+} from './utils/local-datas.js';
+import {
+  registerPlayer,
+} from './utils/player-service.js';
+import {
+  startSession,
+  endSession,
+  updateSession,
+  addSessionScore,
+} from './utils/sessions.js';
 
 let isInit = false;
 let isInGame = false;
 let localDatas = null;
 
 const handleRequest = async (request, tabId) => {
-  console.log("request received : ");
+  console.log('request received: ');
   console.log(request);
   try {
     switch (request.type) {
-
       case 'PAGE_VISITED':
         localDatas = await loadLocalDatas();
+        console.log(localDatas);
         isInit = true;
         return { displayType: 'PAGE_VISITED', datas: { initialized: isInit } };
 
       case 'PAGE_LOADED':
         if (!localDatas.players || localDatas.players.length === 0) {
-          return { displayType: 'ADD_PLAYER_TO_DATAS', datas: "first-add" };
+          return { displayType: 'ADD_PLAYER_TO_DATAS', datas: 'first-add' };
         }
-        const displayType = isInGame ? 'RESUME_SESSION' : 'INIT_SESSION';
-        const datas = isInGame ? localDatas.actualSession : null;
-        return { displayType: displayType, datas: datas };
-      
+        if (isInGame) {
+          return { displayType: 'IN_GAME', datas: {} };
+        } else {
+          const displayType = localDatas.actual_session ? 'RESUME_SESSION' : 'INIT_SESSION';
+          const datas = localDatas.actual_session ? localDatas.actual_session : localDatas.players;
+          console.log(datas);
+          return { displayType: displayType, datas: datas };
+        }
 
       case 'RESUME_GAME_SESSION':
-        // La logique sera gérée plus tard avec un service du background
-        return { displayType: 'RESUME_GAME_SESSION', datas: {} };
+        isInGame = true;
+        return { displayType: 'IN_GAME', datas: {} };
 
       case 'INIT_GAME_SESSION':
-        // La logique sera gérée plus tard avec un service du background
+        await startSession(request.playerNames);
+        isInGame = true;
         return { displayType: 'INIT_GAME_SESSION', datas: {} };
 
       case 'END_GAME_SESSION':
-        // La logique sera gérée plus tard avec un service du background
-        return { displayType: 'END_GAME_SESSION', datas: {} };
+        await endSession();
+        isInGame = false;
+        return { displayType: 'PAGE_VISITED', datas: { initialized: isInit } };
 
       case 'ADD_PLAYER_TO_DATAS':
         const playerName = request.playerName;
         const result = await registerPlayer(playerName);
-        return { displayType: 'ADD_PLAYER_TO_DATAS', datas: result};
+        return { displayType: 'ADD_PLAYER_TO_DATAS', datas: result.name };
 
       default:
         throw new Error('Unhandled request type');
@@ -61,4 +77,3 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 chrome.runtime.onInstalled.addListener(function () {
   loadLocalDatas();
 });
-

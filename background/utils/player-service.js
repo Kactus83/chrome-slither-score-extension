@@ -17,8 +17,9 @@ export async function registerPlayer(playerName) {
     const localDatas = await loadLocalDatas();
     if (await checkPlayerNameAvailability(localDatas, playerName)) {
         const player = new Player(playerName);
+        console.log(player);
         localDatas.players.push(player);
-        saveLocalDatas(localDatas);
+        await saveLocalDatas(localDatas);
         return true;
     } else {
         return false;

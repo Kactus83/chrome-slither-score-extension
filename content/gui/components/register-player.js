@@ -58,7 +58,8 @@ export function createRegisterPlayerOverlay(playerAdded) {
     resetButton.innerText = 'Reset';
     resetButton.addEventListener('click', () => {
       removeRegisterPlayerOverlay()
-      document.dispatchEvent(new CustomEvent(eventNames.PageEvents.ARRIVED));
+      document.dispatchEvent(new CustomEvent(eventNames.PageEvents.ARRIVED
+        ));
     });
     overlay.appendChild(resetButton);
   }
@@ -72,7 +73,7 @@ export function createRegisterPlayerOverlay(playerAdded) {
     if (playerName != "first-add") {
       // Générer un événement utilisateur avec le nom du joueur
       const addUserEvent = new CustomEvent(eventNames.UserEvents.ADD_USER_TO_DATAS, {
-        detail: { playerName },
+        detail:  playerName
       });
 
       // Envoyer l'événement

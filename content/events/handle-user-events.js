@@ -8,8 +8,9 @@ import {
 
 export function handleUserEvents(event) {
   switch (event.type) {
+    
     case eventNames.UserEvents.ADD_USER_TO_DATAS:
-      sendAddPlayerToDatas(event.playerName);
+      sendAddPlayerToDatas(event.detail);
       break;
 
     case eventNames.UserEvents.RESUME_SESSION:

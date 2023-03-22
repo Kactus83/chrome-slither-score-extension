@@ -13,6 +13,8 @@ export function loadLocalDatas() {
     });
 }
   
-export function saveLocalDatas(localDatas) {
-    chrome.storage.local.set({localDatas: localDatas});
+export async function saveLocalDatas(localDatas) {
+  console.log("saving local datas : ");
+  console.log(localDatas)
+  chrome.storage.local.set({localDatas: localDatas});
 }

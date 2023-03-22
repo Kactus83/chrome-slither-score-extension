@@ -20,14 +20,18 @@ export async function onBackgroundMessage(response, callback) {
 
       case 'ADD_PLAYER_TO_DATAS':
         if(response.datas != "first-add") {
-          document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, { detail: { success: response.datas.success }}));
+          document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, { detail: { success: response.datas }}));
         }else{
           document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS));
         }
       break;
 
       case 'INIT_SESSION':
-        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.INIT_SESSION));
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.INIT_SESSION, { detail: response.datas }));
+      break;
+
+      case 'IN_GAME':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME));
       break;
 
       case 'ERROR':

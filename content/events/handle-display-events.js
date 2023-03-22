@@ -36,7 +36,7 @@ export function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.INIT_SESSION:
       hideLoadingScreen();
-      showStartSessionForm(event.detail.players);
+      showStartSessionForm(event.detail);
       break;
 
     default:
