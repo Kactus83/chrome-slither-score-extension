@@ -30,8 +30,12 @@ export async function onBackgroundMessage(response, callback) {
         document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.INIT_SESSION, { detail: response.datas }));
       break;
 
+      case 'INIT_GAME_SESSION':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME, { detail: response.datas }));
+      break;
+
       case 'IN_GAME':
-        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME));
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME, { detail: response.datas }));
       break;
 
       case 'ERROR':

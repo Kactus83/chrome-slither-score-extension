@@ -35,3 +35,7 @@ export function sendEndGameSession() {
 export function sendAddPlayerToDatas(playerName) {
   return sendRequest({ type: 'ADD_PLAYER_TO_DATAS', playerName });
 }
+
+export function sendLaunchAddPlayerToDatas(playerName) {
+  return sendRequest({ type: 'LAUNCH_ADD_PLAYER_TO_DATAS', playerName });
+}

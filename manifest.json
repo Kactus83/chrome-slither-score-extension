@@ -34,6 +34,7 @@
             "content/gui/components/loading-overlay.js",
             "content/gui/components/new-turn-display.js",
             "content/gui/components/start-session-overlay.js",
+            "content/gui/components/start-session-overlay.css",
             "utils/player-service.js",
             "utils/local-datas.js",
             "models/models.js"

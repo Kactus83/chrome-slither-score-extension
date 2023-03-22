@@ -39,6 +39,10 @@ export function handleDisplayEvents(event) {
       showStartSessionForm(event.detail);
       break;
 
+    case eventNames.DisplayEvents.IN_GAME:
+      hideLoadingScreen();
+      break;
+
     default:
       console.error('Unhandled DisplayEvent:', event.type);
   }
@@ -49,4 +53,5 @@ document.addEventListener(eventNames.DisplayEvents.LOADING, handleDisplayEvents)
 document.addEventListener(eventNames.DisplayEvents.ERROR, handleDisplayEvents);
 document.addEventListener(eventNames.DisplayEvents.RESUME_SESSION, handleDisplayEvents);
 document.addEventListener(eventNames.DisplayEvents.INIT_SESSION, handleDisplayEvents);
+document.addEventListener(eventNames.DisplayEvents.IN_GAME, handleDisplayEvents);
 document.addEventListener(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, handleDisplayEvents);

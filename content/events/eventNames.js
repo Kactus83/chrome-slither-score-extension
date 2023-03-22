@@ -8,6 +8,7 @@ const DisplayEvents = {
 };
 
 const UserEvents = {
+  LAUNCH_ADD_USER_TO_DATAS: 'user:launchAddUserToDatas',
   ADD_USER_TO_DATAS: 'user:addUserToDatas',
   RESUME_SESSION: 'user:resumeSession',
   INIT_SESSION: 'user:initSession',
