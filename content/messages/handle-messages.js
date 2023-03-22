@@ -1,27 +1,44 @@
 import eventNames from '../events/eventNames.js';
 
-export function onBackgroundMessage(response, callback) {
+export async function onBackgroundMessage(response, callback) {
   console.log("réponse reçue : ");
   console.log(response);
 
-  if (response.processing) {
-    document.dispatchEvent(new CustomEvent(eventNames.BackgroundEvents.WORKING));
-  } else {
-    document.dispatchEvent(new CustomEvent(eventNames.BackgroundEvents.LOADING));
-  }
-
+  // Gérer les erreurs
   if (response.error) {
-    document.dispatchEvent(new CustomEvent(eventNames.BackgroundEvents.ERROR, { detail: { error: response.error }}));
-  }
+    document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ERROR, { detail: { error: response.error }}));
+  } else {
+    // Gérer les messages de type 'resume session' et 'init session'
+    switch (response.displayType) {
+      case 'RESUME_SESSION':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.RESUME_SESSION));
+      break;
 
-  if ('players' in response || 'sessions' in response) {
-    if (response.isFirstInitialization) {
-      document.dispatchEvent(new CustomEvent(eventNames.BackgroundEvents.DATA_INITIALIZED, { detail: { ...response }}));
-    } else {
-      document.dispatchEvent(new CustomEvent(eventNames.BackgroundEvents.NEW_LOCAL_DATA, { detail: { ...response }}));
+      case 'PAGE_VISITED':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.LOADING));
+      break;
+
+      case 'ADD_PLAYER_TO_DATAS':
+        if(response.datas != "first-add") {
+          document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, { detail: { success: response.datas.success }}));
+        }else{
+          document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS));
+        }
+      break;
+
+      case 'INIT_SESSION':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.INIT_SESSION));
+      break;
+
+      case 'ERROR':
+        document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.ERROR), { detail: { error: response.datas }});
+      break;
+
+      default:
+        console.error("Type de message non géré:", response.displayType);
     }
   }
 
-  // Ajouter cette ligne pour s'assurer que callback est appelé après tous les autres traitements
+  // Appeler le callback à la fin du traitement des messages
   callback();
 }

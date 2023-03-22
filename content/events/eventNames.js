@@ -1,5 +1,6 @@
 const DisplayEvents = {
   LOADING: 'display:loading',
+  ADD_PLAYER_TO_DATAS: 'display:addPlayerTodatas',
   RESUME_SESSION: 'display:resumeSession',
   INIT_SESSION: 'display:initSession',
   ERROR: 'display:error',

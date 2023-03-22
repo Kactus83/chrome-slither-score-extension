@@ -22,6 +22,10 @@ import {
   createNewTurnDisplay,
   removeNewTurnDisplay,
 } from './components/new-turn-display.js';
+import {
+  createRegisterPlayerOverlay,
+  removeRegisterPlayerOverlay,
+} from './components/register-player.js';
 
 export async function showLoadingScreen() {
   showLoadingOverlay();
@@ -78,4 +82,13 @@ export async function showErrorOverlay() {
 
 export async function hideErrorOverlay() {
   removeErrorOverlay();
+}
+
+export async function showRegisterPlayerOverlay(playerAdded) {
+  const overlay = createRegisterPlayerOverlay(playerAdded);
+  document.body.appendChild(overlay);
+}
+
+export async function hideRegisterPlayerOverlay() {
+  removeRegisterPlayerOverlay();
 }

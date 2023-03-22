@@ -3,8 +3,6 @@ import { onBackgroundMessage } from "./handle-messages.js";
 async function sendRequest(request) {
   console.log("sending request : ");
   console.log(request);
-  const { showLoadingScreen } = await import("../gui/main-gui.js");
-  showLoadingScreen();
   return new Promise((resolve) => {
     chrome.runtime.sendMessage(request, (response) => {
       onBackgroundMessage(response, () => {
@@ -28,6 +26,10 @@ export function sendInitGameSession() {
 
 export function sendResumeGameSession() {
   return sendRequest({ type: 'RESUME_GAME_SESSION' });
+}
+
+export function sendEndGameSession() {
+  return sendRequest({ type: 'END_GAME_SESSION' });
 }
 
 export function sendAddPlayerToDatas(playerName) {

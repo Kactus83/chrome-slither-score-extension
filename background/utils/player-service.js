@@ -2,18 +2,20 @@ import { Player } from '../../models/models.js';
 import { loadLocalDatas, saveLocalDatas } from './local-datas.js';
 
 
-function checkPlayerNameAvailability(localDatas, playerName) {
+async function checkPlayerNameAvailability(localDatas, playerName) {
+  if(localDatas.players) {
     for (let i = 0; i < localDatas.players.length; i++) {
       if (localDatas.players[i].name === playerName) {
         return false;
       }
     }
-    return true;
+  }
+  return true;
 }
 
-export function registerPlayer(playerName) {
-    const localDatas = loadLocalDatas();
-    if (checkPlayerNameAvailability(localDatas, playerName)) {
+export async function registerPlayer(playerName) {
+    const localDatas = await loadLocalDatas();
+    if (await checkPlayerNameAvailability(localDatas, playerName)) {
         const player = new Player(playerName);
         localDatas.players.push(player);
         saveLocalDatas(localDatas);

@@ -1,5 +1,6 @@
 function createLoadingOverlay() {
     const overlay = document.createElement('div');
+    overlay.setAttribute('data-loading-overlay', '');
     overlay.style.position = 'fixed';
     overlay.style.left = 0;
     overlay.style.top = 0;
@@ -23,8 +24,11 @@ function createLoadingOverlay() {
   }
   
   export function showLoadingOverlay() {
-    const overlay = createLoadingOverlay();
-    document.body.appendChild(overlay);
+    const existingOverlay = document.querySelector('div[data-loading-overlay]');
+    if (!existingOverlay) {
+      const overlay = createLoadingOverlay();
+      document.body.appendChild(overlay);
+    }
   }
   
   export function hideLoadingOverlay() {

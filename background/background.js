@@ -10,28 +10,37 @@ const handleRequest = async (request, tabId) => {
   console.log(request);
   try {
     switch (request.type) {
+
       case 'PAGE_VISITED':
         localDatas = await loadLocalDatas();
         isInit = true;
         return { displayType: 'PAGE_VISITED', datas: { initialized: isInit } };
 
       case 'PAGE_LOADED':
+        if (!localDatas.players || localDatas.players.length === 0) {
+          return { displayType: 'ADD_PLAYER_TO_DATAS', datas: "first-add" };
+        }
         const displayType = isInGame ? 'RESUME_SESSION' : 'INIT_SESSION';
         const datas = isInGame ? localDatas.actualSession : null;
         return { displayType: displayType, datas: datas };
-
-      case 'INIT_GAME_SESSION':
-        // La logique sera gérée plus tard avec un service du background
-        return { displayType: 'INIT_GAME_SESSION', datas: {} };
+      
 
       case 'RESUME_GAME_SESSION':
         // La logique sera gérée plus tard avec un service du background
         return { displayType: 'RESUME_GAME_SESSION', datas: {} };
 
+      case 'INIT_GAME_SESSION':
+        // La logique sera gérée plus tard avec un service du background
+        return { displayType: 'INIT_GAME_SESSION', datas: {} };
+
+      case 'END_GAME_SESSION':
+        // La logique sera gérée plus tard avec un service du background
+        return { displayType: 'END_GAME_SESSION', datas: {} };
+
       case 'ADD_PLAYER_TO_DATAS':
         const playerName = request.playerName;
-        const result = registerPlayer(playerName);
-        return { displayType: 'ADD_PLAYER_TO_DATAS', datas: { success: result } };
+        const result = await registerPlayer(playerName);
+        return { displayType: 'ADD_PLAYER_TO_DATAS', datas: result};
 
       default:
         throw new Error('Unhandled request type');
