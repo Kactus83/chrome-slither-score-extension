@@ -1,42 +1,35 @@
-import { onBackgroundMessage } from "./handle-messages";
+import { onBackgroundMessage } from "./handle-messages.js";
 
-
-function sendRequest(request) {
+async function sendRequest(request) {
+  console.log("sending request : ");
+  console.log(request);
+  const { showLoadingScreen } = await import("../gui/main-gui.js");
+  showLoadingScreen();
   return new Promise((resolve) => {
     chrome.runtime.sendMessage(request, (response) => {
-      onBackgroundMessage(response, resolve);
+      onBackgroundMessage(response, () => {
+        resolve(response);
+      });
     });
   });
 }
 
-export function sendGetPlayers() {
-  return sendRequest({ type: 'GET_PLAYERS' });
+export function sendPageVisited() {
+  return sendRequest({ type: 'PAGE_VISITED' });
 }
 
-export function sendGetAllData() {
-  return sendRequest({ type: 'GET_ALL_DATA' });
+export function sendPageLoaded() {
+  return sendRequest({ type: 'PAGE_LOADED' });
 }
 
-export function initLocalDatas() {
-  return sendRequest({ type: 'INIT_LOCAL_DATA' });
+export function sendInitGameSession() {
+  return sendRequest({ type: 'INIT_GAME_SESSION' });
 }
 
-export function sendRegisterPlayer(playerName) {
-  return sendRequest({ type: 'REGISTER_PLAYER', playerName });
+export function sendResumeGameSession() {
+  return sendRequest({ type: 'RESUME_GAME_SESSION' });
 }
 
-export function sendStartSession(playerNames) {
-  return sendRequest({ type: 'START_SESSION', playerNames });
-}
-
-export function sendEndSession() {
-  return sendRequest({ type: 'END_SESSION' });
-}
-
-export function sendUpdateSession(updatedSession) {
-  return sendRequest({ type: 'UPDATE_SESSION', updatedSession });
-}
-
-export function sendAddSessionScore(playerName, value, date) {
-  return sendRequest({ type: 'ADD_SESSION_SCORE', playerName, value, date });
+export function sendAddPlayerToDatas(playerName) {
+  return sendRequest({ type: 'ADD_PLAYER_TO_DATAS', playerName });
 }

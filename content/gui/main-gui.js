@@ -7,6 +7,10 @@ import {
   removeContinueSessionOverlay,
 } from './components/continue-session-overlay.js';
 import {
+  createErrorOverlay,
+  removeErrorOverlay,
+} from './components/error-overlay.js';
+import {
   createStartSessionOverlay,
   removeStartSessionOverlay,
 } from './components/start-session-overlay.js';

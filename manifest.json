@@ -12,7 +12,8 @@
         "notifications"
     ],
     "host_permissions": [
-        "https://www.slither.io/*"
+        "https://www.slither.io/*",
+        "https://www.wikipedia.fr/*"
     ],
     "web_accessible_resources": [
         {
@@ -22,7 +23,10 @@
             "content/messages/handle-messages.js",
             "content/messages/send-messages.js",
             "content/events/eventNames.js",
-            "content/events/handle-events.js",
+            "content/events/handle-display-events.js",
+            "content/events/handle-user-events.js",
+            "content/events/handle-page-events.js",
+            "content/events/handle-game-events.js",
             "content/gui/components/continue-session-overlay.js",
             "content/gui/components/end-turn-display.js",
             "content/gui/components/error-overlay.js",
@@ -45,11 +49,15 @@
     },
     "content_scripts": [
         {
-            "matches": ["http://slither.io/*"],
+            "matches": [
+                "http://slither.io/*",
+                "https://www.wikipedia.fr/*",
+                "https://slither.io/*"
+            ],
             "js": [
                 "content/content-script.js"
             ],
             "type": "module"
         }
-    ]     
+    ]   
 }
