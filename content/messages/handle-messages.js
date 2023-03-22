@@ -37,6 +37,10 @@ export async function onBackgroundMessage(response, callback) {
       case 'IN_GAME':
         document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME, { detail: response.datas }));
       break;
+
+      case 'SELECT_ACTIVE_PLAYER':
+        console.log("active player selected response received", response.datas.selectedPlayerName)
+      break;
   
       case 'WAIT_NEXT_TURN':
         document.dispatchEvent(new CustomEvent(eventNames.DisplayEvents.IN_GAME_WAITING, { detail: response.datas }));

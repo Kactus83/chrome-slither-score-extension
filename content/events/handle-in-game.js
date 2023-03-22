@@ -15,15 +15,17 @@ function findNextPlayer(session) {
   }
 }
 
-function determineGameState(session) {
+function determineGameState() {
   const nickHolder = document.getElementById('nick_holder');
   const loginDiv = document.querySelector('.login');
+  const scoreDiv = document.querySelector('.score'); // Nouvelle div pour identifier le score
 
-  if (nickHolder && loginDiv) {
+  if (nickHolder && loginDiv && !scoreDiv) {
     return 'WAIT_NEXT_TURN';
   } else if (!loginDiv) {
-    // Une condition pour identifier "GAME_OVER" sera nécessaire après avoir accès à la page et identifier l'élément correspondant
     return 'IN_PROGRESS';
+  } else if (nickHolder && loginDiv && scoreDiv) {
+    return 'GAME_OVER';
   } else {
     console.error('Unable to determine game state');
     return null;
@@ -31,7 +33,7 @@ function determineGameState(session) {
 }
 
 export function analyzePageAndDispatchEvents(session) {
-  const gameState = determineGameState(session);
+  const gameState = determineGameState();
 
   switch (gameState) {
     case 'WAIT_NEXT_TURN':
@@ -42,10 +44,14 @@ export function analyzePageAndDispatchEvents(session) {
       document.dispatchEvent(new CustomEvent(eventNames.GameEvents.IN_PROGRESS, { detail: session }));
       break;
     case 'GAME_OVER':
-      // Ici, on pourra ajouter des informations sur le score une fois qu'on pourra l'identifier
-      document.dispatchEvent(new CustomEvent(eventNames.GameEvents.GAME_OVER, { detail: session }));
+      const finalScore = getFinalScore(); 
+      document.dispatchEvent(new CustomEvent(eventNames.GameEvents.GAME_OVER, { detail: { session, finalScore } }));
       break;
     default:
       console.error('Unhandled game state:', gameState);
   }
+}
+
+function getFinalScore() {
+  return 1000; // Définir la fonction getFinalScore pour récupérer le score final
 }

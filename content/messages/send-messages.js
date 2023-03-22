@@ -44,6 +44,10 @@ export function sendGameStatusGameOver(playerScore) {
   return sendRequest({ type: 'GAME_OVER', playerScore });
 }
 
+export function sendSelectedPlayer(playerName) {
+  return sendRequest({ type: 'SELECT_ACTIVE_PLAYER', playerName });
+}
+
 export function sendAddPlayerToDatas(playerName) {
   return sendRequest({ type: 'ADD_PLAYER_TO_DATAS', playerName });
 }

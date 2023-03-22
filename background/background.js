@@ -52,6 +52,10 @@ const handleRequest = async (request, tabId) => {
       case 'WAIT_NEXT_TURN':
         return { displayType: 'WAIT_NEXT_TURN', datas: localDatas.actual_session };
 
+      case 'SELECT_ACTIVE_PLAYER':
+        activePlayerName = request.playerName;
+        return { displayType: 'SELECT_ACTIVE_PLAYER', datas: { selectedPlayerName: activePlayerName } };
+
       case 'IN_PROGRESS':
         activePlayerName = request.playerName;
         return { displayType: 'IN_PROGRESS', datas: { playerName: activePlayerName } };

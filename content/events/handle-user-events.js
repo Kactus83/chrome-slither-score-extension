@@ -1,6 +1,7 @@
 import eventNames from './eventNames.js';
 import {
   sendInitGameSession,
+  sendSelectedPlayer,
   sendLaunchAddPlayerToDatas,
   sendResumeGameSession,
   sendEndGameSession,
@@ -30,6 +31,10 @@ export function handleUserEvents(event) {
       sendEndGameSession();
       break;
 
+    case eventNames.UserEvents.SELECT_ACTIVE_PLAYER:
+      sendSelectedPlayer(event.detail);
+      break;
+
     default:
       console.error('Unhandled UserEvent:', event.type);
   }
@@ -37,6 +42,7 @@ export function handleUserEvents(event) {
 
 // Ajouter des écouteurs d'événements pour les événements UserEvents
 document.addEventListener(eventNames.UserEvents.ADD_USER_TO_DATAS, handleUserEvents);
+document.addEventListener(eventNames.UserEvents.SELECT_ACTIVE_PLAYER, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.LAUNCH_ADD_USER_TO_DATAS, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.RESUME_SESSION, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.INIT_SESSION, handleUserEvents);
