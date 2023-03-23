@@ -7,7 +7,9 @@ import {
   showContinueSessionOverlay,
   showStartSessionForm,
   showRegisterPlayerOverlay,
-  showNewTurnScreen
+  showNewTurnScreen,
+  showInPlayOverlay, 
+  showEndTurnScreen
 } from '../gui/main-gui.js';
 
 export function handleDisplayEvents(event) {
@@ -54,10 +56,12 @@ export function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.IN_GAME_PROGRESSING:
       hideLoadingScreen();
+      showInPlayOverlay();
       break;
 
     case eventNames.DisplayEvents.IN_GAME_FINISHED:
       hideLoadingScreen();
+      showEndTurnScreen();
       break;
 
     default:
