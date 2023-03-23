@@ -1,14 +1,26 @@
 import eventNames from '../../events/eventNames.js';
 
-export function createNewTurnDisplay(player_names) {
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/new-turn-display.css');
-  document.head.appendChild(link);
+function observeLoginDiv(playerSelect) {
+  const loginDiv = document.querySelector('#login');
+  if (!loginDiv) return;
 
-  const newTurnDiv = document.createElement('div');
-  newTurnDiv.classList.add('new-turn-display');
+  const observer = new MutationObserver(mutations => {
+    mutations.forEach(mutation => {
+      if (mutation.type === 'attributes' && mutation.attributeName === 'style' && loginDiv.style.display === 'none') {
+        const selectedPlayerName = playerSelect.value;
+        observer.disconnect();
+        removeNewTurnDisplay()
+        const event = new CustomEvent(eventNames.GameEvents.IN_PROGRESS, { detail: selectedPlayerName });
+        document.dispatchEvent(event);
+      }
+    });
+  });
 
+  const config = { attributes: true };
+  observer.observe(loginDiv, config);
+}
+
+function createPlayerSelect(player_names) {
   const playerSelect = document.createElement('select');
   playerSelect.classList.add('player-select');
 
@@ -25,7 +37,26 @@ export function createNewTurnDisplay(player_names) {
     document.dispatchEvent(event);
   });
 
+  return playerSelect;
+}
+
+function appendStylesheet() {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = chrome.runtime.getURL('content/gui/components/new-turn-display.css');
+  document.head.appendChild(link);
+}
+
+export function createNewTurnDisplay(player_names) {
+  appendStylesheet();
+
+  const newTurnDiv = document.createElement('div');
+  newTurnDiv.classList.add('new-turn-display');
+
+  const playerSelect = createPlayerSelect(player_names);
   newTurnDiv.appendChild(playerSelect);
+
+  observeLoginDiv(playerSelect);
 
   return newTurnDiv;
 }

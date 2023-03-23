@@ -14,18 +14,18 @@ function determineGameState() {
   const victoryHolder = document.querySelector(SELECTORS.victoryHolder);
 
   if (loginDiv.style.display === 'none') {
-    return 'END';
+    return 'IN_GAME';
 
   } else {
 
-    if (!lastScore || lastScore.style.display === 'none') {
+    if (!lastScore || lastScore.innerHTML.trim() === '&nbsp;' || lastScore.style.display === 'none') {
       return 'START';
     }
 
-    if (lastScore && lastScore.style.display != 'none') {
-      return 'IN_GAME';
+    if (lastScore && lastScore.innerHTML.trim() !== '&nbsp;' && lastScore.style.display != 'none') {
+      return 'END';
 
-    }else{
+    } else {
       console.error('Unable to determine game state');
       return null;
     }
@@ -40,10 +40,9 @@ export function analyzePageAndDispatchEvents() {
     document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
   }
   if (gameState === 'IN_GAME') {
-    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
+    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.IN_PROGRESS));
   }
   if (gameState === 'END') {
-    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
+    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.GAME_OVER));
   }
 }
-
