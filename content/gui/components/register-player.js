@@ -3,12 +3,12 @@ import eventNames from '../../events/eventNames.js';
 export function createRegisterPlayerOverlay(playerAdded) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/register-player-overlay.css');
+  link.href = chrome.runtime.getURL('content/gui/components/register-player.css');
   document.head.appendChild(link);
 
   const overlay = document.createElement('div');
   overlay.id = 'register-player-overlay';
-  overlay.classList.add('register-player');
+  overlay.classList.add('register-player-overlay');
 
   overlay.innerText = 'Register Player';
 
