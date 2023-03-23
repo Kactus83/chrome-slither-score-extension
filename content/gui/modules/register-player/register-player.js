@@ -2,6 +2,13 @@ import eventNames from '../../../events/eventNames.js';
 import { sendGetPlayerNameAvailability } from '../../../messages/send-messages.js';
 
 export function createRegisterPlayerOverlay(playerAdded) {
+
+  const existingOverlay = document.getElementById('register-player-overlay');
+  if (existingOverlay) {
+    console.error('Error: Register player component already exists.');
+    return null;
+  }
+  
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = chrome.runtime.getURL('content/gui/modules/register-player/register-player.css');

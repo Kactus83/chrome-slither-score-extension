@@ -48,6 +48,13 @@ function appendStylesheet() {
 }
 
 export function createNewTurnDisplay(player_names) {
+
+  const existingNewTurnDiv = document.querySelector('.new-turn-display');
+  if (existingNewTurnDiv) {
+    console.error('Error: New turn component already exists.');
+    return null;
+  }
+  
   appendStylesheet();
 
   const newTurnDiv = document.createElement('div');

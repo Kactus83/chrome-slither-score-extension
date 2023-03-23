@@ -30,6 +30,13 @@ function appendStylesheet() {
 }
 
 export function createInPlayOverlay() {
+  
+  const existingOverlay = document.querySelector('.in-play-overlay');
+  if (existingOverlay) {
+    console.error('Error: In play component already exists.');
+    return null;
+  }
+
   appendStylesheet();
 
   const inPlayDiv = document.createElement('div');

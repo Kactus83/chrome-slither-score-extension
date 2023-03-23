@@ -33,6 +33,7 @@
             "content/gui/modules/in-play/in-play-overlay.js",
             "content/gui/modules/in-play/in-play-overlay.css",
             "content/gui/modules/end-turn/end-turn-display.js",
+            "content/gui/modules/end-turn/end-turn-display.css",
             "content/gui/modules/register-player/register-player.js",
             "content/gui/modules/register-player/register-player.css",
             "content/gui/modules/error/error-overlay.js",
