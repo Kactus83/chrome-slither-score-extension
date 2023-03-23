@@ -1,4 +1,4 @@
-import eventNames from '../../events/eventNames.js';
+import eventNames from '../../../events/eventNames.js';
 
 function observeLoginDiv(playerSelect) {
   const loginDiv = document.querySelector('#login');
@@ -43,7 +43,7 @@ function createPlayerSelect(player_names) {
 function appendStylesheet() {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/new-turn-display.css');
+  link.href = chrome.runtime.getURL('content/gui/modules/new-turn/new-turn-display.css');
   document.head.appendChild(link);
 }
 

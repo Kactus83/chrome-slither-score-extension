@@ -1,7 +1,7 @@
 export function createContinueSessionOverlay() {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/continue-session-overlay.css');
+  link.href = chrome.runtime.getURL('content/gui/modules/continue-session/continue-session-overlay.css');
   document.head.appendChild(link);
 
   const overlay = document.createElement('div');

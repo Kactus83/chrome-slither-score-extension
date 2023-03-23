@@ -1,4 +1,4 @@
-import eventNames from '../../events/eventNames.js';
+import eventNames from '../../../events/eventNames.js';
 
 function hideLastScore() {
   const lastScore = document.querySelector('#lastscore');

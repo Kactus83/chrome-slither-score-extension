@@ -66,4 +66,18 @@
     margin-bottom: 20px;
     color: lime;
   }
-  
+
+.register-player-overlay .disabled-button {
+  background-color: #999;
+  cursor: not-allowed;
+}
+
+.register-player-overlay .invalid-input {
+  border-color: #e74c3c;
+}
+
+.register-player-overlay .error-message {
+  font-size: 16px;
+  margin-bottom: 10px;
+  color: #e74c3c;
+}

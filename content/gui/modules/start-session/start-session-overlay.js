@@ -2,7 +2,7 @@ export function createStartSessionOverlay(players) {
 
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/start-session-overlay.css');
+  link.href = chrome.runtime.getURL('content/gui/modules/start-session/start-session-overlay.css');
   document.head.appendChild(link);
 
   const overlay = document.createElement('div');

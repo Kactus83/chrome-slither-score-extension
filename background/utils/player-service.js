@@ -13,6 +13,19 @@ async function checkPlayerNameAvailability(localDatas, playerName) {
   return true;
 }
 
+export async function preCheckPlayerNameAvailability(playerName) {
+  const localDatas = await loadLocalDatas();
+
+  if(localDatas.players) {
+    for (let i = 0; i < localDatas.players.length; i++) {
+      if (localDatas.players[i].name === playerName) {
+        return false;
+      }
+    }
+  }
+  return true;
+}
+
 export async function registerPlayer(playerName) {
     const localDatas = await loadLocalDatas();
     if (await checkPlayerNameAvailability(localDatas, playerName)) {

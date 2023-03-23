@@ -1,9 +1,10 @@
-import eventNames from '../../events/eventNames.js';
+import eventNames from '../../../events/eventNames.js';
+import { sendGetPlayerNameAvailability } from '../../../messages/send-messages.js';
 
 export function createRegisterPlayerOverlay(playerAdded) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/register-player.css');
+  link.href = chrome.runtime.getURL('content/gui/modules/register-player/register-player.css');
   document.head.appendChild(link);
 
   const overlay = document.createElement('div');
@@ -35,7 +36,14 @@ export function createRegisterPlayerOverlay(playerAdded) {
   const registerButton = document.createElement('button');
   registerButton.classList.add('register-button');
   registerButton.innerText = 'Register';
+  registerButton.disabled = true; // Désactiver le bouton par défaut
+  registerButton.classList.add('disabled-button'); // Ajouter la classe 'disabled-button' par défaut
   form.appendChild(registerButton);
+
+  // Ajout d'un élément pour afficher les messages d'erreur
+  const errorMessage = document.createElement('div');
+  errorMessage.classList.add('error-message');
+  form.appendChild(errorMessage);
 
   if (playerAdded) {
     const resetButton = document.createElement('button');
@@ -53,6 +61,34 @@ export function createRegisterPlayerOverlay(playerAdded) {
     });
     overlay.appendChild(resetButton);
   }
+
+  // Fonction pour vérifier la disponibilité du pseudo
+  const checkPlayerNameAvailability = async (playerName) => {
+    const result = await sendGetPlayerNameAvailability(playerName);
+    if (result.datas.check) {
+      errorMessage.innerText = '';
+      registerButton.disabled = false;
+      registerButton.classList.remove('disabled-button');
+      playerNameInput.classList.remove('invalid-input');
+    } else {
+      errorMessage.innerText = 'Username is already taken.';
+      registerButton.disabled = true;
+      registerButton.classList.add('disabled-button');
+      playerNameInput.classList.add('invalid-input');
+    }
+  };
+
+  playerNameInput.addEventListener('input', () => {
+    const playerName = playerNameInput.value.trim();
+    if (playerName !== '') {
+      checkPlayerNameAvailability(playerName);
+    } else {
+      errorMessage.innerText = '';
+      registerButton.disabled = true;
+      registerButton.classList.add('disabled-button');
+      playerNameInput.classList.remove('invalid-input');
+    }
+  });
 
   form.addEventListener('submit', (e) => {
     e.preventDefault();

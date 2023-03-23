@@ -3,6 +3,7 @@ import {
 } from './utils/local-datas.js';
 import {
   registerPlayer,
+  preCheckPlayerNameAvailability
 } from './utils/player-service.js';
 import {
   startSession,
@@ -10,6 +11,7 @@ import {
   updateSession,
   addSessionScore,
 } from './utils/sessions.js';
+import { SessionStatsService } from './utils/session-stats.js';
 
 let isInit = false;
 let isInGame = false;
@@ -88,6 +90,43 @@ const handleRequest = async (request, tabId) => {
       case 'LAUNCH_ADD_PLAYER_TO_DATAS':
         return { displayType: 'ADD_PLAYER_TO_DATAS', datas: 'first-add' };
 
+      case 'GET_PLAYER_NAME_AVAILABILITY':
+        const check = await preCheckPlayerNameAvailability(request.playerName);
+        return { displayType: 'NONE', datas: { check } };
+
+      case 'GET_PLAYER_BEST_SCORE':
+        const sessionStatsService = new SessionStatsService();
+        const playerBestScore = sessionStatsService.getPlayerBestScore(request.playerName);
+        return { displayType: 'NONE', datas: { playerBestScore } };
+      
+      case 'GET_SESSION_AVERAGE_SCORE':
+        const sessionAverageScore = sessionStatsService.getSessionAverageScore();
+        return { displayType: 'NONE', datas: { sessionAverageScore } };
+      
+      case 'GET_NEXT_PLAYER':
+        const nextPlayer = sessionStatsService.getNextPlayer();
+        return { displayType: 'NONE', datas: { nextPlayer } };
+      
+      case 'GET_BEST_SCORE_RANKING':
+        const bestScoreRanking = sessionStatsService.getBestScoreRanking();
+        return { displayType: 'NONE', datas: { bestScoreRanking } };
+      
+      case 'GET_AVERAGE_SCORE_RANKING':
+        const averageScoreRanking = sessionStatsService.getAverageScoreRanking();
+        return { displayType: 'NONE', datas: { averageScoreRanking } };
+      
+      case 'GET_PLAYER_SCORE_COUNT':
+        const playerScoreCount = sessionStatsService.getPlayerScoreCount(request.playerName);
+        return { displayType: 'NONE', datas: { playerScoreCount } };
+      
+      case 'GET_PLAYER_TOTAL_SCORE':
+        const playerTotalScore = sessionStatsService.getPlayerTotalScore(request.playerName);
+        return { displayType: 'NONE', datas: { playerTotalScore } };
+      
+      case 'GET_TOTAL_SCORES':
+        const totalScores = sessionStatsService.getTotalScores();
+        return { displayType: 'NONE', datas: { totalScores } };
+        
       default:
         throw new Error('Unhandled request type');
     }

@@ -25,7 +25,7 @@ function observeLastScore() {
 function appendStylesheet() {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/components/in-play-overlay.css');
+  link.href = chrome.runtime.getURL('content/gui/modules/in-play/in-play-overlay.css');
   document.head.appendChild(link);
 }
 
