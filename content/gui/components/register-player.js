@@ -43,7 +43,13 @@ export function createRegisterPlayerOverlay(playerAdded) {
     resetButton.innerText = 'Reset';
     resetButton.addEventListener('click', () => {
       removeRegisterPlayerOverlay()
-      document.dispatchEvent(new CustomEvent(eventNames.PageEvents.ARRIVED));
+      document.dispatchEvent(new CustomEvent(eventNames.PageEvents.ARRIVED));            
+      // Délai de 1 seconde avant d'envoyer l'événement Loaded
+      const sendLoadedEvent = () => {
+        const loadedEvent = new CustomEvent(eventNames.PageEvents.LOADED);
+        document.dispatchEvent(loadedEvent);
+      };
+      setTimeout(sendLoadedEvent, 1000); 
     });
     overlay.appendChild(resetButton);
   }
