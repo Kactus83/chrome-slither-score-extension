@@ -1,6 +1,6 @@
 import eventNames from '../../events/eventNames.js';
 
-export function createNewTurnDisplay(players) {
+export function createNewTurnDisplay(player_names) {
   const link = document.createElement('link');
   link.rel = 'stylesheet';
   link.href = chrome.runtime.getURL('content/gui/components/new-turn-display.css');
@@ -12,10 +12,10 @@ export function createNewTurnDisplay(players) {
   const playerSelect = document.createElement('select');
   playerSelect.classList.add('player-select');
 
-  players.forEach(player => {
+  player_names.forEach(playerName => {
     const option = document.createElement('option');
-    option.value = player.name;
-    option.textContent = player.name;
+    option.value = playerName;
+    option.textContent = playerName;
     playerSelect.appendChild(option);
   });
 

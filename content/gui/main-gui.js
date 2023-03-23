@@ -68,7 +68,6 @@ export async function showNewTurnScreen(session) {
   const parentElement = nickHolder.parentElement;
 
   parentElement.insertBefore(display, nickHolder);
-  parentElement.removeChild(nickHolder);
 }
 
 export async function hideNewTurnScreen() {
