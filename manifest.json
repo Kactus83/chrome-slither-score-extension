@@ -32,6 +32,7 @@
             "content/gui/components/continue-session-overlay.css",
             "content/gui/components/end-turn-display.js",
             "content/gui/components/register-player.js",
+            "content/gui/components/register-player.css",
             "content/gui/components/error-overlay.js",
             "content/gui/components/loading-overlay.js",
             "content/gui/components/new-turn-display.js",

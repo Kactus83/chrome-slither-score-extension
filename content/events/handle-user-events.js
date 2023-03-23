@@ -1,6 +1,7 @@
 import eventNames from './eventNames.js';
 import {
   sendInitGameSession,
+  sendLaunchInitGameSession,
   sendSelectedPlayer,
   sendLaunchAddPlayerToDatas,
   sendResumeGameSession,
@@ -21,6 +22,10 @@ export function handleUserEvents(event) {
 
     case eventNames.UserEvents.RESUME_SESSION:
       sendResumeGameSession();
+      break;
+
+    case eventNames.UserEvents.LAUNCH_INIT_SESSION:
+      sendLaunchInitGameSession();
       break;
 
     case eventNames.UserEvents.INIT_SESSION:
@@ -45,5 +50,6 @@ document.addEventListener(eventNames.UserEvents.ADD_USER_TO_DATAS, handleUserEve
 document.addEventListener(eventNames.UserEvents.SELECT_ACTIVE_PLAYER, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.LAUNCH_ADD_USER_TO_DATAS, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.RESUME_SESSION, handleUserEvents);
+document.addEventListener(eventNames.UserEvents.LAUNCH_INIT_SESSION, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.INIT_SESSION, handleUserEvents);
 document.addEventListener(eventNames.UserEvents.END_SESSION, handleUserEvents);

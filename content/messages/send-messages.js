@@ -20,6 +20,10 @@ export function sendPageLoaded() {
   return sendRequest({ type: 'PAGE_LOADED' });
 }
 
+export function sendLaunchInitGameSession() {
+  return sendRequest({ type: 'LAUNCH_INIT_GAME_SESSION' });
+}
+
 export function sendInitGameSession(playersNames) {
   return sendRequest({ type: 'INIT_GAME_SESSION', playersNames });
 }

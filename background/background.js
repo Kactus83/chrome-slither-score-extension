@@ -43,6 +43,12 @@ const handleRequest = async (request, tabId) => {
         isInGame = true;
         return { displayType: 'IN_GAME', datas: localDatas.actual_session };
 
+      case 'LAUNCH_INIT_GAME_SESSION':
+        localDatas = await loadLocalDatas();
+        const players = localDatas.players;
+        isInGame = false;
+        return { displayType: 'INIT_SESSION', datas: players };
+
       case 'INIT_GAME_SESSION':
         const session = await startSession(request.playersNames);
         isInGame = true;

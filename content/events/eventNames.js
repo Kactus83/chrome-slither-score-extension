@@ -14,6 +14,7 @@ const UserEvents = {
   LAUNCH_ADD_USER_TO_DATAS: 'user:launchAddUserToDatas',
   ADD_USER_TO_DATAS: 'user:addUserToDatas',
   RESUME_SESSION: 'user:resumeSession',
+  LAUNCH_INIT_SESSION: 'user:launchInitSession',
   INIT_SESSION: 'user:initSession',
   SELECT_ACTIVE_PLAYER: 'user:selectActivePlayer',
   END_SESSION: 'user:endSession',

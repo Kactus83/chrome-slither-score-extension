@@ -22,7 +22,7 @@ export function createContinueSessionOverlay() {
 
   newSessionButton.addEventListener('click', () => {
     // Emits the "user:initializeSession" event
-    document.dispatchEvent(new CustomEvent(eventNames.UserEvents.INITIALIZE_SESSION));
+    document.dispatchEvent(new CustomEvent(eventNames.UserEvents.LAUNCH_INIT_SESSION));
   });
 
   overlay.appendChild(continueButton);

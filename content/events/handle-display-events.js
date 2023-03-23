@@ -10,6 +10,7 @@ import {
 } from '../gui/main-gui.js';
 
 export function handleDisplayEvents(event) {
+  console.log("display event handled : ", event.type)
   switch (event.type) {
     case eventNames.DisplayEvents.LOADING:
       showLoadingScreen();
