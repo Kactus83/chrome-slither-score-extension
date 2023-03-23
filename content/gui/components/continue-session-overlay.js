@@ -1,12 +1,15 @@
 export function createContinueSessionOverlay() {
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = chrome.runtime.getURL('content/gui/components/continue-session-overlay.css');
+  document.head.appendChild(link);
+
   const overlay = document.createElement('div');
   overlay.classList.add('continue-session-overlay');
-  // Ajoutez des styles CSS pour positionner l'overlay en plein écran avec un fond violet sombre
 
   const continueButton = document.createElement('button');
   continueButton.textContent = 'Continue Session';
   continueButton.classList.add('continue-session-button');
-  // Ajoutez des styles CSS pour rendre le bouton vert clair et moderne
 
   continueButton.addEventListener('click', () => {
     // Emits the "user:resumeSession" event
@@ -16,7 +19,6 @@ export function createContinueSessionOverlay() {
   const newSessionButton = document.createElement('button');
   newSessionButton.textContent = 'New Session';
   newSessionButton.classList.add('new-session-button');
-  // Ajoutez des styles CSS pour rendre le bouton vert clair et moderne
 
   newSessionButton.addEventListener('click', () => {
     // Emits the "user:initializeSession" event
@@ -35,5 +37,3 @@ export function removeContinueSessionOverlay() {
     overlay.parentElement.removeChild(overlay);
   }
 }
-
-

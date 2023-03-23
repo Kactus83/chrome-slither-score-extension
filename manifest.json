@@ -29,6 +29,7 @@
             "content/events/handle-page-events.js",
             "content/events/handle-game-events.js",
             "content/gui/components/continue-session-overlay.js",
+            "content/gui/components/continue-session-overlay.css",
             "content/gui/components/end-turn-display.js",
             "content/gui/components/register-player.js",
             "content/gui/components/error-overlay.js",
