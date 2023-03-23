@@ -1,6 +1,6 @@
 import { LocalDatas } from '../../models/models.js';
 
-export function loadLocalDatas() {
+export async function loadLocalDatas() {
     return new Promise((resolve) => {
       chrome.storage.local.get('localDatas', function (data) {
         let localDatas = data.localDatas;

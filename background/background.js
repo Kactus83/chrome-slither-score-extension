@@ -21,6 +21,9 @@ let activePlayerName = null;
 const handleRequest = async (request, tabId) => {
   console.log('request received: ');
   console.log(request);
+  
+  const sessionStatsService = new SessionStatsService();
+  
   try {
     switch (request.type) {
       case 'PAGE_VISITED':
@@ -95,7 +98,6 @@ const handleRequest = async (request, tabId) => {
         return { displayType: 'NONE', datas: { check } };
 
       case 'GET_PLAYER_BEST_SCORE':
-        const sessionStatsService = new SessionStatsService();
         const playerBestScore = sessionStatsService.getPlayerBestScore(request.playerName);
         return { displayType: 'NONE', datas: { playerBestScore } };
       
@@ -106,6 +108,11 @@ const handleRequest = async (request, tabId) => {
       case 'GET_NEXT_PLAYER':
         const nextPlayer = sessionStatsService.getNextPlayer();
         return { displayType: 'NONE', datas: { nextPlayer } };
+        
+      case 'GET_LAST_SCORE':
+        const lastScore = sessionStatsService.getLastScore();
+        return { displayType: 'NONE', datas: { lastScore } };
+
       
       case 'GET_BEST_SCORE_RANKING':
         const bestScoreRanking = sessionStatsService.getBestScoreRanking();
@@ -143,6 +150,6 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   return true;
 });
 
-chrome.runtime.onInstalled.addListener(function () {
-  loadLocalDatas();
+chrome.runtime.onInstalled.addListener(async function () {
+  await loadLocalDatas();
 });

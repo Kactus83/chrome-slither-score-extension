@@ -95,3 +95,8 @@ export function sendGetPlayerTotalScore(playerName) {
 export function sendGetTotalScores() {
   return sendRequest({ type: 'GET_TOTAL_SCORES' });
 }
+
+export function sendGetLastScore() {
+  return sendRequest({ type: 'GET_LAST_SCORE' });
+}
+

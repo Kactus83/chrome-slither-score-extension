@@ -58,7 +58,7 @@ export async function hideStartSessionForm() {
 }
 
 export async function showEndTurnScreen(score) {
-  const display = createEndTurnDisplay(score);
+  const display = createEndTurnDisplay();
   document.body.appendChild(display);
 }
 
