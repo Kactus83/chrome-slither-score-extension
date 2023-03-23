@@ -1,35 +1,35 @@
 import {
   showLoadingOverlay,
   hideLoadingOverlay,
-} from './components/loading-overlay.js';
+} from './modules/loading/loading-overlay.js';
 import {
   createContinueSessionOverlay,
   removeContinueSessionOverlay,
-} from './components/continue-session-overlay.js';
+} from './modules/continue-session/continue-session-overlay.js';
 import {
   createInPlayOverlay,
   removeInPlayOverlay,
-} from './components/in-play-overlay.js';
+} from './modules/in-play/in-play-overlay.js';
 import {
   createErrorOverlay,
   removeErrorOverlay,
-} from './components/error-overlay.js';
+} from './modules/error/error-overlay.js';
 import {
   createStartSessionOverlay,
   removeStartSessionOverlay,
-} from './components/start-session-overlay.js';
+} from './modules/start-session/start-session-overlay.js';
 import {
   createEndTurnDisplay,
   removeEndTurnDisplay,
-} from './components/end-turn-display.js';
+} from './modules/end-turn/end-turn-display.js';
 import {
   createNewTurnDisplay,
   removeNewTurnDisplay,
-} from './components/new-turn-display.js';
+} from './modules/new-turn/new-turn-display.js';
 import {
   createRegisterPlayerOverlay,
   removeRegisterPlayerOverlay,
-} from './components/register-player.js';
+} from './modules/register-player/register-player.js';
 
 export async function showLoadingScreen() {
   showLoadingOverlay();
