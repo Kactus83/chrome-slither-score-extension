@@ -8,7 +8,7 @@ export function createRegisterPlayerOverlay(playerAdded) {
 
   const overlay = document.createElement('div');
   overlay.id = 'register-player-overlay';
-  overlay.classList.add('register-player-overlay');
+  overlay.classList.add('register-player');
 
   overlay.innerText = 'Register Player';
 
