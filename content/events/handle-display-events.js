@@ -6,7 +6,8 @@ import {
   showErrorOverlay,
   showContinueSessionOverlay,
   showStartSessionForm,
-  showRegisterPlayerOverlay
+  showRegisterPlayerOverlay,
+  showNewTurnScreen
 } from '../gui/main-gui.js';
 
 export function handleDisplayEvents(event) {
@@ -43,7 +44,7 @@ export function handleDisplayEvents(event) {
       break;
 
     case eventNames.DisplayEvents.IN_GAME:
-      analyzePageAndDispatchEvents(event.detail);
+      analyzePageAndDispatchEvents();
       break;
 
     case eventNames.DisplayEvents.IN_GAME_WAITING:

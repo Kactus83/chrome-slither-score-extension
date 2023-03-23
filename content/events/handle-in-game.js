@@ -1,57 +1,49 @@
 import eventNames from './eventNames.js';
 
-function findNextPlayer(session) {
-  if (session.scores.length === 0) {
-    return session.player_names[0];
-  }
-
-  const lastScore = session.scores[session.scores.length - 1];
-  const lastPlayerIndex = session.player_names.findIndex(playerName => playerName === lastScore.playerName);
-
-  if (lastPlayerIndex === session.player_names.length - 1) {
-    return session.player_names[0];
-  } else {
-    return session.player_names[lastPlayerIndex + 1];
-  }
-}
+const SELECTORS = {
+  loginDiv: '#login',
+  playButton: '#playh',
+  lastScore: '#lastscore',
+  victoryHolder: '#victory_holder',
+};
 
 function determineGameState() {
-  const nickHolder = document.getElementById('nick_holder');
-  const loginDiv = document.querySelector('.login');
-  const scoreDiv = document.querySelector('.score'); // Nouvelle div pour identifier le score
+  const loginDiv = document.querySelector(SELECTORS.loginDiv);
+  const playButton = document.querySelector(SELECTORS.playButton);
+  const lastScore = document.querySelector(SELECTORS.lastScore);
+  const victoryHolder = document.querySelector(SELECTORS.victoryHolder);
 
-  if (nickHolder && loginDiv && !scoreDiv) {
-    return 'WAIT_NEXT_TURN';
-  } else if (!loginDiv) {
-    return 'IN_PROGRESS';
-  } else if (nickHolder && loginDiv && scoreDiv) {
-    return 'GAME_OVER';
+  if (loginDiv.style.display === 'none') {
+    return 'END';
+
   } else {
-    console.error('Unable to determine game state');
-    return null;
+
+    if (!lastScore || lastScore.style.display === 'none') {
+      return 'START';
+    }
+
+    if (lastScore && lastScore.style.display != 'none') {
+      return 'IN_GAME';
+
+    }else{
+      console.error('Unable to determine game state');
+      return null;
+    }
   }
 }
 
-export function analyzePageAndDispatchEvents(session) {
+export function analyzePageAndDispatchEvents() {
   const gameState = determineGameState();
+  console.log ("game state : ", gameState);
 
-  switch (gameState) {
-    case 'WAIT_NEXT_TURN':
-      const nextPlayerName = findNextPlayer(session);
-      document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN, { detail: nextPlayerName }));
-      break;
-    case 'IN_PROGRESS':
-      document.dispatchEvent(new CustomEvent(eventNames.GameEvents.IN_PROGRESS, { detail: session }));
-      break;
-    case 'GAME_OVER':
-      const finalScore = getFinalScore(); 
-      document.dispatchEvent(new CustomEvent(eventNames.GameEvents.GAME_OVER, { detail: { session, finalScore } }));
-      break;
-    default:
-      console.error('Unhandled game state:', gameState);
+  if (gameState === 'START') {
+    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
+  }
+  if (gameState === 'IN_GAME') {
+    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
+  }
+  if (gameState === 'END') {
+    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
   }
 }
 
-function getFinalScore() {
-  return 1000; // Définir la fonction getFinalScore pour récupérer le score final
-}

@@ -62,8 +62,8 @@ export async function hideEndTurnScreen() {
   removeEndTurnDisplay();
 }
 
-export async function showNewTurnScreen(players) {
-  const display = createNewTurnDisplay(players);
+export async function showNewTurnScreen(session) {
+  const display = createNewTurnDisplay(session.player_names);
   const nickHolder = document.getElementById('nick_holder');
   const parentElement = nickHolder.parentElement;
 
@@ -91,4 +91,13 @@ export async function showRegisterPlayerOverlay(playerAdded) {
 
 export async function hideRegisterPlayerOverlay() {
   removeRegisterPlayerOverlay();
+}
+
+export async function showInPlayOverlay() {
+  const overlay = createInPlayOverlay();
+  document.body.appendChild(overlay);
+}
+
+export async function hideInPlayOverlay() {
+  removeInPlayOverlay();
 }

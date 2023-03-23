@@ -12,6 +12,7 @@ export function createContinueSessionOverlay() {
   continueButton.classList.add('continue-session-button');
 
   continueButton.addEventListener('click', () => {
+    removeContinueSessionOverlay()
     // Emits the "user:resumeSession" event
     document.dispatchEvent(new CustomEvent(eventNames.UserEvents.RESUME_SESSION));
   });
@@ -21,6 +22,7 @@ export function createContinueSessionOverlay() {
   newSessionButton.classList.add('new-session-button');
 
   newSessionButton.addEventListener('click', () => {
+    removeContinueSessionOverlay()
     // Emits the "user:initializeSession" event
     document.dispatchEvent(new CustomEvent(eventNames.UserEvents.LAUNCH_INIT_SESSION));
   });

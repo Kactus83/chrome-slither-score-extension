@@ -56,6 +56,7 @@ const handleRequest = async (request, tabId) => {
         return { displayType: 'INIT_GAME_SESSION', datas: session };
 
       case 'WAIT_NEXT_TURN':
+        localDatas = await loadLocalDatas();
         return { displayType: 'WAIT_NEXT_TURN', datas: localDatas.actual_session };
 
       case 'SELECT_ACTIVE_PLAYER':

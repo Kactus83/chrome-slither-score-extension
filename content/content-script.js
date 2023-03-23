@@ -16,7 +16,6 @@ import('./events/eventNames.js').then(module => {
             document.addEventListener(eventName, handlePageEvents);
           });
 
-          console.log("imports OK");
           // Émettre l'événement d'arrivée sur la page
           const arrivedEvent = new CustomEvent(eventNames.PageEvents.ARRIVED);
           document.dispatchEvent(arrivedEvent);

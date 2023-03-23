@@ -36,8 +36,8 @@ export function sendEndGameSession() {
   return sendRequest({ type: 'END_GAME_SESSION' });
 }
 
-export function sendGameStatusWaitTurn(playersNames) {
-  return sendRequest({ type: 'WAIT_NEXT_TURN', playersNames });
+export function sendGameStatusWaitTurn() {
+  return sendRequest({ type: 'WAIT_NEXT_TURN' });
 }
 
 export function sendGameStatusInProgress(playerName) {
