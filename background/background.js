@@ -97,6 +97,11 @@ const handleRequest = async (request, tabId) => {
       case 'LAUNCH_ADD_PLAYER_TO_DATAS':
         return { displayType: 'ADD_PLAYER_TO_DATAS', datas: 'first-add' };
 
+      case 'GET_ACTUAL_SESSION':
+        localDatas = await loadLocalDatas();
+        const actual_session = localDatas.actual_session;
+        return { displayType: 'NONE', datas: { actual_session } };
+
       case 'GET_PLAYER_NAME_AVAILABILITY':
         const check = await preCheckPlayerNameAvailability(request.playerName);
         return { displayType: 'NONE', datas: { check } };

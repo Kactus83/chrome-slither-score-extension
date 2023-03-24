@@ -2,6 +2,10 @@ import { sendRequest } from './send-request.js';
 
 // GET DATAS request 
 
+export function sendGetActualSession() {
+    return sendRequest({ type: 'GET_ACTUAL_SESSION' });
+}
+
 export function sendGetPlayerNameAvailability(playerName) {
     return sendRequest({ type: 'GET_PLAYER_NAME_AVAILABILITY', playerName });
 }

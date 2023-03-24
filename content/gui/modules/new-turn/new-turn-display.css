@@ -140,3 +140,58 @@
   color: #ff4040;
   opacity: 0.25;
 }
+
+.player-details-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.player-details {
+  width: 80%;
+  max-width: 500px;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  color: #333;
+  font-family: Arial, "Helvetica Neue", Helvetica, sans-serif;
+  font-size: 18px;
+  line-height: 150%;
+}
+
+.player-details h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+}
+
+.player-scores {
+  list-style-type: none;
+  padding-left: 0;
+}
+
+.player-scores li {
+  margin-bottom: 5px;
+}
+
+#close-details {
+  display: inline-block;
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  text-align: center;
+  margin-top: 15px;
+}
+
+#close-details:hover {
+  background-color: #444;
+}
