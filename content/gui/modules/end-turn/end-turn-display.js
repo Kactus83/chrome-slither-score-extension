@@ -28,10 +28,12 @@ export async function createEndTurnDisplay() {
   overlay.classList.add('end-turn-display');
 
   // Récupérer le dernier score
-  const lastScore = await sendGetLastScore();
+  const response = await sendGetLastScore();
+  console.log("----");
+  console.log(response);
 
   const playerScore = document.createElement('div');
-  playerScore.textContent = `Joueur: ${lastScore.datas.playerName}, Score: ${lastScore.datas.value}`;
+  playerScore.textContent = `Joueur: ${response.datas.lastScore.playerName}, Score: ${response.datas.lastScore.value}`;
   playerScore.classList.add('player-score');
 
   overlay.appendChild(playerScore);
