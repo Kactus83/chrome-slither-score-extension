@@ -55,6 +55,9 @@ export async function createNewTurnDisplay() {
   // Observation de la div login
   observeLoginDiv(playerSelect);
 
+  
+  console.log("new turn display created");
+
   return newTurnDiv;
 }
 
@@ -64,6 +67,8 @@ export function removeNewTurnDisplay() {
 
   // Suppression du composant player-select
   removePlayerSelect();
+
+  console.log("new turn display removed");
 }
 
 async function fetchPlayerData() {
@@ -91,7 +96,8 @@ async function fetchPlayerData() {
   const playerOrder = [nextPlayer, ...sortedOtherPlayers.map(player => player.playerName)];
 
   return {
-    bestScoreRanking: bestScoreRanking.map(item => item.playerName),
+    bestScoreRanking, // Conserver les objets avec le nom et le meilleur score de chaque joueur
     playerOrder,
   };
 }
+

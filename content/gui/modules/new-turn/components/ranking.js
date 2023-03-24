@@ -10,7 +10,7 @@ export function showRanking(bestScoreRanking) {
     rankingHTML += `<div class="ranking-player" data-rank="${index + 1}">
                       <span class="ranking-position">${index + 1}</span>
                       <span class="ranking-name">${player.playerName}</span>
-                      <span class="ranking-score">${player.value}</span>
+                      <span class="ranking-score">${player.bestScore}</span>
                     </div>`;
   });
 
