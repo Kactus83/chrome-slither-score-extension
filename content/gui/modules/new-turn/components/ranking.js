@@ -1,3 +1,7 @@
+import {
+  sendGetActualSession
+} from "../../../../messages/send-messages.js";
+
 function showPlayerDetails(playerName, playerScores) {
   const overlay = document.createElement('div');
   overlay.id = 'player-details-overlay';

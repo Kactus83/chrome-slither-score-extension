@@ -9,7 +9,8 @@ import {
 } from './components/ranking.js';
 
 import { 
-  observeLoginDiv 
+  observeLoginDiv,
+  stopLoginDivObserver
 } from './components/login-watcher.js';
 
 import {
@@ -53,7 +54,7 @@ export async function createNewTurnDisplay() {
   tipsDiv.parentElement.insertBefore(playerSelect, tipsDiv);
 
   // Observation de la div login
-  observeLoginDiv(playerSelect);
+  const loginObserver = observeLoginDiv(playerSelect);
 
   
   console.log("new turn display created");
@@ -61,15 +62,19 @@ export async function createNewTurnDisplay() {
   return newTurnDiv;
 }
 
-export function removeNewTurnDisplay() {
+export function removeNewTurnDisplay(loginObserver) {
   // Suppression du composant ranking
   removeRanking();
 
   // Suppression du composant player-select
   removePlayerSelect();
 
+  // Arrête l'observateur de la div login
+  stopLoginDivObserver(loginObserver);
+
   console.log("new turn display removed");
 }
+
 
 async function fetchPlayerData() {
   const _bestScoreRanking = await sendGetBestScoreRanking();

@@ -69,6 +69,8 @@ const handleRequest = async (request, tabId) => {
         return { displayType: 'SELECT_ACTIVE_PLAYER', datas: { selectedPlayerName: activePlayerName } };
 
       case 'IN_PROGRESS':
+        console.log("---------------")
+        console.log(request.playerName);
         activePlayerName = request.playerName;
         return { displayType: 'IN_PROGRESS', datas: { playerName: activePlayerName } };
 
