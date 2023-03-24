@@ -6,6 +6,7 @@ export function createStatsButton() {
   const button = document.createElement('button');
   button.textContent = 'Stats';
   button.classList.add('stats-button');
+  button.classList.add('main-stats-button');
 
   button.addEventListener('click', () => {
     showStatsOverlay();
@@ -26,6 +27,9 @@ function createOverlay() {
 
   const closeButton = createCloseButton(overlay);
   overlay.appendChild(closeButton);
+
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.classList.add('buttons-container');
 
   const gameButton = createButton('Game Stats', () => {
     hideButtons();
@@ -49,22 +53,19 @@ function createOverlay() {
     showButtons();
   });
 
-  overlay.appendChild(gameButton);
-  overlay.appendChild(playersButton);
-  overlay.appendChild(sessionsButton);
+  buttonsContainer.appendChild(gameButton);
+  buttonsContainer.appendChild(playersButton);
+  buttonsContainer.appendChild(sessionsButton);
+  overlay.appendChild(buttonsContainer);
   overlay.appendChild(backButton);
 
   function hideButtons() {
-    gameButton.style.display = 'none';
-    playersButton.style.display = 'none';
-    sessionsButton.style.display = 'none';
+    buttonsContainer.style.display = 'none';
     backButton.style.display = 'block';
   }
 
   function showButtons() {
-    gameButton.style.display = 'block';
-    playersButton.style.display = 'block';
-    sessionsButton.style.display = 'block';
+    buttonsContainer.style.display = 'flex';
     backButton.style.display = 'none';
   }
 
@@ -94,6 +95,14 @@ function createCloseButton(overlay) {
 }
 
 export function insertStatsButton() {
+  
+
+  // Ajouter ces lignes pour charger le CSS
+  const link = document.createElement('link');
+  link.rel = 'stylesheet';
+  link.href = chrome.runtime.getURL('content/gui/modules/stats/stats.css');
+  document.head.appendChild(link);
+  
   const existingIframe = document.querySelector("iframe[src='/social-box/']");
   if (existingIframe) {
     existingIframe.style.display = "none";
@@ -111,6 +120,7 @@ export function insertStatsButton() {
     statsButton.style.display = "block";
   }
 }
+
 
 export function removeStatsButton() {
   const statsButton = document.querySelector(".stats-button");

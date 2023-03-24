@@ -9,6 +9,7 @@ function hideLastScore() {
 }
 
 export async function createEndTurnDisplay() {
+  console.log("creating game over component");
   // Vérifier si le composant existe déjà
   const existingOverlay = document.querySelector('.end-turn-display');
   if (existingOverlay) {
@@ -28,10 +29,9 @@ export async function createEndTurnDisplay() {
 
   // Récupérer le dernier score
   const lastScore = await sendGetLastScore();
-  console.log(lastScore);
 
   const playerScore = document.createElement('div');
-  playerScore.textContent = `Joueur: ${lastScore.playnerName}, Score: ${lastScore.value}`;
+  playerScore.textContent = `Joueur: ${lastScore.datas.playerName}, Score: ${lastScore.datas.value}`;
   playerScore.classList.add('player-score');
 
   overlay.appendChild(playerScore);

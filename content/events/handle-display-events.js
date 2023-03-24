@@ -12,7 +12,7 @@ import {
   showEndTurnScreen
 } from '../gui/main-gui.js';
 
-export function handleDisplayEvents(event) {
+export async function handleDisplayEvents(event) {
   console.log("display event handled : ", event.type)
   switch (event.type) {
     case eventNames.DisplayEvents.LOADING:
@@ -21,7 +21,7 @@ export function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.ERROR:
       hideLoadingScreen();
-      showErrorOverlay();
+      await showErrorOverlay();
       break;
 
     case eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS:
@@ -51,17 +51,17 @@ export function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.IN_GAME_WAITING:
       hideLoadingScreen();
-      showNewTurnScreen(event.detail);
+      await showNewTurnScreen(event.detail);
       break;
 
     case eventNames.DisplayEvents.IN_GAME_PROGRESSING:
       hideLoadingScreen();
-      showInPlayOverlay();
+      await showInPlayOverlay();
       break;
 
     case eventNames.DisplayEvents.IN_GAME_FINISHED:
       hideLoadingScreen();
-      showEndTurnScreen();
+      await showEndTurnScreen();
       break;
 
     default:
