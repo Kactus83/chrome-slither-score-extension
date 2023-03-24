@@ -11,8 +11,11 @@
     align-items: center;
     flex-direction: column;
   }
-  
   .stats-button {
+    position: fixed;
+    left: 6px;
+    top: 6px;
+    z-index: 9999999;
     font-size: 18px;
     padding: 12px 24px;
     margin-top: 15px;

@@ -124,6 +124,7 @@ export class SessionStatsService {
     const scores = this.datas.actual_session.scores;
 
     if (scores.length === 0) {
+      console.log("pas de score a renvoyer..");
       return null;
     }
     // Trie les scores par date (ordre décroissant)

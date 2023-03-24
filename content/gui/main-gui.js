@@ -30,8 +30,13 @@ import {
   createRegisterPlayerOverlay,
   removeRegisterPlayerOverlay,
 } from './modules/register-player/register-player.js';
+import { 
+  insertStatsButton, 
+  removeStatsButton 
+} from './modules/stats/stats.js';
 
 export async function showLoadingScreen() {
+  removeStatsButton();
   showLoadingOverlay();
 }
 
@@ -40,6 +45,7 @@ export async function hideLoadingScreen() {
 }
 
 export async function showContinueSessionOverlay(session) {
+  removeStatsButton();
   const overlay = createContinueSessionOverlay(session);
   document.body.appendChild(overlay);
 }
@@ -49,6 +55,7 @@ export async function hideContinueSessionOverlay() {
 }
 
 export async function showStartSessionForm(players) {
+  removeStatsButton();
   const overlay = createStartSessionOverlay(players);
   document.body.appendChild(overlay);
 }
@@ -58,6 +65,7 @@ export async function hideStartSessionForm() {
 }
 
 export async function showEndTurnScreen(score) {
+  removeStatsButton();
   const display = await createEndTurnDisplay();
   document.body.appendChild(display);
 }
@@ -67,6 +75,7 @@ export async function hideEndTurnScreen() {
 }
 
 export async function showNewTurnScreen(session) {
+  insertStatsButton();
   const display = createNewTurnDisplay(session.player_names);
   const nickHolder = document.getElementById('nick_holder');
   const parentElement = nickHolder.parentElement;
@@ -75,10 +84,12 @@ export async function showNewTurnScreen(session) {
 }
 
 export async function hideNewTurnScreen() {
+  removeStatsButton();
   removeNewTurnDisplay();
 }
 
 export async function showErrorOverlay() {
+  removeStatsButton();
   const overlay = createErrorOverlay();
   document.body.appendChild(overlay);
 }
@@ -88,6 +99,7 @@ export async function hideErrorOverlay() {
 }
 
 export async function showRegisterPlayerOverlay(playerAdded) {
+  removeStatsButton();
   const overlay = createRegisterPlayerOverlay(playerAdded);
   document.body.appendChild(overlay);
 }
@@ -97,6 +109,7 @@ export async function hideRegisterPlayerOverlay() {
 }
 
 export async function showInPlayOverlay() {
+  removeStatsButton();
   const overlay = createInPlayOverlay();
   document.body.appendChild(overlay);
 }

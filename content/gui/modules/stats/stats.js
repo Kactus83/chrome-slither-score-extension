@@ -92,3 +92,34 @@ function createCloseButton(overlay) {
   });
   return closeButton;
 }
+
+export function insertStatsButton() {
+  const existingIframe = document.querySelector("iframe[src='/social-box/']");
+  if (existingIframe) {
+    existingIframe.style.display = "none";
+  }
+
+  const statsButton = document.querySelector(".stats-button");
+  if (!statsButton) {
+    const newStatsButton = createStatsButton();
+    if (existingIframe && existingIframe.parentElement) {
+      existingIframe.parentElement.insertBefore(newStatsButton, existingIframe);
+    } else {
+      document.body.appendChild(newStatsButton);
+    }
+  } else {
+    statsButton.style.display = "block";
+  }
+}
+
+export function removeStatsButton() {
+  const statsButton = document.querySelector(".stats-button");
+  if (statsButton) {
+    statsButton.style.display = "none";
+  }
+
+  const existingIframe = document.querySelector("iframe[src='/social-box/']");
+  if (existingIframe) {
+    existingIframe.style.display = "block";
+  }
+}
