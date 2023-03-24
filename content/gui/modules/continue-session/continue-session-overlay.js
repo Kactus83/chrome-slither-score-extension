@@ -7,6 +7,14 @@ export function createContinueSessionOverlay() {
   const overlay = document.createElement('div');
   overlay.classList.add('continue-session-overlay');
 
+  const tipsDiv = document.getElementById("tips");
+  tipsDiv.style.display = 'none'; // Masquer la div "tips"
+    
+  const existingIframe = document.querySelector("iframe[src='/social-box/']");
+  if (existingIframe) {
+    existingIframe.style.display = "none";
+  }
+  
   const continueButton = document.createElement('button');
   continueButton.textContent = 'Continue Session';
   continueButton.classList.add('continue-session-button');
