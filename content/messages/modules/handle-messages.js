@@ -1,4 +1,4 @@
-import eventNames from '../events/eventNames.js';
+import eventNames from '../../events/eventNames.js';
 
 export async function onBackgroundMessage(response, callback) {
   console.log("réponse reçue : ");

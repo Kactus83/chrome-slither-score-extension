@@ -1,3 +1,5 @@
+import { sendRequest } from './send-request.js';
+
 // GAME SATES REQUESTS
 
 export function sendGameStatusWaitTurn() {

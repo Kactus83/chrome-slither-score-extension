@@ -1,3 +1,5 @@
+import { sendRequest } from './send-request.js';
+
 // PAGE EVENTS & ROUTING REQUEST
 
 export function sendPageVisited() {

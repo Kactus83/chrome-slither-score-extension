@@ -1,3 +1,5 @@
+import { sendRequest } from './send-request.js';
+
 // USER ACTION REQUEST
 
 export function sendInitGameSession(playersNames) {

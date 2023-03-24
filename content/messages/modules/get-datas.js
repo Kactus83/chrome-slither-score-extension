@@ -1,3 +1,5 @@
+import { sendRequest } from './send-request.js';
+
 // GET DATAS request 
 
 export function sendGetPlayerNameAvailability(playerName) {
