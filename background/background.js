@@ -102,15 +102,15 @@ const handleRequest = async (request, tabId) => {
         return { displayType: 'NONE', datas: { check } };
 
       case 'GET_PLAYER_BEST_SCORE':
-        const playerBestScore = sessionStatsService.getPlayerBestScore(request.playerName);
+        const playerBestScore = await sessionStatsService.getPlayerBestScore(request.playerName);
         return { displayType: 'NONE', datas: { playerBestScore } };
       
       case 'GET_SESSION_AVERAGE_SCORE':
-        const sessionAverageScore = sessionStatsService.getSessionAverageScore();
+        const sessionAverageScore = await sessionStatsService.getSessionAverageScore();
         return { displayType: 'NONE', datas: { sessionAverageScore } };
       
       case 'GET_NEXT_PLAYER':
-        const nextPlayer = sessionStatsService.getNextPlayer();
+        const nextPlayer = await sessionStatsService.getNextPlayer();
         return { displayType: 'NONE', datas: { nextPlayer } };
         
       case 'GET_LAST_SCORE':
@@ -121,23 +121,23 @@ const handleRequest = async (request, tabId) => {
 
       
       case 'GET_BEST_SCORE_RANKING':
-        const bestScoreRanking = sessionStatsService.getBestScoreRanking();
+        const bestScoreRanking = await sessionStatsService.getBestScoreRanking();
         return { displayType: 'NONE', datas: { bestScoreRanking } };
       
       case 'GET_AVERAGE_SCORE_RANKING':
-        const averageScoreRanking = sessionStatsService.getAverageScoreRanking();
+        const averageScoreRanking = await sessionStatsService.getAverageScoreRanking();
         return { displayType: 'NONE', datas: { averageScoreRanking } };
       
       case 'GET_PLAYER_SCORE_COUNT':
-        const playerScoreCount = sessionStatsService.getPlayerScoreCount(request.playerName);
+        const playerScoreCount = await sessionStatsService.getPlayerScoreCount(request.playerName);
         return { displayType: 'NONE', datas: { playerScoreCount } };
       
       case 'GET_PLAYER_TOTAL_SCORE':
-        const playerTotalScore = sessionStatsService.getPlayerTotalScore(request.playerName);
+        const playerTotalScore = await sessionStatsService.getPlayerTotalScore(request.playerName);
         return { displayType: 'NONE', datas: { playerTotalScore } };
       
       case 'GET_TOTAL_SCORES':
-        const totalScores = sessionStatsService.getTotalScores();
+        const totalScores = await sessionStatsService.getTotalScores();
         return { displayType: 'NONE', datas: { totalScores } };
         
       default:

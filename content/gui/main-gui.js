@@ -76,11 +76,7 @@ export async function hideEndTurnScreen() {
 
 export async function showNewTurnScreen(session) {
   insertStatsButton();
-  const display = createNewTurnDisplay(session.player_names);
-  const nickHolder = document.getElementById('nick_holder');
-  const parentElement = nickHolder.parentElement;
-
-  parentElement.insertBefore(display, nickHolder);
+  createNewTurnDisplay();
 }
 
 export async function hideNewTurnScreen() {
