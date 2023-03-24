@@ -1,6 +1,7 @@
 import eventNames from '../../../../events/eventNames.js';
 
 export function createPlayerSelect(player_names) {
+
   const playerSelectContainer = document.createElement('div');
   playerSelectContainer.classList.add('player-select-container');
 

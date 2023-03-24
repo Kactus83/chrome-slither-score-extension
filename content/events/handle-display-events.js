@@ -13,7 +13,8 @@ import {
 } from '../gui/main-gui.js';
 
 export async function handleDisplayEvents(event) {
-  
+  console.log("--------------- display event : ");
+  console.log(event);
   switch (event.type) {
     case eventNames.DisplayEvents.LOADING:
       showLoadingScreen();
@@ -69,13 +70,14 @@ export async function handleDisplayEvents(event) {
   }
 }
 
-// Ajouter des écouteurs d'événements pour les événements DisplayEvents
-document.addEventListener(eventNames.DisplayEvents.IN_GAME_WAITING, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.IN_GAME_PROGRESSING, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.IN_GAME_FINISHED, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.LOADING, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.ERROR, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.RESUME_SESSION, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.INIT_SESSION, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.IN_GAME, handleDisplayEvents);
-document.addEventListener(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, handleDisplayEvents);
+export function initializeDisplayEventListeners() {
+  document.addEventListener(eventNames.DisplayEvents.IN_GAME_WAITING, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.IN_GAME_PROGRESSING, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.IN_GAME_FINISHED, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.LOADING, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.ERROR, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.RESUME_SESSION, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.INIT_SESSION, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.IN_GAME, handleDisplayEvents);
+  document.addEventListener(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, handleDisplayEvents);
+}

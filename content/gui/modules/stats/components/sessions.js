@@ -7,7 +7,9 @@ export async function showSessionsStats() {
 
   await sendGetActualSession()
     .then((sessionData) => {
-      const table = createStatsTable(sessionData);
+      console.log("session datas : ");
+      console.log(sessionData);
+      const table = createStatsTable(sessionData.datas.actual_session);
       container.appendChild(table);
     })
     .catch((error) => {
@@ -35,29 +37,35 @@ function createStatsTable(sessionData) {
 
   table.appendChild(headerRow);
 
-  sessionData.players.forEach((player) => {
+  const playerNames = sessionData.player_names;
+  const scores = sessionData.scores;
+
+  playerNames.forEach((playerName) => {
+    const playerScores = scores.filter(score => score.playerName === playerName).map(score => score.value);
+    const bestScore = Math.max(...playerScores);
+    const worstScore = Math.min(...playerScores);
+    const averageScore = playerScores.reduce((a, b) => a + b, 0) / playerScores.length;
+
     const row = document.createElement("tr");
 
-    const playerName = document.createElement("td");
-    playerName.textContent = player.name;
-    row.appendChild(playerName);
+    const nameCell = document.createElement("td");
+    nameCell.textContent = playerName;
+    row.appendChild(nameCell);
 
-    const bestScore = document.createElement("td");
-    bestScore.textContent = player.bestScore;
-    row.appendChild(bestScore);
+    const bestScoreCell = document.createElement("td");
+    bestScoreCell.textContent = bestScore;
+    row.appendChild(bestScoreCell);
 
-    const averageScore = document.createElement("td");
-    averageScore.textContent = player.averageScore.toFixed(2);
-    row.appendChild(averageScore);
+    const averageScoreCell = document.createElement("td");
+    averageScoreCell.textContent = averageScore.toFixed(2);
+    row.appendChild(averageScoreCell);
 
-    const worstScore = document.createElement("td");
-    worstScore.textContent = player.worstScore;
-    row.appendChild(worstScore);
+    const worstScoreCell = document.createElement("td");
+    worstScoreCell.textContent = worstScore;
+    row.appendChild(worstScoreCell);
 
     table.appendChild(row);
   });
 
   return table;
 }
-
-  

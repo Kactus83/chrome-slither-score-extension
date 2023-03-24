@@ -29,8 +29,8 @@ function appendStylesheet() {
 export async function createNewTurnDisplay() {
   const existingNewTurnDiv = document.querySelector(".new-turn-display");
   if (existingNewTurnDiv) {
-    console.error("Error: New turn component already exists.");
-    return null;
+    console.log("Removing existing new turn component.");
+    existingNewTurnDiv.remove();
   }
 
   // Récupérez les noms des joueurs et le joueur suivant
@@ -56,7 +56,6 @@ export async function createNewTurnDisplay() {
   // Observation de la div login
   const loginObserver = observeLoginDiv(playerSelect);
 
-  
   console.log("new turn display created");
 
   return newTurnDiv;

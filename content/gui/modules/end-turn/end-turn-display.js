@@ -38,6 +38,7 @@ export async function createEndTurnDisplay() {
 
   const handleClick = () => {
     removeEndTurnDisplay();
+    console.log("****************** EVENT END TURN *******************");
     document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
   };
 

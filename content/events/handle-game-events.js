@@ -25,8 +25,9 @@ export function handleGameEvents(event) {
   }
 }
 
-// Ajouter des écouteurs d'événements pour les événements GameEvents
-document.addEventListener(eventNames.GameEvents.WAIT_NEXT_TURN, handleGameEvents);
-document.addEventListener(eventNames.GameEvents.IN_PROGRESS, handleGameEvents);
-document.addEventListener(eventNames.GameEvents.GAME_OVER, handleGameEvents);
-  
+// Fonction pour initialiser les écouteurs d'événements GameEvents
+export function initializeGameEventListeners() {
+  document.addEventListener(eventNames.GameEvents.WAIT_NEXT_TURN, handleGameEvents);
+  document.addEventListener(eventNames.GameEvents.IN_PROGRESS, handleGameEvents);
+  document.addEventListener(eventNames.GameEvents.GAME_OVER, handleGameEvents);
+}

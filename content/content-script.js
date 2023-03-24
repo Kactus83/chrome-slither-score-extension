@@ -5,9 +5,9 @@ import('./events/eventNames.js').then(module => {
   // Charger le gestionnaire d'événements pour UserEvents
   import('./events/handle-user-events.js').then(({ handleUserEvents }) => {
     // Charger le gestionnaire d'événements pour DisplayEvents
-    import('./events/handle-display-events.js').then(({ handleDisplayEvents }) => {
+    import('./events/handle-display-events.js').then(({ handleDisplayEvents, initializeDisplayEventListeners }) => {
       // Charger le gestionnaire d'événements pour GameEvents
-      import('./events/handle-game-events.js').then(({ handleGameEvents }) => {
+      import('./events/handle-game-events.js').then(({ handleGameEvents, initializeGameEventListeners }) => {
         // Charger le gestionnaire d'événements pour PageEvents
         import('./events/handle-page-events.js').then(({ handlePageEvents }) => {
           
@@ -15,6 +15,10 @@ import('./events/eventNames.js').then(module => {
           Object.values(eventNames.PageEvents).forEach(eventName => {
             document.addEventListener(eventName, handlePageEvents);
           });
+
+          // Initialiser les écouteurs d'événements
+          initializeDisplayEventListeners();
+          initializeGameEventListeners();
 
           // Émettre l'événement d'arrivée sur la page
           const arrivedEvent = new CustomEvent(eventNames.PageEvents.ARRIVED);

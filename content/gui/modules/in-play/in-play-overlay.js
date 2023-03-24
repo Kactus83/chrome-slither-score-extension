@@ -2,16 +2,20 @@ function observeLastScore() {
   const lastScore = document.querySelector('#lastscore');
   if (!lastScore) return;
 
+  let check = false;
+
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
       if (mutation.type === 'childList') {
         const scoreText = lastScore.textContent.trim();
         const scoreMatch = scoreText.match(/(\d+)/);
-        if (scoreMatch) {
+        if (scoreMatch && !check) {
           const score = parseInt(scoreMatch[1], 10);
           observer.disconnect();
           removeInPlayOverlay();
+          console.log("****************** EVENT IN PLAY *******************");
           const event = new CustomEvent(eventNames.GameEvents.GAME_OVER, { detail: score });
+          check = true;
           document.dispatchEvent(event);
         }
       }

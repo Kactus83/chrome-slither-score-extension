@@ -117,19 +117,22 @@ export class SessionStatsService {
 
     return totalScores;
   }
-
+  
   async getLastScore() {
     await this.ensureDatas();
-
+  
     const scores = this.datas.actual_session.scores;
-
+  
     if (scores.length === 0) {
-      console.log("pas de score a renvoyer..");
+      console.log("pas de score à renvoyer..");
       return null;
     }
-    // Trie les scores par date (ordre décroissant)
-    const sortedScores = scores.sort((a, b) => new Date(b.date) - new Date(a.date));
-
-    return sortedScores[0];
+  
+    // Trie les scores par date (ordre croissant)
+    const sortedScores = scores.sort((a, b) => new Date(a.date) - new Date(b.date));
+  
+    // Retourne le score le plus récent (dernier élément du tableau trié)
+    return sortedScores[sortedScores.length - 1];
   }
+  
 }

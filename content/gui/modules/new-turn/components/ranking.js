@@ -33,6 +33,7 @@ function showPlayerDetails(playerName, playerScores) {
 }
 
 export function showRanking(bestScoreRanking) {
+
   console.log('best score in component : ');
   console.log(bestScoreRanking);
   const rankingDiv = document.createElement('div');
