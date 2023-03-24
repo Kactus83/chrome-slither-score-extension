@@ -74,6 +74,8 @@ const handleRequest = async (request, tabId) => {
 
       case 'GAME_OVER':
         const playerScore = request.playerScore;
+        console.log("last core received : ");
+        console.log(request.playerScore);
         await addSessionScore(activePlayerName, playerScore, new Date());
         localDatas = await loadLocalDatas();
         return { displayType: 'GAME_OVER', datas: { playerScore } };
@@ -111,6 +113,8 @@ const handleRequest = async (request, tabId) => {
         
       case 'GET_LAST_SCORE':
         const lastScore = sessionStatsService.getLastScore();
+        console.log("last core response : ");
+        console.log(lastScore);
         return { displayType: 'NONE', datas: { lastScore } };
 
       

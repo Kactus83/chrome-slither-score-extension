@@ -12,6 +12,8 @@ async function sendRequest(request) {
   });
 }
 
+// PAGE EVENTS & ROUTING REQUEST
+
 export function sendPageVisited() {
   return sendRequest({ type: 'PAGE_VISITED' });
 }
@@ -20,9 +22,15 @@ export function sendPageLoaded() {
   return sendRequest({ type: 'PAGE_LOADED' });
 }
 
+export function sendLaunchAddPlayerToDatas(playerName) {
+  return sendRequest({ type: 'LAUNCH_ADD_PLAYER_TO_DATAS', playerName });
+}
+
 export function sendLaunchInitGameSession() {
   return sendRequest({ type: 'LAUNCH_INIT_GAME_SESSION' });
 }
+
+// USER ACTION REQUEST
 
 export function sendInitGameSession(playersNames) {
   return sendRequest({ type: 'INIT_GAME_SESSION', playersNames });
@@ -36,6 +44,16 @@ export function sendEndGameSession() {
   return sendRequest({ type: 'END_GAME_SESSION' });
 }
 
+export function sendSelectedPlayer(playerName) {
+  return sendRequest({ type: 'SELECT_ACTIVE_PLAYER', playerName });
+}
+
+export function sendAddPlayerToDatas(playerName) {
+  return sendRequest({ type: 'ADD_PLAYER_TO_DATAS', playerName });
+}
+
+// GAME SATES REQUESTS
+
 export function sendGameStatusWaitTurn() {
   return sendRequest({ type: 'WAIT_NEXT_TURN' });
 }
@@ -48,17 +66,7 @@ export function sendGameStatusGameOver(playerScore) {
   return sendRequest({ type: 'GAME_OVER', playerScore });
 }
 
-export function sendSelectedPlayer(playerName) {
-  return sendRequest({ type: 'SELECT_ACTIVE_PLAYER', playerName });
-}
-
-export function sendAddPlayerToDatas(playerName) {
-  return sendRequest({ type: 'ADD_PLAYER_TO_DATAS', playerName });
-}
-
-export function sendLaunchAddPlayerToDatas(playerName) {
-  return sendRequest({ type: 'LAUNCH_ADD_PLAYER_TO_DATAS', playerName });
-}
+// GET DATAS request 
 
 export function sendGetPlayerNameAvailability(playerName) {
   return sendRequest({ type: 'GET_PLAYER_NAME_AVAILABILITY', playerName });

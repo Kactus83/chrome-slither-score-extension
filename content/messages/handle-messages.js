@@ -13,6 +13,8 @@ export async function onBackgroundMessage(response, callback) {
     );
   } else {
     if (response.displayType === 'NONE') {
+      console.log("datas received : ");
+      console.log(reponse.datas);
       callback(response.datas); // Retourner les données sans émettre d'événement
     } else {
       // Gérer les messages de type 'resume session' et 'init session'

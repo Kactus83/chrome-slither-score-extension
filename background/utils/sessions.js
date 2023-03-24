@@ -30,7 +30,7 @@ export async function endSession() {
   if (localDatas.actual_session) {
     localDatas.archives.push(localDatas.actual_session);
     localDatas.actual_session = null;
-    saveLocalDatas(localDatas);
+    await saveLocalDatas(localDatas);
   }
 }
 
@@ -39,7 +39,7 @@ export async function updateSession(updatedSession) {
 
   if (localDatas.actual_session) {
     localDatas.actual_session = updatedSession;
-    saveLocalDatas(localDatas);
+    await saveLocalDatas(localDatas);
   }
 }
 
@@ -49,7 +49,9 @@ export async function addSessionScore(playerName, value, date) {
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);
-    updateSession(localDatas.actual_session);
+    await updateSession(localDatas.actual_session);
+    console.log("score added : ");
+    console.log(localDatas.actual_session);
   }
 }
 

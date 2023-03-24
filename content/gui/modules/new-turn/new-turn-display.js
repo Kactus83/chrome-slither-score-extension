@@ -4,14 +4,17 @@ function observeLoginDiv(playerSelect) {
   const loginDiv = document.querySelector('#login');
   if (!loginDiv) return;
 
+  let inProgressTriggered = false;
+
   const observer = new MutationObserver(mutations => {
     mutations.forEach(mutation => {
-      if (mutation.type === 'attributes' && mutation.attributeName === 'style' && loginDiv.style.display === 'none') {
+      if (!inProgressTriggered && mutation.type === 'attributes' && mutation.attributeName === 'style' && loginDiv.style.display === 'none') {
         const selectedPlayerName = playerSelect.value;
         observer.disconnect();
         removeNewTurnDisplay()
         const event = new CustomEvent(eventNames.GameEvents.IN_PROGRESS, { detail: selectedPlayerName });
         document.dispatchEvent(event);
+        inProgressTriggered = true;
       }
     });
   });
@@ -48,6 +51,8 @@ function appendStylesheet() {
 }
 
 export function createNewTurnDisplay(player_names) {
+
+  console.log("try to create new turn component");
 
   const existingNewTurnDiv = document.querySelector('.new-turn-display');
   if (existingNewTurnDiv) {
