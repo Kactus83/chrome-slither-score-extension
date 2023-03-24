@@ -29,8 +29,6 @@ export async function createEndTurnDisplay() {
 
   // Récupérer le dernier score
   const response = await sendGetLastScore();
-  console.log("----");
-  console.log(response);
 
   const playerScore = document.createElement('div');
   playerScore.textContent = `Joueur: ${response.datas.lastScore.playerName}, Score: ${response.datas.lastScore.value}`;
