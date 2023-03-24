@@ -2,26 +2,26 @@ import { showGameStats, hideGameStats } from "./components/game.js";
 import { showPlayersStats, hidePlayersStats } from "./components/players.js";
 import { showSessionsStats, hideSessionsStats } from "./components/sessions.js";
 
-export function createStatsButton() {
+export async function createStatsButton() {
   const button = document.createElement('button');
   button.textContent = 'Stats';
   button.classList.add('stats-button');
   button.classList.add('main-stats-button');
 
-  button.addEventListener('click', () => {
-    showStatsOverlay();
+  button.addEventListener('click', async () => {
+    await showStatsOverlay();
     button.style.display = 'none';
   });
 
   return button;
 }
 
-export function showStatsOverlay() {
-  const overlay = createOverlay();
+export async function showStatsOverlay() {
+  const overlay = await createOverlay();
   document.body.appendChild(overlay);
 }
 
-function createOverlay() {
+async function createOverlay() {
   const overlay = document.createElement('div');
   overlay.classList.add('stats-overlay');
 
@@ -41,9 +41,9 @@ function createOverlay() {
     showPlayersStats();
   });
 
-  const sessionsButton = createButton('Sessions Stats', () => {
+  const sessionsButton = createButton('Sessions Stats', async () => {
     hideButtons();
-    showSessionsStats();
+    await showSessionsStats();
   });
 
   const backButton = createButton('Back', () => {
@@ -94,7 +94,7 @@ function createCloseButton(overlay) {
   return closeButton;
 }
 
-export function insertStatsButton() {
+export async function insertStatsButton() {
   
 
   // Ajouter ces lignes pour charger le CSS
@@ -110,7 +110,7 @@ export function insertStatsButton() {
 
   const statsButton = document.querySelector(".stats-button");
   if (!statsButton) {
-    const newStatsButton = createStatsButton();
+    const newStatsButton = await createStatsButton();
     if (existingIframe && existingIframe.parentElement) {
       existingIframe.parentElement.insertBefore(newStatsButton, existingIframe);
     } else {

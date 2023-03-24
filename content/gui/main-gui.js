@@ -75,8 +75,8 @@ export async function hideEndTurnScreen() {
 }
 
 export async function showNewTurnScreen(session) {
-  insertStatsButton();
-  createNewTurnDisplay();
+  await insertStatsButton();
+  await createNewTurnDisplay();
 }
 
 export async function hideNewTurnScreen() {

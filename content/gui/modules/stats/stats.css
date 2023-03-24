@@ -28,6 +28,8 @@
   cursor: pointer;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   transition: all 0.3s ease;
+  background-color: #3498db;
+  color: #fff;
 }
 
 .main-stats-button {
@@ -42,7 +44,6 @@
   box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
 }
 
-
 .game-button, .players-button, .sessions-button, .back-button {
   background-color: #3498db;
   color: #fff;
@@ -52,6 +53,25 @@
   display: none;
 }
 
+.sessions-stats-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
 
-  
-  
+table {
+  border-collapse: collapse;
+  font-size: 16px;
+}
+
+th, td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: center;
+}
+
+th {
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
