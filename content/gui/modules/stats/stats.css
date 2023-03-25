@@ -10,22 +10,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-}
-
-.sessions-stats-container {
-  position: relative;
-  z-index: 10000;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  margin-top: 20px;
-}
-
-.buttons-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  padding-top: 60px;
 }
 
 .stats-button {
@@ -48,20 +33,33 @@
   z-index: 9999999;
 }
 
-.stats-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+.buttons-container {
+  position: absolute;
+  top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
-.game-button, .players-button, .sessions-button, .back-button {
-  background-color: #3498db;
+.close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  font-size: 24px;
   color: #fff;
+  cursor: pointer;
+  z-index: 10001;
 }
 
-.back-button {
-  display: none;
+.sessions-stats-container {
+  position: relative;
+  z-index: 10000;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
 }
-
 
 table {
   border-collapse: collapse;
@@ -76,14 +74,21 @@ table {
 
 th, td {
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 12px;
   text-align: center;
 }
 
 th {
   background-color: #f2f2f2;
   font-weight: bold;
+  text-transform: uppercase;
+  font-size: 14px;
 }
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
 
 tr:nth-child(2) {
   background-color: #9099ff;
