@@ -1,6 +1,7 @@
 import { SessionStatsService } from '../../utils/session-stats.js';
 import { getActivePlayer } from '../../utils/sessions.js';
 import { preCheckPlayerNameAvailability } from '../../utils/player-service.js';
+import { loadLocalDatas } from '../../utils/local-datas.js';
 
 export async function handleGetDatas(request) {
   const sessionStatsService = new SessionStatsService();

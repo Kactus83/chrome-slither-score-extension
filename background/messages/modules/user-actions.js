@@ -4,6 +4,7 @@ import {
     setActivePlayer,
   } from '../../utils/sessions.js';
   import { registerPlayer } from '../../utils/player-service.js';
+  import { loadLocalDatas } from '../../utils/local-datas.js';
   
   export async function handleUserActions(request) {
     const localDatas = await loadLocalDatas();

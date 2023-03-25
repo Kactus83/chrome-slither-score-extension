@@ -1,4 +1,4 @@
-import { addSessionScore } from '../../utils/sessions.js';
+import { addSessionScore, setActivePlayer } from '../../utils/sessions.js';
 
 export async function handleGameStates(request) {
   switch (request.type) {
@@ -6,6 +6,7 @@ export async function handleGameStates(request) {
       return { displayType: 'WAIT_NEXT_TURN' };
 
     case 'IN_PROGRESS':
+      await setActivePlayer(request.playerName);
       return { displayType: 'IN_PROGRESS' };
 
     case 'GAME_OVER':
