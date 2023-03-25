@@ -1,6 +1,8 @@
 import eventNames from '../../../events/eventNames.js';
 import { sendGetLastScore } from '../../../messages/send-messages.js';
 
+let eventTriggered = false;
+
 function hideLastScore() {
   const lastScore = document.querySelector('#lastscore');
   if (lastScore) {
@@ -35,11 +37,14 @@ export async function createEndTurnDisplay() {
   playerScore.classList.add('player-score');
 
   overlay.appendChild(playerScore);
-
+  
   const handleClick = () => {
-    removeEndTurnDisplay();
-    console.log("****************** EVENT END TURN *******************");
-    document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
+    if (!eventTriggered) { // Vérifier si l'événement n'a pas déjà été déclenché
+      eventTriggered = true; // Marquer l'événement comme déclenché
+      removeEndTurnDisplay(overlay, handleClick); // Passer l'overlay et handleClick en arguments
+      console.log("****************** EVENT END TURN *******************");
+      document.dispatchEvent(new CustomEvent(eventNames.GameEvents.WAIT_NEXT_TURN));
+    }
   };
 
   overlay.addEventListener('click', handleClick);
@@ -49,9 +54,9 @@ export async function createEndTurnDisplay() {
   return overlay;
 }
 
-export function removeEndTurnDisplay() {
-  const overlay = document.querySelector('.end-turn-display');
+export function removeEndTurnDisplay(overlay, handleClick) {
   if (overlay) {
+    overlay.removeEventListener('click', handleClick); // Supprimer l'écouteur d'événement
     overlay.remove();
   }
 }
