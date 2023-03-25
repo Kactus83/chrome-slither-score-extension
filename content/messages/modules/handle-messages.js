@@ -76,26 +76,17 @@ export async function onBackgroundMessage(response, callback) {
 
         case 'WAIT_NEXT_TURN':
           document.dispatchEvent(
-            new CustomEvent(eventNames.DisplayEvents.IN_GAME_WAITING, {
-              detail: response.datas,
-            })
-          );
+            new CustomEvent(eventNames.DisplayEvents.IN_GAME_WAITING));
           break;
 
         case 'IN_PROGRESS':
           document.dispatchEvent(
-            new CustomEvent(eventNames.DisplayEvents.IN_GAME_PROGRESSING, {
-              detail: response.datas,
-            })
-          );
+            new CustomEvent(eventNames.DisplayEvents.IN_GAME_PROGRESSING));
           break;
 
         case 'GAME_OVER':
           document.dispatchEvent(
-            new CustomEvent(eventNames.DisplayEvents.IN_GAME_FINISHED, {
-              detail: response.datas,
-            })
-          );
+            new CustomEvent(eventNames.DisplayEvents.IN_GAME_FINISHED));
           break;
 
         case 'ERROR':

@@ -27,7 +27,6 @@ export async function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS:
       hideLoadingScreen();
-      console.log(event);
       if(event.detail != "first-add") {
         const playerAdded = event.detail;
         showRegisterPlayerOverlay(playerAdded);
@@ -52,7 +51,7 @@ export async function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.IN_GAME_WAITING:
       hideLoadingScreen();
-      await showNewTurnScreen(event.detail);
+      await showNewTurnScreen();
       break;
 
     case eventNames.DisplayEvents.IN_GAME_PROGRESSING:

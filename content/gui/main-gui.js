@@ -64,7 +64,7 @@ export async function hideStartSessionForm() {
   removeStartSessionOverlay();
 }
 
-export async function showEndTurnScreen(score) {
+export async function showEndTurnScreen() {
   removeStatsButton();
   const display = await createEndTurnDisplay();
   document.body.appendChild(display);
@@ -74,7 +74,7 @@ export async function hideEndTurnScreen() {
   removeEndTurnDisplay();
 }
 
-export async function showNewTurnScreen(session) {
+export async function showNewTurnScreen() {
   await insertStatsButton();
   await createNewTurnDisplay();
 }

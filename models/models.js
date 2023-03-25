@@ -8,6 +8,7 @@ export class LocalDatas {
 // La classe Session représente une session de jeu, avec une liste de joueurs et de scores.
 export class Session {
   player_names = []; // Liste des noms des joueurs dans cette session
+  active_player = null; // Joueur actif 
   scores = []; // Liste des scores dans cette session
   constructor(id, date) {
     this.id = id; // Identifiant unique de la session

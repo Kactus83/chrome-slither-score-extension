@@ -43,15 +43,52 @@ export async function updateSession(updatedSession) {
   }
 }
 
-export async function addSessionScore(playerName, value, date) {
+export async function addSessionScore(value, date) {
   const localDatas = await loadLocalDatas();
-  const newScore = new Score(playerName, value, date);
+  const activePlayerName = localDatas.actual_session.active_player;
+  
+  if (!activePlayerName) {
+    console.error("No active player to add score for.");
+    return;
+  }
+
+  const newScore = new Score(activePlayerName, value, date);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);
     await updateSession(localDatas.actual_session);
     console.log("score added : ");
     console.log(localDatas.actual_session);
+
+    // Reset active player after adding the score
+    await resetActivePlayer();
   }
 }
 
+export async function setActivePlayer(playerName) {
+  const localDatas = await loadLocalDatas();
+
+  if (localDatas.actual_session) {
+    localDatas.actual_session.active_player = playerName;
+    await saveLocalDatas(localDatas);
+  }
+}
+
+async function resetActivePlayer() {
+  const localDatas = await loadLocalDatas();
+
+  if (localDatas.actual_session) {
+    localDatas.actual_session.active_player = null;
+    await saveLocalDatas(localDatas);
+  }
+}
+
+export async function getActivePlayer() {
+  const localDatas = await loadLocalDatas();
+
+  if (localDatas.actual_session) {
+    return localDatas.actual_session.active_player;
+  } else {
+    return null;
+  }
+}
