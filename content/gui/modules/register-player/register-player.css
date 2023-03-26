@@ -20,6 +20,19 @@
   }
 }
 
+@keyframes bounceIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(10%);
+  }
+  100% {
+    transform: translateY(0%);
+  }
+}
 
 .register-player-overlay {
   position: fixed;
@@ -33,15 +46,35 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: #c346e5;
+  color: #ffffff;
   font-size: 60px;
 }
+
+.register-player-overlay h1 {
+  position: fixed;
+  top: 35px;
+  left: 0;
+  right: 0;
+  text-align: center;
+  font-size: 60px;
+  color: #c346e5;
+  margin: 20px 0;
+  padding: 10px;
+  animation: bounceIn 1s ease;
+}
+
+.register-player-overlay h5 {
+  text-align: center;
+  font-size: 25px;
+  color: #e9c4f3;
+  margin: 0;
+}
+
 
 .register-player-overlay form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 50px;
 }
 
 .register-player-overlay input[type="text"] {
@@ -53,6 +86,7 @@
   background-color: #2e053e;
   color: #dfd1e7;
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .register-player-overlay input[type="text"]:focus {
@@ -62,7 +96,7 @@
 .register-player-overlay button {
   font-size: 20px;
   padding: 10px 20px;
-  margin-top: 65px;
+  margin-top: 30px;
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -78,6 +112,8 @@
 .register-player-overlay .register-button {
   background-color: #2ecc71;
   color: #fff;
+  transition: all 0.5s ease;
+  display: block;
 }
 
 .register-player-overlay .back-button {

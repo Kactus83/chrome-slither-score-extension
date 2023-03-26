@@ -57,8 +57,11 @@ export class RegisterPlayerComponent {
     this.overlay = document.createElement('div');
     this.overlay.id = 'register-player-overlay';
     this.overlay.classList.add('register-player-overlay');
-    this.overlay.innerText = 'Register Player';
-  }
+  
+    const title = document.createElement('h1');
+    title.innerText = 'Register Player';
+    this.overlay.appendChild(title);
+  }  
 
   createForm() {
     this.form = document.createElement('form');
@@ -66,6 +69,11 @@ export class RegisterPlayerComponent {
     this.form.style.flexDirection = 'column';
     this.form.style.alignItems = 'center';
     this.form.style.marginTop = '20px';
+    
+
+    const text = document.createElement('h5');
+    text.innerText = 'Choose your name';
+    this.form.appendChild(text);
   }
 
   createPlayerNameInput() {
@@ -73,7 +81,7 @@ export class RegisterPlayerComponent {
     this.playerNameInput.style.fontSize = '20px';
     this.playerNameInput.style.marginBottom = '10px';
     this.playerNameInput.setAttribute('type', 'text');
-    this.playerNameInput.setAttribute('placeholder', 'Player name');
+    this.playerNameInput.setAttribute('placeholder', 'player name');
     this.form.appendChild(this.playerNameInput);
 
     this.playerNameInput.addEventListener('input', () => {
@@ -167,6 +175,7 @@ export class RegisterPlayerComponent {
       this.errorMessage.innerText = 'Username is already taken.';
       this.registerButton.disabled = true;
       this.registerButton.classList.add('disabled-button');
+      this.registerButton.style.display = 'none';
       this.playerNameInput.classList.add('invalid-input');
       this.errorMessage.classList.add('active');
       this.errorMessage.style.display = 'block';
@@ -175,6 +184,7 @@ export class RegisterPlayerComponent {
         animateElement(this.errorMessage, 'fadeOut 0.5s', 500, () => {
           this.errorMessage.style.display = 'none';
           this.errorMessage.classList.remove('active');
+          this.registerButton.style.display = 'block';
         });
       }, 2000);
     }
