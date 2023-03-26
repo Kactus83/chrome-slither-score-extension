@@ -1,63 +1,91 @@
-export function createStartSessionOverlay(players) {
+import eventNames from '../../../events/eventNames.js';
 
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/modules/start-session/start-session-overlay.css');
-  document.head.appendChild(link);
+export class StartSessionComponent {
+  constructor(players) {
+    this.players = players;
+    this.overlay = null;
+    this.playerContainer = null;
+    this.addUserButton = null;
+    this.startButton = null;
+  }
 
-  const overlay = document.createElement('div');
-  overlay.classList.add('start-session-overlay');
+  init() {
+    this.appendStylesheet();
+    this.createOverlay();
+    this.createPlayerContainer();
+    this.createAddUserButton();
+    this.createStartButton();
+  }
 
-  const playerContainer = document.createElement('div');
-  playerContainer.style.display = 'flex';
-  playerContainer.style.flexWrap = 'wrap';
-  playerContainer.style.marginBottom = '15px';
+  insert() {
+    this.overlay.appendChild(this.playerContainer);
+    this.overlay.appendChild(this.startButton);
+    this.overlay.appendChild(this.addUserButton);
+    document.body.appendChild(this.overlay);
+  }
 
-  players.forEach(player => {
-    const playerDiv = document.createElement('div');
-    playerDiv.classList.add('player-select');
-    playerDiv.setAttribute('data-player-name', player.name);
-    playerDiv.textContent = player.name;
+  remove() {
+    if (this.overlay) {
+      this.overlay.parentNode.removeChild(this.overlay);
+      this.overlay = null;
+    }
+  }
 
-    playerDiv.addEventListener('click', () => {
-      playerDiv.classList.toggle('selected-player');
+  appendStylesheet() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = chrome.runtime.getURL('content/gui/modules/start-session/start-session-overlay.css');
+    document.head.appendChild(link);
+  }
+
+  createOverlay() {
+    this.overlay = document.createElement('div');
+    this.overlay.classList.add('start-session-overlay');
+  }
+
+  createPlayerContainer() {
+    this.playerContainer = document.createElement('div');
+    this.playerContainer.style.display = 'flex';
+    this.playerContainer.style.flexWrap = 'wrap';
+    this.playerContainer.style.marginBottom = '15px';
+
+    this.players.forEach(player => {
+      const playerDiv = document.createElement('div');
+      playerDiv.classList.add('player-select');
+      playerDiv.setAttribute('data-player-name', player.name);
+      playerDiv.textContent = player.name;
+
+      playerDiv.addEventListener('click', () => {
+        playerDiv.classList.toggle('selected-player');
+      });
+
+      this.playerContainer.appendChild(playerDiv);
     });
+  }
 
-    playerContainer.appendChild(playerDiv);
-  });
+  createAddUserButton() {
+    this.addUserButton = document.createElement('button');
+    this.addUserButton.textContent = 'Add User';
+    this.addUserButton.classList.add('add-user-button');
 
-  const addUserButton = document.createElement('button');
-  addUserButton.textContent = 'Add User';
-  addUserButton.classList.add('add-user-button');
+    this.addUserButton.addEventListener('click', () => {
+      const event = new CustomEvent(eventNames.UserEvents.LAUNCH_ADD_USER_TO_DATAS);
+      this.remove();
+      document.dispatchEvent(event);
+    });
+  }
 
-  addUserButton.addEventListener('click', () => {
-    const event = new CustomEvent(eventNames.UserEvents.LAUNCH_ADD_USER_TO_DATAS);
-    removeStartSessionOverlay()
-    document.dispatchEvent(event);
-  });
+  createStartButton() {
+    this.startButton = document.createElement('button');
+    this.startButton.textContent = 'Start Session';
+    this.startButton.classList.add('start-session-button');
 
-  const startButton = document.createElement('button');
-  startButton.textContent = 'Start Session';
-  startButton.classList.add('start-session-button');
-
-  startButton.addEventListener('click', () => {
-    const selectedPlayerDivs = playerContainer.querySelectorAll('.selected-player');
-    const selectedPlayers = Array.from(selectedPlayerDivs).map(div => div.getAttribute('data-player-name'));
-    const event = new CustomEvent(eventNames.UserEvents.INIT_SESSION, { detail: selectedPlayers });
-    removeStartSessionOverlay()
-    document.dispatchEvent(event);
-  });
-
-  overlay.appendChild(playerContainer);
-  overlay.appendChild(startButton);
-  overlay.appendChild(addUserButton);
-
-  return overlay;
-}
-
-export function removeStartSessionOverlay() {
-  const overlay = document.querySelector('.start-session-overlay');
-  if (overlay) {
-    overlay.parentNode.removeChild(overlay);
+    this.startButton.addEventListener('click', () => {
+      const selectedPlayerDivs = this.playerContainer.querySelectorAll('.selected-player');
+      const selectedPlayers = Array.from(selectedPlayerDivs).map(div => div.getAttribute('data-player-name'));
+      const event = new CustomEvent(eventNames.UserEvents.INIT_SESSION, { detail: selectedPlayers });
+      this.remove();
+      document.dispatchEvent(event);
+    });
   }
 }

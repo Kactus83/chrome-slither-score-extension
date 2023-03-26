@@ -1,79 +1,85 @@
 import {
-  sendGetActualSession
+  sendGetBestScoreRanking
 } from "../../../../messages/send-messages.js";
 
-function showPlayerDetails(playerName, playerScores) {
-  const overlay = document.createElement('div');
-  overlay.id = 'player-details-overlay';
-  overlay.classList.add('player-details-overlay');
+export class RankingComponent {
+  constructor() {
+    this.rankingDiv = null;
+    this.playerClickHandler = null;
+  }
 
-  let playerDetailsHTML = `
-    <div class="player-details">
-      <h2>${playerName}</h2>
-      <ul class="player-scores">
-  `;
+  async init() {
+    this.appendStylesheet();
+    const bestScoreRanking = await this.fetchBestScoreRanking();
+    this.rankingDiv = this.createRankingDiv(bestScoreRanking);
+    this.playerClickHandler = this.handlePlayerClick.bind(this);
+    this.addEventListeners();
+  }
 
-  playerScores.forEach((score, index) => {
-    playerDetailsHTML += `<li>${index + 1}. ${score.value} (${score.date})</li>`;
-  });
+  async fetchBestScoreRanking() {
+    const response = await sendGetBestScoreRanking();
+    return response.datas.bestScoreRanking;
+  }
 
-  playerDetailsHTML += `
-      </ul>
-      <button id="close-details">Fermer</button>
-    </div>
-  `;
+  createRankingDiv(bestScoreRanking) {
+    const rankingDiv = document.createElement('div');
+    rankingDiv.id = 'ranking-component';
+    rankingDiv.classList.add('ranking');
 
-  overlay.innerHTML = playerDetailsHTML;
-  document.body.appendChild(overlay);
-
-  const closeDetailsButton = document.getElementById('close-details');
-  closeDetailsButton.addEventListener('click', () => {
-    overlay.remove();
-  });
-}
-
-export function showRanking(bestScoreRanking) {
-
-  console.log('best score in component : ');
-  console.log(bestScoreRanking);
-  const rankingDiv = document.createElement('div');
-  rankingDiv.id = 'ranking-component';
-  rankingDiv.classList.add('ranking');
-
-  let rankingHTML = `<div class="ranking-title">Classement</div>`;
-  bestScoreRanking.forEach((player, index) => {
-    rankingHTML += `<div class="ranking-player" data-rank="${index + 1}">
-                      <span class="ranking-position">${index + 1}</span>
-                      <span class="ranking-name">${player.playerName}</span>
-                      <span class="ranking-score">${player.bestScore}</span>
-                    </div>`;
-  });
-
-  rankingDiv.innerHTML = rankingHTML;
-  const logoDiv = document.getElementById('logo');
-  logoDiv.insertAdjacentElement('afterend', rankingDiv);
-
-  const rankingPlayers = document.querySelectorAll('.ranking-player');
-  rankingPlayers.forEach((playerElement) => {
-    playerElement.addEventListener('click', async () => {
-      const playerName = playerElement.querySelector('.ranking-name').textContent;
-      const response = await sendGetActualSession();
-      const actualSession = response.datas.actual_session;
-      const playerScores = actualSession.scores.filter(score => score.playerName === playerName);
-      showPlayerDetails(playerName, playerScores);
+    let rankingHTML = `<div class="ranking-title">Classement</div>`;
+    bestScoreRanking.forEach((player, index) => {
+      rankingHTML += `<div class="ranking-player" data-rank="${index + 1}">
+                        <span class="ranking-position">${index + 1}</span>
+                        <span class="ranking-name">${player.playerName}</span>
+                        <span class="ranking-score">${player.bestScore}</span>
+                      </div>`;
     });
-  });
-}
 
-export function removeRanking() {
-  const rankingDiv = document.getElementById('ranking-component');
-  const overlay = document.getElementById('player-details-overlay');
-  
-  if (rankingDiv) {
-    rankingDiv.remove();
+    rankingDiv.innerHTML = rankingHTML;
+    return rankingDiv;
   }
 
-  if (overlay) {
-    overlay.remove();
+  handlePlayerClick(event) {
+    // Ici, on peut ajouter du code pour gérer le clic sur un joueur si nécessaire
+  }
+
+  addEventListeners() {
+    const rankingPlayers = this.rankingDiv.querySelectorAll('.ranking-player');
+    rankingPlayers.forEach((playerElement) => {
+      playerElement.addEventListener('click', this.playerClickHandler);
+    });
+  }
+
+  removeEventListeners() {
+    const rankingPlayers = this.rankingDiv.querySelectorAll('.ranking-player');
+    rankingPlayers.forEach((playerElement) => {
+      playerElement.removeEventListener('click', this.playerClickHandler);
+    });
+  }
+
+  appendStylesheet() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = chrome.runtime.getURL('content/gui/modules/new-turn/components/ranking.css');
+    document.head.appendChild(link);
+  }
+
+  insert() {
+    const logoDiv = document.getElementById('logo');
+    logoDiv.insertAdjacentElement('afterend', this.rankingDiv);
+  }
+
+  remove() {
+    this.removeRankingDiv();
+    this.removeEventListeners();
+  }
+
+  removeRankingDiv() {
+    if (this.rankingDiv) {
+      this.rankingDiv.remove();
+      this.rankingDiv = null;
+    }
   }
 }
+
+export default RankingComponent;

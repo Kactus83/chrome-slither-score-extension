@@ -17,7 +17,12 @@ const UserEvents = {
   LAUNCH_INIT_SESSION: 'user:launchInitSession',
   INIT_SESSION: 'user:initSession',
   SELECT_ACTIVE_PLAYER: 'user:selectActivePlayer',
+  INIT_END_SESSION: 'user:initEndSession',
+  INIT_IN_PROGRESS: 'user:initInProgress',
   END_SESSION: 'user:endSession',
+  INIT_STATS_OVERLAY: 'user:initStatsOverlay',
+  CLOSE_STATS_OVERLAY: 'user:closeStatsOverlay',
+  SET_STATS_OVERLAY: 'user:setStatsOverlay',
 };
 
 const PageEvents = {

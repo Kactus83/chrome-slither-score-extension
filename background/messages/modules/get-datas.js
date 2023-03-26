@@ -28,9 +28,9 @@ export async function handleGetDatas(request) {
       const sessionAverageScore = await sessionStatsService.getSessionAverageScore();
       return { displayType: 'NONE', datas: { sessionAverageScore } };
 
-    case 'GET_NEXT_PLAYER':
-      const nextPlayer = await sessionStatsService.getNextPlayer();
-      return { displayType: 'NONE', datas: { nextPlayer } };
+    case 'GET_NEXT_PLAYERS':
+      const nextPlayers = await sessionStatsService.getNextPlayers();
+      return { displayType: 'NONE', datas: { nextPlayers } };
 
     case 'GET_LAST_SCORE':
       const lastScore = await sessionStatsService.getLastScore();

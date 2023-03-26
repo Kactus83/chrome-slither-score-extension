@@ -22,8 +22,8 @@ export function sendGetSessionAverageScore() {
     return sendRequest({ type: 'GET_SESSION_AVERAGE_SCORE' });
 }
 
-export function sendGetNextPlayer() {
-    return sendRequest({ type: 'GET_NEXT_PLAYER' });
+export function sendGetNextPlayers() {
+    return sendRequest({ type: 'GET_NEXT_PLAYERS' });
 }
 
 export function sendGetBestScoreRanking() {

@@ -1,47 +1,99 @@
 import eventNames from '../../../../events/eventNames.js';
+import {
+  sendGetNextPlayers
+} from "../../../../messages/send-messages.js";
 
-export function createPlayerSelect(player_names) {
-
-  const playerSelectContainer = document.createElement('div');
-  playerSelectContainer.classList.add('player-select-container');
-
-  const playerSelectLabel = document.createElement('span');
-  playerSelectLabel.textContent = 'Joueur suivant : ';
-  playerSelectLabel.classList.add('player-select-label'); // Ajouter cette ligne
-  playerSelectContainer.appendChild(playerSelectLabel);
-
-  const playerSelect = document.createElement('select');
-  playerSelect.classList.add('player-select');
-
-  player_names.forEach(playerName => {
-    const option = document.createElement('option');
-    option.value = playerName;
-    option.textContent = playerName;
-    playerSelect.appendChild(option);
-  });
-
-  playerSelect.addEventListener('change', () => {
-    const selectedPlayerName = playerSelect.value;
-    const event = new CustomEvent(eventNames.UserEvents.SELECT_ACTIVE_PLAYER, { detail: selectedPlayerName });
-    document.dispatchEvent(event);
-  });
-
-  playerSelectContainer.appendChild(playerSelect);
-
-  return playerSelectContainer;
-}
-
-export function getPlayerSelectValue() {
-  const playerSelect = document.querySelector('.player-select');
-  if (playerSelect) {
-    return playerSelect.value;
+export class PlayerSelectComponent {
+  constructor() {
+    this.playerSelectContainer = null;
+    this.playerSelectHandler = null;
   }
-  return null;
-}
 
-export function removePlayerSelect() {
-  const playerSelectContainer = document.querySelector('.player-select-container');
-  if (playerSelectContainer) {
-    playerSelectContainer.remove();
+  async init() {
+    this.appendStylesheet();
+    const playerNames = await this.fetchNextPlayers();
+    this.playerSelectContainer = this.createPlayerSelectContainer(playerNames);
+    this.playerSelectHandler = this.handlePlayerSelectChange.bind(this);
+    this.addEventListeners();
+  }
+
+  async fetchNextPlayers() {
+    const response = await sendGetNextPlayers();
+    return response;
+  }
+
+  createPlayerSelectContainer(playerNames) {
+    const playerSelectContainer = document.createElement('div');
+    playerSelectContainer.classList.add('player-select-container');
+
+    const playerSelectLabel = document.createElement('span');
+    playerSelectLabel.textContent = 'Joueur suivant : ';
+    playerSelectLabel.classList.add('player-select-label');
+    playerSelectContainer.appendChild(playerSelectLabel);
+
+    const playerSelect = document.createElement('select');
+    playerSelect.classList.add('player-select');
+
+    playerNames.forEach(playerName => {
+      const option = document.createElement('option');
+      option.value = playerName;
+      option.textContent = playerName;
+      playerSelect.appendChild(option);
+    });
+
+    playerSelectContainer.appendChild(playerSelect);
+
+    return playerSelectContainer;
+  }
+
+  handlePlayerSelectChange(event) {
+    const selectedPlayerName = event.target.value;
+    const customEvent = new CustomEvent(eventNames.UserEvents.SELECT_ACTIVE_PLAYER, { detail: selectedPlayerName });
+    document.dispatchEvent(customEvent);
+  }
+
+  addEventListeners() {
+    const playerSelect = this.playerSelectContainer.querySelector('.player-select');
+    playerSelect.addEventListener('change', this.playerSelectHandler);
+  }
+
+  removeEventListeners() {
+    const playerSelect = this.playerSelectContainer.querySelector('.player-select');
+    playerSelect.removeEventListener('change', this.playerSelectHandler);
+  }
+
+  appendStylesheet() {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = chrome.runtime.getURL('content/gui/modules/new-turn/components/player-select.css');
+    document.head.appendChild(link);
+  }
+
+  insert() {
+    const tipsDiv = document.getElementById("tips");
+    tipsDiv.style.display = 'none'; 
+    tipsDiv.parentElement.insertBefore(this.playerSelectContainer, tipsDiv);
+  }
+
+  remove() {
+    this.removeEventListeners();
+    this.removePlayerSelectContainer();
+  }
+
+  removePlayerSelectContainer() {
+    if (this.playerSelectContainer) {
+      this.playerSelectContainer.remove();
+      this.playerSelectContainer = null;
+    }
+  }
+
+  getPlayerSelectValue() {
+    const playerSelect = this.playerSelectContainer.querySelector('.player-select');
+    if (playerSelect) {
+      return playerSelect.value;
+    }
+    return null;
   }
 }
+
+export default PlayerSelectComponent;

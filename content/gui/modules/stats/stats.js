@@ -1,135 +1,95 @@
-import { showGameStats, hideGameStats } from "./components/game.js";
-import { showPlayersStats, hidePlayersStats } from "./components/players.js";
-import { showSessionsStats, hideSessionsStats } from "./components/sessions.js";
+import { StatsButton, CloseButton, ButtonsContainer, BackButton } from './main-components.js';
+import { GameStatsComponent } from './game.js';
+import { PlayersStatsComponent } from './players.js';
+import { SessionsStatsComponent } from './sessions.js';
 
-export async function createStatsButton() {
-  const button = document.createElement('button');
-  button.textContent = 'Stats';
-  button.classList.add('stats-button');
-  button.classList.add('main-stats-button');
+export class Stats {
+  constructor() {
+    this.overlay = document.createElement('div');
+    this.overlay.classList.add('stats-overlay');
+    this.overlay.style.display = 'none';
 
-  button.addEventListener('click', async () => {
-    await showStatsOverlay();
-    button.style.display = 'none';
-  });
+    this.statsButton = new StatsButton();
+    this.closeButton = new CloseButton();
+    this.buttonsContainer = new ButtonsContainer();
+    this.backButton = new BackButton();
 
-  return button;
-}
+    this.gameStatsComponent = new GameStatsComponent();
+    this.playersStatsComponent = new PlayersStatsComponent();
+    this.sessionsStatsComponent = new SessionsStatsComponent();
 
-export async function showStatsOverlay() {
-  const overlay = await createOverlay();
-  document.body.appendChild(overlay);
-}
+    this.currentComponent = null;
 
-async function createOverlay() {
-  const overlay = document.createElement('div');
-  overlay.classList.add('stats-overlay');
-
-  const closeButton = createCloseButton(overlay);
-  overlay.appendChild(closeButton);
-
-  const buttonsContainer = document.createElement('div');
-  buttonsContainer.classList.add('buttons-container');
-
-  const gameButton = createButton('Game Stats', () => {
-    hideButtons();
-    showGameStats();
-  });
-
-  const playersButton = createButton('Players Stats', () => {
-    hideButtons();
-    showPlayersStats();
-  });
-
-  const sessionsButton = createButton('Sessions Stats', async () => {
-    hideButtons();
-    await showSessionsStats();
-  });
-
-  const backButton = createButton('Back', () => {
-    hideGameStats();
-    hidePlayersStats();
-    hideSessionsStats();
-    showButtons();
-  });
-
-  buttonsContainer.appendChild(gameButton);
-  buttonsContainer.appendChild(playersButton);
-  buttonsContainer.appendChild(sessionsButton);
-  overlay.appendChild(buttonsContainer);
-  overlay.appendChild(backButton);
-
-  function hideButtons() {
-    buttonsContainer.style.display = 'none';
-    backButton.style.display = 'block';
+    document.addEventListener('initStatsOverlay', this.show.bind(this));
+    document.addEventListener('closeStatsOverlay', this.hide.bind(this));
+    document.addEventListener('setStatsOverlay', this.handleButtonClick.bind(this));
+    document.addEventListener('backToSelection', this.handleBackClick.bind(this));
   }
 
-  function showButtons() {
-    buttonsContainer.style.display = 'flex';
-    backButton.style.display = 'none';
+  show() {
+    this.overlay.style.display = 'block';
+    this.statsButton.hide();
+    this.closeButton.render(this.overlay);
+    this.buttonsContainer.render(this.overlay);
   }
 
-  return overlay;
-}
+  hide() {
+    this.overlay.style.display = 'none';
+    this.statsButton.show();
+    this.closeButton.remove();
+    this.buttonsContainer.hide();
+    this.backButton.remove();
 
-function createButton(text, onClick) {
-  const button = document.createElement('button');
-  button.textContent = text;
-  button.classList.add('stats-button');
-  button.addEventListener('click', onClick);
-  return button;
-}
-
-function createCloseButton(overlay) {
-  const closeButton = document.createElement('button');
-  closeButton.textContent = 'X';
-  closeButton.classList.add('close-button');
-  closeButton.addEventListener('click', () => {
-    document.body.removeChild(overlay);
-    const statsButton = document.querySelector('.stats-button');
-    if (statsButton) {
-      statsButton.style.display = 'block';
+    if (this.currentComponent) {
+      this.currentComponent.remove();
+      this.currentComponent = null;
     }
-  });
-  return closeButton;
-}
-
-export async function insertStatsButton() {
-  
-
-  // Ajouter ces lignes pour charger le CSS
-  const link = document.createElement('link');
-  link.rel = 'stylesheet';
-  link.href = chrome.runtime.getURL('content/gui/modules/stats/stats.css');
-  document.head.appendChild(link);
-  
-  const existingIframe = document.querySelector("iframe[src='/social-box/']");
-  if (existingIframe) {
-    existingIframe.style.display = "none";
   }
 
-  const statsButton = document.querySelector(".stats-button");
-  if (!statsButton) {
-    const newStatsButton = await createStatsButton();
-    if (existingIframe && existingIframe.parentElement) {
-      existingIframe.parentElement.insertBefore(newStatsButton, existingIframe);
-    } else {
-      document.body.appendChild(newStatsButton);
+  handleButtonClick(event) {
+    const displayMode = event.detail;
+    this.buttonsContainer.hide();
+    this.backButton.render(this.overlay);
+
+    switch (displayMode) {
+      case 'game':
+        this.currentComponent = this.gameStatsComponent;
+        break;
+      case 'players':
+        this.currentComponent = this.playersStatsComponent;
+        break;
+      case 'sessions':
+        this.currentComponent = this.sessionsStatsComponent;
+        break;
+      default:
+        console.error('Invalid display mode:', displayMode);
+        return;
     }
-  } else {
-    statsButton.style.display = "block";
-  }
-}
 
-
-export function removeStatsButton() {
-  const statsButton = document.querySelector(".stats-button");
-  if (statsButton) {
-    statsButton.style.display = "none";
+    this.currentComponent.show(this.overlay);
   }
 
-  const existingIframe = document.querySelector("iframe[src='/social-box/']");
-  if (existingIframe) {
-    existingIframe.style.display = "block";
+  handleBackClick() {
+    this.currentComponent.remove();
+    this.currentComponent = null;
+    this.backButton.hide();
+    this.buttonsContainer.show();
+  }
+
+  remove() {
+    document.removeEventListener('initStatsOverlay', this.show.bind(this));
+    document.removeEventListener('closeStatsOverlay', this.hide.bind(this));
+    document.removeEventListener('setStatsOverlay', this.handleButtonClick.bind(this));
+    document.removeEventListener('backToSelection', this.handleBackClick.bind(this));
+
+    this.statsButton.remove();
+    this.closeButton.remove();
+    this.buttonsContainer.remove();
+    this.backButton.remove();
+
+    if (this.currentComponent) {
+      this.currentComponent.remove();
+      this.currentComponent = null;
+    }
   }
 }
