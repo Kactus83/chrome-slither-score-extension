@@ -9,26 +9,27 @@ export class NewTurnDisplay {
     this.playerSelect = new PlayerSelectComponent();
     this.ranking = new RankingComponent();
     this.endSession = new EndSessionComponent();
-    this.loginObserver = new LoginDivObserver();
+    this.loginObserver = new LoginDivObserver(this.playerSelect);
   }
 
-  init() {
+  async init() {
     this.appendStylesheet();
 
-    this.ranking.init();
-    this.playerSelect.init();
-    this.endSession.init();
+    await this.ranking.init();
+    await this.playerSelect.init();
+    await this.endSession.init();
 
-    this.loginObserver.observe();
+    await this.loginObserver.observe();
 
     document.addEventListener(eventNames.UserEvents.INIT_END_SESSION, this.handleInitEndSession.bind(this));
     document.addEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.handleInitInProgress.bind(this));
   }
+
   
-  insert() {
-    this.ranking.insert();
-    this.playerSelect.insert();
-    this.endSession.insert();
+  async insert() {
+    await this.ranking.insert();
+    await this.playerSelect.insert();
+    await this.endSession.insert();
   }
   
 

@@ -1,11 +1,10 @@
-import eventNames from '../../../../events/eventNames.js';
-
 export class LoginDivObserver {
-  constructor() {
+  constructor(playerSelect) {
     this.loginDiv = document.querySelector('#login');
     this.inProgressTriggered = false;
     this.eventDispatched = false;
     this.observer = null;
+    this.playerSelect = playerSelect;
   }
 
   observe() {
@@ -34,8 +33,9 @@ export class LoginDivObserver {
   }
 
   triggerInitInProgress() {
-    const selectedPlayerNameElement = document.querySelector('.player-select select');
-    const selectedPlayerName = selectedPlayerNameElement ? selectedPlayerNameElement.value : null;
+    const selectedPlayerName = this.playerSelect.getPlayerSelectValue();
+    console.log("------------  try init in progress   ------------");
+    console.log(selectedPlayerName);
 
     if (!this.eventDispatched && selectedPlayerName) {
       console.log("****************** EVENT INIT IN_PROGRESS *******************");

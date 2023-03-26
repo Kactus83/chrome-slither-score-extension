@@ -71,8 +71,8 @@ export class RankingComponent {
   }
 
   remove() {
-    this.removeRankingDiv();
     this.removeEventListeners();
+    this.removeRankingDiv();
   }
 
   removeRankingDiv() {

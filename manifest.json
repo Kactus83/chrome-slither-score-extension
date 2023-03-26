@@ -39,7 +39,7 @@
             "content/gui/modules/in-play/in-play.css",
             "content/gui/modules/in-play/components/score-counter.js",
             "content/gui/modules/end-turn/end-turn.js",
-            "content/gui/modules/end-turn/end-turny.css",
+            "content/gui/modules/end-turn/end-turn.css",
             "content/gui/modules/register-player/register-player.js",
             "content/gui/modules/register-player/register-player.css",
             "content/gui/modules/error/error-overlay.js",

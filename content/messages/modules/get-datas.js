@@ -3,7 +3,7 @@ import { sendRequest } from './send-request.js';
 // GET DATAS request 
 
 export function sendGetActualSession() {
-    return sendRequest({ type: 'GET_PLAYERS' });
+    return sendRequest({ type: 'GET_ACTUAL_SESSION' });
 }
 
 export function sendGetAllPlayers() {

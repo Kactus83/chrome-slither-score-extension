@@ -20,17 +20,20 @@ export class MainGUI {
   
   async showRegisterPlayerOverlay(mode) {
     this.registerPlayerComponent = new RegisterPlayerComponent(mode);
+    this.hideElementsAndResizeLogo();
     await this.registerPlayerComponent.init();
     await this.registerPlayerComponent.insert();
   }
 
   async showStartSessionForm() {
+    this.hideElementsAndResizeLogo();
     this.startSessionComponent = new StartSessionComponent();
     await this.startSessionComponent.init();
     await this.startSessionComponent.insert();
   }
 
   async showLoadingScreen() {
+    this.hideElementsAndResizeLogo();
     await this.stats.statsButton.remove();
     await this.loadingOverlay.insert();
   }
@@ -40,6 +43,7 @@ export class MainGUI {
   }
 
   async showNewTurnScreen() {
+    this.showElementsAndRestoreLogo();
     await this.stats.statsButton.render();
     this.newTurnDisplay = new NewTurnDisplay();
     await this.newTurnDisplay.init();
@@ -47,12 +51,14 @@ export class MainGUI {
   }
 
   async showEndTurnScreen() {
+    this.hideElementsAndResizeLogo();
     this.endTurnDisplay = new EndTurnDisplay();
     await this.endTurnDisplay.init();
     await this.endTurnDisplay.insert();
   }
 
   async showInPlayScreen() {
+    this.hideElementsAndResizeLogo();
     await this.stats.statsButton.remove();
     this.inPlayComponent = new InPlayComponent();
     await this.inPlayComponent.init();
@@ -60,6 +66,7 @@ export class MainGUI {
   }
 
   async showContinueSessionScreen() {
+    this.hideElementsAndResizeLogo();
     await this.stats.statsButton.remove();
     this.continueSessionComponent = new ContinueSessionComponent();
     await this.continueSessionComponent.init();
@@ -67,9 +74,86 @@ export class MainGUI {
   }
 
   async showErrorScreen() {
-    this.stats.statsButton.remove();
+    this.hideElementsAndResizeLogo();
+    await this.stats.statsButton.remove();
     this.errorOverlay = new ErrorOverlay();
     await this.errorOverlay.init();
     await this.errorOverlay.insert();
+  }
+
+  hideUselessElements() {
+    const elementIds = ['grqh', 'fbh', 'twth', 'social-box'];
+  
+    elementIds.forEach((id) => {
+      const element = document.getElementById(id);
+  
+      if (element) {
+        element.style.display = 'none';
+      } else {
+        console.warn(`Element with id "${id}" not found`);
+      }
+    });
+  }
+  
+  hideElementsAndResizeLogo() {
+    const elementIds = ['nick_holder', 'playh', 'cskh'];
+    const logo = document.getElementById('logo');
+    const overlay = document.querySelector('.continue-session-overlay');
+  
+    elementIds.forEach((id) => {
+      const element = document.getElementById(id);
+  
+      if (element) {
+        element.style.display = 'none';
+      } else {
+        console.warn(`Element with id "${id}" not found`);
+      }
+    });
+  
+    if (logo) {
+      logo.style.position = 'relative';
+      logo.style.zIndex = '1000000'; // Assurez-vous que le zIndex est supérieur à celui de l'overlay
+      logo.style.transform = 'scale(1.5, 1.5)';
+    } else {
+      console.warn('Logo element not found');
+    }
+  
+    if (overlay) {
+      overlay.style.zIndex = '999999';
+    } else {
+      console.warn('Overlay element not found');
+    }
+  }
+  
+  showElementsAndRestoreLogo() {
+    const elementIds = ['nick_holder', 'playh', 'cskh'];
+    const logo = document.getElementById('logo');
+  
+    elementIds.forEach((id) => {
+      const element = document.getElementById(id);
+  
+      if (element) {
+        if (id === 'nick_holder') {
+          element.style.display = 'inline-block';
+        } else if (id === 'playh') {
+          element.style.display = 'flex';
+          element.style.justifyContent = 'center';
+          element.style.flexDirection = 'column';
+          element.style.alignItems = 'center';
+        } else {
+          element.style.display = 'block';
+        }
+      } else {
+        console.warn(`Element with id "${id}" not found`);
+      }
+    });
+  
+    if (logo) {
+      logo.style.position = 'static';
+      logo.style.zIndex = '1';
+      logo.style.transform = 'scale(1, 1)';
+    } else {
+      console.warn('Logo element not found');
+    }
   }
 }

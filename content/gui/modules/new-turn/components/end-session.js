@@ -10,7 +10,7 @@ export class EndSessionComponent {
     this.handleEndSessionButtonClick = this.handleEndSessionButtonClick.bind(this);
   }
 
-  init() {
+  async init() {
     this.appendStylesheet();
     this.overlay = this.createOverlay();
     this.closeButton = this.createCloseButton();

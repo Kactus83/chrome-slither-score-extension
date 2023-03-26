@@ -19,7 +19,7 @@ export class PlayerSelectComponent {
 
   async fetchNextPlayers() {
     const response = await sendGetNextPlayers();
-    return response;
+    return response.datas.nextPlayers;
   }
 
   createPlayerSelectContainer(playerNames) {

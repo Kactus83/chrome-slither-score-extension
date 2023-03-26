@@ -200,6 +200,5 @@ export class RegisterPlayerComponent {
     this.errorMessage.classList.remove('active');
     this.confirmationMessage.classList.remove('active');
   }
-  
 }
 

@@ -7,6 +7,9 @@ const mainGUI = new MainGUI();
 export async function handleDisplayEvents(event) {
   console.log("--------------- display event : ");
   console.log(event);
+
+  mainGUI.hideUselessElements();
+
   switch (event.type) {
     case eventNames.DisplayEvents.LOADING:
       mainGUI.showLoadingScreen();
