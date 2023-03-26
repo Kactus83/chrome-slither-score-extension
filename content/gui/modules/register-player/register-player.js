@@ -2,14 +2,14 @@ import eventNames from '../../../events/eventNames.js';
 import { sendGetPlayerNameAvailability } from '../../../messages/send-messages.js';
 
 export class RegisterPlayerComponent {
-  constructor(playerAdded) {
-    this.playerAdded = playerAdded;
+  constructor() {
     this.overlay = null;
     this.form = null;
     this.playerNameInput = null;
     this.registerButton = null;
     this.errorMessage = null;
-    this.resetButton = null;
+    this.backButton = null;
+    this.confirmationMessage = null;
   }
 
   init() {
@@ -19,16 +19,13 @@ export class RegisterPlayerComponent {
     this.createPlayerNameInput();
     this.createRegisterButton();
     this.createErrorMessage();
-    if (this.playerAdded) {
-      this.createResetButton();
-    }
+    this.createBackButton();
+    this.createConfirmationMessage();
   }
 
   insert() {
     this.overlay.appendChild(this.form);
-    if (this.resetButton) {
-      this.overlay.appendChild(this.resetButton);
-    }
+    this.overlay.appendChild(this.backButton);
     document.body.appendChild(this.overlay);
   }
 
@@ -107,17 +104,11 @@ export class RegisterPlayerComponent {
     });
   }
 
-  createErrorMessage() {
-    this.errorMessage = document.createElement('div');
-    this.errorMessage.classList.add('error-message');
-    this.form.appendChild(this.errorMessage);
-  }
-
-  createResetButton() {
-    this.resetButton = document.createElement('button');
-    this.resetButton.classList.add('reset-button');
-    this.resetButton.innerText = 'Reset';
-    this.resetButton.addEventListener('click', () => {
+  createBackButton() {
+    this.backButton = document.createElement('button');
+    this.backButton.classList.add('back-button');
+    this.backButton.innerText = 'Back';
+    this.backButton.addEventListener('click', () => {
       this.remove();
       document.dispatchEvent(new CustomEvent(eventNames.PageEvents.ARRIVED));
       // Délai de 1 seconde avant d'envoyer l'événement Loaded
@@ -127,6 +118,22 @@ export class RegisterPlayerComponent {
       };
       setTimeout(sendLoadedEvent, 1000);
     });
+  }
+
+  createConfirmationMessage() {
+    this.confirmationMessage = document.createElement('div');
+    this.confirmationMessage.classList.add('confirmation-message');
+    this.confirmationMessage.style.display = 'none';
+    this.form.appendChild(this.confirmationMessage);
+  }
+
+  showConfirmationMessage(playerName) {
+    this.confirmationMessage.innerText = `Player ${playerName} has been added successfully!`;
+    this.confirmationMessage.style.display = 'block';
+    this.playerNameInput.disabled = true;
+    this.registerButton.disabled = true;
+    this.registerButton.classList.add('disabled-button');
+    this.errorMessage.style.display = 'none';
   }
 
   async checkPlayerNameAvailability(playerName) {
@@ -144,3 +151,4 @@ export class RegisterPlayerComponent {
     }
   }
 }
+

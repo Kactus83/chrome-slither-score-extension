@@ -30,25 +30,21 @@ export async function onBackgroundMessage(response, callback) {
           break;
 
         case 'ADD_PLAYER_TO_DATAS':
-          if (response.datas != "first-add") {
-            document.dispatchEvent(
-              new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS, {
-                detail: response.datas,
-              })
-            );
-          } else {
-            document.dispatchEvent(
-              new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS)
-            );
-          }
+          document.dispatchEvent(
+            new CustomEvent(eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS));
+          break;
+
+        case 'PLAYER_ADDED_TO_DATAS':
+          document.dispatchEvent(
+            new CustomEvent(eventNames.DisplayEvents.PLAYER_ADDED_TO_DATAS, {
+              detail: response.datas,
+            })
+          );
           break;
 
         case 'INIT_SESSION':
           document.dispatchEvent(
-            new CustomEvent(eventNames.DisplayEvents.INIT_SESSION, {
-              detail: response.datas,
-            })
-          );
+            new CustomEvent(eventNames.DisplayEvents.INIT_SESSION));
           break;
 
         case 'INIT_GAME_SESSION':

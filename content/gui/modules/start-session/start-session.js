@@ -1,20 +1,27 @@
 import eventNames from '../../../events/eventNames.js';
+import { sendGetAllPlayers } from '../../../messages/send-messages.js';
 
 export class StartSessionComponent {
-  constructor(players) {
-    this.players = players;
+  constructor() {
+    this.players = [];
     this.overlay = null;
     this.playerContainer = null;
     this.addUserButton = null;
     this.startButton = null;
   }
 
-  init() {
+  async init() {
     this.appendStylesheet();
+    this.players = await this.fetchAllPlayers();
     this.createOverlay();
     this.createPlayerContainer();
     this.createAddUserButton();
     this.createStartButton();
+  }
+
+  async fetchAllPlayers() {
+    const response = await sendGetAllPlayers();
+    return response.players;
   }
 
   insert() {

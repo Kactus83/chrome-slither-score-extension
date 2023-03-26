@@ -1,6 +1,6 @@
 import { SessionStatsService } from '../../utils/session-stats.js';
 import { getActivePlayer } from '../../utils/sessions.js';
-import { preCheckPlayerNameAvailability } from '../../utils/player-service.js';
+import { preCheckPlayerNameAvailability, getAllPlayers } from '../../utils/player-service.js';
 import { loadLocalDatas } from '../../utils/local-datas.js';
 
 export async function handleGetDatas(request) {
@@ -11,6 +11,10 @@ export async function handleGetDatas(request) {
       const localDatas = await loadLocalDatas();
       const actual_session = localDatas.actual_session;
       return { displayType: 'NONE', datas: { actual_session } };
+
+    case 'GET_ALL_PLAYERS':
+      const players = await getAllPlayers();
+      return { displayType: 'NONE', datas: { players } };
 
     case 'GET_ACTIVE_PLAYER':
       const activePlayer = await getActivePlayer();

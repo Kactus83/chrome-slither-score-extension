@@ -19,12 +19,11 @@ export async function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.ADD_PLAYER_TO_DATAS:
       mainGUI.hideLoadingScreen();
-      if(event.detail != "first-add") {
-        const playerAdded = event.detail;
-        mainGUI.showRegisterPlayerOverlay(playerAdded);
-      } else {
-        mainGUI.showRegisterPlayerOverlay("first-add");
-      }
+      mainGUI.showRegisterPlayerOverlay();
+      break;
+
+    case eventNames.DisplayEvents.PLAYER_ADDED_TO_DATAS:
+      mainGUI.registerPlayerComponent.showConfirmationMessage(event.detail);
       break;
 
     case eventNames.DisplayEvents.RESUME_SESSION:
@@ -34,7 +33,7 @@ export async function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.INIT_SESSION:
       mainGUI.hideLoadingScreen();
-      mainGUI.showStartSessionForm(event.detail);
+      mainGUI.showStartSessionForm();
       break;
 
     case eventNames.DisplayEvents.IN_GAME:

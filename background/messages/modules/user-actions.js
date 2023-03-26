@@ -11,8 +11,7 @@ import {
   
     switch (request.type) {
       case 'INIT_GAME_SESSION':
-        const session = await startSession(request.playersNames);
-        return { displayType: 'INIT_GAME_SESSION', datas: session };
+        return { displayType: 'INIT_GAME_SESSION' };
   
       case 'RESUME_GAME_SESSION':
         return { displayType: 'IN_GAME', datas: localDatas.actual_session };
@@ -28,7 +27,7 @@ import {
       case 'ADD_PLAYER_TO_DATAS':
         const playerName = request.playerName;
         const result = await registerPlayer(playerName);
-        return { displayType: 'ADD_PLAYER_TO_DATAS', datas: result.name };
+        return { displayType: 'PLAYER_ADDED_TO_DATAS', datas: result.name };
   
       default:
         throw new Error('Unhandled request type in handleUserActions');

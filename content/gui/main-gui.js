@@ -24,8 +24,8 @@ export class MainGUI {
     this.registerPlayerComponent.insert();
   }
 
-  async showStartSessionForm(players) {
-    this.startSessionComponent = new StartSessionComponent(players);
+  async showStartSessionForm() {
+    this.startSessionComponent = new StartSessionComponent();
     this.startSessionComponent.init();
     this.startSessionComponent.insert();
   }

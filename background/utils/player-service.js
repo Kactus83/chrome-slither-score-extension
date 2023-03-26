@@ -29,7 +29,8 @@ export async function preCheckPlayerNameAvailability(playerName) {
 export async function registerPlayer(playerName) {
     const localDatas = await loadLocalDatas();
     if (await checkPlayerNameAvailability(localDatas, playerName)) {
-        const player = new Player(playerName);
+        const registrationDate = new Date(); // Ajoutez cette ligne pour enregistrer la date d'enregistrement
+        const player = new Player(playerName, registrationDate);
         console.log(player);
         localDatas.players.push(player);
         await saveLocalDatas(localDatas);
@@ -38,4 +39,9 @@ export async function registerPlayer(playerName) {
         return false;
     }
 }
-  
+
+// Ajoutez cette fonction pour renvoyer tous les players des local datas
+export async function getAllPlayers() {
+  const localDatas = await loadLocalDatas();
+  return localDatas.players;
+}
