@@ -23,9 +23,14 @@ export class NewTurnDisplay {
 
     document.addEventListener(eventNames.UserEvents.INIT_END_SESSION, this.handleInitEndSession.bind(this));
     document.addEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.handleInitInProgress.bind(this));
-
-    console.log('NewTurnDisplay initialized');
   }
+  
+  insert() {
+    this.ranking.insert();
+    this.playerSelect.insert();
+    this.endSession.insert();
+  }
+  
 
   remove() {
     this.ranking.remove();
@@ -35,8 +40,6 @@ export class NewTurnDisplay {
 
     document.removeEventListener(eventNames.UserEvents.INIT_END_SESSION, this.handleInitEndSession.bind(this));
     document.removeEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.handleInitInProgress.bind(this));
-
-    console.log('NewTurnDisplay removed');
   }
 
   appendStylesheet() {

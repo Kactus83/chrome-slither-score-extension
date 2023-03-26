@@ -29,7 +29,7 @@ export async function handleMessage(request) {
     case 'GET_PLAYER_NAME_AVAILABILITY':
     case 'GET_PLAYER_BEST_SCORE':
     case 'GET_SESSION_AVERAGE_SCORE':
-    case 'GET_NEXT_PLAYER':
+    case 'GET_NEXT_PLAYERS':
     case 'GET_BEST_SCORE_RANKING':
     case 'GET_AVERAGE_SCORE_RANKING':
     case 'GET_PLAYER_SCORE_COUNT':

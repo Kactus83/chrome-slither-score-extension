@@ -18,7 +18,8 @@ export class RankingComponent {
 
   async fetchBestScoreRanking() {
     const response = await sendGetBestScoreRanking();
-    return response.datas.bestScoreRanking;
+    console.log(response);
+;    return response.datas.bestScoreRanking;
   }
 
   createRankingDiv(bestScoreRanking) {

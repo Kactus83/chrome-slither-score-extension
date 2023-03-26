@@ -21,7 +21,7 @@ export class StartSessionComponent {
 
   async fetchAllPlayers() {
     const response = await sendGetAllPlayers();
-    return response.players;
+    return response.datas.players;
   }
 
   insert() {
@@ -90,6 +90,8 @@ export class StartSessionComponent {
     this.startButton.addEventListener('click', () => {
       const selectedPlayerDivs = this.playerContainer.querySelectorAll('.selected-player');
       const selectedPlayers = Array.from(selectedPlayerDivs).map(div => div.getAttribute('data-player-name'));
+      console.log("selected players in component : ");
+      console.log(selectedPlayers);
       const event = new CustomEvent(eventNames.UserEvents.INIT_SESSION, { detail: selectedPlayers });
       this.remove();
       document.dispatchEvent(event);

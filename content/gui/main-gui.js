@@ -20,56 +20,56 @@ export class MainGUI {
   
   async showRegisterPlayerOverlay(mode) {
     this.registerPlayerComponent = new RegisterPlayerComponent(mode);
-    this.registerPlayerComponent.init();
-    this.registerPlayerComponent.insert();
+    await this.registerPlayerComponent.init();
+    await this.registerPlayerComponent.insert();
   }
 
   async showStartSessionForm() {
     this.startSessionComponent = new StartSessionComponent();
-    this.startSessionComponent.init();
-    this.startSessionComponent.insert();
+    await this.startSessionComponent.init();
+    await this.startSessionComponent.insert();
   }
 
   async showLoadingScreen() {
-    this.stats.statsButton.remove();
-    this.loadingOverlay.insert();
+    await this.stats.statsButton.remove();
+    await this.loadingOverlay.insert();
   }
 
   async hideLoadingScreen() {
-    this.loadingOverlay.remove();
+    await this.loadingOverlay.remove();
   }
 
   async showNewTurnScreen() {
-    this.stats.statsButton.render();
+    await this.stats.statsButton.render();
     this.newTurnDisplay = new NewTurnDisplay();
     await this.newTurnDisplay.init();
-    this.newTurnDisplay.insert();
+    await this.newTurnDisplay.insert();
   }
 
   async showEndTurnScreen() {
     this.endTurnDisplay = new EndTurnDisplay();
     await this.endTurnDisplay.init();
-    this.endTurnDisplay.insert();
+    await this.endTurnDisplay.insert();
   }
 
   async showInPlayScreen() {
-    this.stats.statsButton.remove();
+    await this.stats.statsButton.remove();
     this.inPlayComponent = new InPlayComponent();
-    this.inPlayComponent.init();
-    this.inPlayComponent.insert();
+    await this.inPlayComponent.init();
+    await this.inPlayComponent.insert();
   }
 
   async showContinueSessionScreen() {
-    this.stats.statsButton.remove();
+    await this.stats.statsButton.remove();
     this.continueSessionComponent = new ContinueSessionComponent();
-    this.continueSessionComponent.init();
-    this.continueSessionComponent.insert();
+    await this.continueSessionComponent.init();
+    await this.continueSessionComponent.insert();
   }
 
   async showErrorScreen() {
     this.stats.statsButton.remove();
     this.errorOverlay = new ErrorOverlay();
-    this.errorOverlay.init();
-    this.errorOverlay.insert();
+    await this.errorOverlay.init();
+    await this.errorOverlay.insert();
   }
 }
