@@ -1,7 +1,7 @@
-import { StatsButton, CloseButton, ButtonsContainer, BackButton } from './main-components.js';
-import { GameStatsComponent } from './game.js';
-import { PlayersStatsComponent } from './players.js';
-import { SessionsStatsComponent } from './sessions.js';
+import { StatsButton, CloseButton, ButtonsContainer, BackButton } from './components/main-components.js';
+import { GameStatsComponent } from './components/game.js';
+import { PlayersStatsComponent } from './components/players.js';
+import { SessionsStatsComponent } from './components/sessions.js';
 
 export class Stats {
   constructor() {

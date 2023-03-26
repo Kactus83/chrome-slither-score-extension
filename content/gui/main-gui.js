@@ -7,8 +7,6 @@ import { Stats } from './modules/stats/stats.js';
 import { LoadingOverlay } from './modules/loading/loading-overlay.js';
 import { RegisterPlayerComponent } from './modules/register-player/register-player.js';
 import { StartSessionComponent } from './modules/start-session/start-session.js';
-import { InPlayComponent } from './modules/in-play/in-play.js';
-
 export class MainGUI {
   constructor() {
     this.inPlayComponent = null;

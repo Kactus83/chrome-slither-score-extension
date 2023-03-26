@@ -1,4 +1,4 @@
-import eventNames from "../../../../events/eventNames";
+import eventNames from "../../../../events/eventNames.js";
 
 export class StatsButton {
   constructor() {

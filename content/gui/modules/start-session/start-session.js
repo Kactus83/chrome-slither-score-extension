@@ -34,7 +34,7 @@ export class StartSessionComponent {
   appendStylesheet() {
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = chrome.runtime.getURL('content/gui/modules/start-session/start-session-overlay.css');
+    link.href = chrome.runtime.getURL('content/gui/modules/start-session/start-session.css');
     document.head.appendChild(link);
   }
 
