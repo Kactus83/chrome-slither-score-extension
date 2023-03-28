@@ -21,8 +21,8 @@ export class OverlayMenu {
       const event = new CustomEvent("set-stats", {
         detail: { display: eventType },
       });
-      document.dispatchEvent(event); 
-    });
+      this.container.parentElement.dispatchEvent(event);
+    });    
     return button;
   }  
 
