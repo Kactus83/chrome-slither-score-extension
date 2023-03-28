@@ -2,6 +2,7 @@ export class OverlayMenu {
   constructor() {
     this.container = document.createElement("div");
     this.container.classList.add("overlay-menu");
+    this.container.classList.add("buttons-container"); 
 
     const gameButton = this.createButton("Game Stats", "game");
     const playersButton = this.createButton("Players Stats", "players");
@@ -20,10 +21,10 @@ export class OverlayMenu {
       const event = new CustomEvent("set-stats", {
         detail: { display: eventType },
       });
-      this.container.dispatchEvent(event);
+      document.dispatchEvent(event); 
     });
     return button;
-  }
+  }  
 
   show(overlay) {
     overlay.appendChild(this.container);
@@ -46,14 +47,13 @@ export class CloseButton {
 
   render(parentElement) {
     parentElement.appendChild(this.button);
-
+  
     this.button.addEventListener("click", () => {
-      const event = new CustomEvent("set-stats", {
-        detail: { display: "none" },
-      });
-      parentElement.dispatchEvent(event);
+      const event = new CustomEvent(eventNames.UserEvents.CLOSE_STATS_OVERLAY);
+      document.dispatchEvent(event);
     });
   }
+  
 
   remove() {
     if (this.button.parentElement) {

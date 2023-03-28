@@ -8,6 +8,7 @@ export class Stats {
     this.overlay = new Overlay();
 
     this.handleOpenStatsOverlay = this.handleOpenStatsOverlay.bind(this);
+    this.handleCloseStatsOverlay = this.handleCloseStatsOverlay.bind(this); 
   }
 
   init() {
@@ -16,6 +17,7 @@ export class Stats {
     document.body.appendChild(this.overlay.element);
 
     document.addEventListener(eventNames.UserEvents.OPEN_STATS_OVERLAY, this.handleOpenStatsOverlay);
+    document.addEventListener(eventNames.UserEvents.CLOSE_STATS_OVERLAY, this.handleCloseStatsOverlay); 
   }
 
   show() {
@@ -32,8 +34,14 @@ export class Stats {
     this.overlay.show();
   }
 
+  handleCloseStatsOverlay() { 
+    this.statsButton.show();
+    this.overlay.hide();
+  }
+
   remove() {
     document.removeEventListener(eventNames.UserEvents.OPEN_STATS_OVERLAY, this.handleOpenStatsOverlay);
+    document.removeEventListener(eventNames.UserEvents.CLOSE_STATS_OVERLAY, this.handleCloseStatsOverlay); 
 
     this.statsButton.remove();
     this.overlay.remove();

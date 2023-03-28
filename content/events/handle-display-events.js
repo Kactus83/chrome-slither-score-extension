@@ -4,7 +4,20 @@ import { MainGUI } from '../gui/main-gui.js';
 
 const mainGUI = new MainGUI();
 
+let isInit = false;
+
 export async function handleDisplayEvents(event) {
+
+  if(!isInit) {
+    mainGUI.stats.init();
+  }
+
+  if(event.type === eventNames.DisplayEvents.IN_GAME_WAITING) {
+    mainGUI.stats.show();
+  }else{
+    mainGUI.stats.hide();
+  }
+
   console.log("--------------- display event : ");
   console.log(event);
 
@@ -50,7 +63,7 @@ export async function handleDisplayEvents(event) {
 
     case eventNames.DisplayEvents.IN_GAME_PROGRESSING:
       mainGUI.hideLoadingScreen();
-      await mainGUI.showInPlayScreen(); // Remplacez "showInPlayOverlay" par "showInPlayScreen"
+      await mainGUI.showInPlayScreen(); 
       break;
 
     case eventNames.DisplayEvents.IN_GAME_FINISHED:

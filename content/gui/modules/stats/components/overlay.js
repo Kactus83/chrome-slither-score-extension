@@ -44,9 +44,8 @@ export class Overlay {
   }
 
   handleSetStats(display) {
-    if (display === "none") {
-      this.hide();
-    } else if (display === "menu") {
+    
+    if (display === "menu") {
       this.showMenu();
     } else {
       const componentsMap = {

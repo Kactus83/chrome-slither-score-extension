@@ -33,8 +33,7 @@ export class MainGUI {
   }
 
   async showLoadingScreen() {
-    this.hideElementsAndResizeLogo();
-    await this.stats.statsButton.remove();
+    this.hideElementsAndResizeLogo(); 
     await this.loadingOverlay.insert();
   }
 
@@ -58,24 +57,21 @@ export class MainGUI {
   }
 
   async showInPlayScreen() {
-    this.hideElementsAndResizeLogo();
-    await this.stats.statsButton.remove();
+    this.hideElementsAndResizeLogo(); 
     this.inPlayComponent = new InPlayComponent();
     await this.inPlayComponent.init();
     await this.inPlayComponent.insert();
   }
 
   async showContinueSessionScreen() {
-    this.hideElementsAndResizeLogo();
-    await this.stats.statsButton.remove();
+    this.hideElementsAndResizeLogo(); 
     this.continueSessionComponent = new ContinueSessionComponent();
     await this.continueSessionComponent.init();
     await this.continueSessionComponent.insert();
   }
 
   async showErrorScreen() {
-    this.hideElementsAndResizeLogo();
-    await this.stats.statsButton.remove();
+    this.hideElementsAndResizeLogo(); 
     this.errorOverlay = new ErrorOverlay();
     await this.errorOverlay.init();
     await this.errorOverlay.insert();
