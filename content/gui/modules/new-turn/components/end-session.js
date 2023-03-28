@@ -38,8 +38,10 @@ export class EndSessionComponent {
     closeButton.classList.add("close-button");
     closeButton.textContent = "X";
     closeButton.addEventListener("click", () => {
-      this.rankingComponent.hideRanking();
+      this.rankingComponent.remove();
       this.overlay.remove();
+      this.endSessionButton = this.createEndSessionButton();
+      this.insert();
     });
     return closeButton;
   }
@@ -64,7 +66,11 @@ export class EndSessionComponent {
   }
 
   async handleEndSessionButtonClick() {
-    document.body.appendChild(this.overlay);
+    document.body.appendChild(this.overlay);    
+    this.endSessionButton.removeEventListener("click", this.handleEndSessionButtonClick);
+    if (this.endSessionButton.parentElement) {
+      this.endSessionButton.parentElement.removeChild(this.endSessionButton);
+    }
     await this.rankingComponent.showRanking(this.overlay);
     this.overlay.appendChild(this.closeButton);
     this.overlay.appendChild(this.confirmButton);

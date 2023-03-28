@@ -21,7 +21,7 @@ const UserEvents = {
   INIT_END_SESSION: 'user:initEndSession',
   INIT_IN_PROGRESS: 'user:initInProgress',
   END_SESSION: 'user:endSession',
-  INIT_STATS_OVERLAY: 'user:initStatsOverlay',
+  OPEN_STATS_OVERLAY: 'user:openStatsOverlay',
   CLOSE_STATS_OVERLAY: 'user:closeStatsOverlay',
   SET_STATS_OVERLAY: 'user:setStatsOverlay',
 };

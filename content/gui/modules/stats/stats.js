@@ -1,95 +1,57 @@
-import { StatsButton, CloseButton, ButtonsContainer, BackButton } from './components/main-components.js';
-import { GameStatsComponent } from './components/game.js';
-import { PlayersStatsComponent } from './components/players.js';
-import { SessionsStatsComponent } from './components/sessions.js';
+import { StatsButton } from "./components/stats-button.js";
+import { Overlay } from "./components/overlay.js";
+import eventNames from "../../../events/eventNames.js";
 
 export class Stats {
   constructor() {
-    this.overlay = document.createElement('div');
-    this.overlay.classList.add('stats-overlay');
-    this.overlay.style.display = 'none';
-
     this.statsButton = new StatsButton();
-    this.closeButton = new CloseButton();
-    this.buttonsContainer = new ButtonsContainer();
-    this.backButton = new BackButton();
+    this.overlay = new Overlay();
 
-    this.gameStatsComponent = new GameStatsComponent();
-    this.playersStatsComponent = new PlayersStatsComponent();
-    this.sessionsStatsComponent = new SessionsStatsComponent();
+    this.handleOpenStatsOverlay = this.handleOpenStatsOverlay.bind(this);
+  }
 
-    this.currentComponent = null;
+  init() {
+    this.appendStylesheet();
+    this.statsButton.render();
+    document.body.appendChild(this.overlay.element);
 
-    document.addEventListener('initStatsOverlay', this.show.bind(this));
-    document.addEventListener('closeStatsOverlay', this.hide.bind(this));
-    document.addEventListener('setStatsOverlay', this.handleButtonClick.bind(this));
-    document.addEventListener('backToSelection', this.handleBackClick.bind(this));
+    document.addEventListener(eventNames.UserEvents.OPEN_STATS_OVERLAY, this.handleOpenStatsOverlay);
   }
 
   show() {
-    this.overlay.style.display = 'block';
-    this.statsButton.hide();
-    this.closeButton.render(this.overlay);
-    this.buttonsContainer.render(this.overlay);
+    this.statsButton.show();
   }
 
   hide() {
-    this.overlay.style.display = 'none';
-    this.statsButton.show();
-    this.closeButton.remove();
-    this.buttonsContainer.hide();
-    this.backButton.remove();
-
-    if (this.currentComponent) {
-      this.currentComponent.remove();
-      this.currentComponent = null;
-    }
+    this.statsButton.hide();
+    this.overlay.hide();
   }
 
-  handleButtonClick(event) {
-    const displayMode = event.detail;
-    this.buttonsContainer.hide();
-    this.backButton.render(this.overlay);
-
-    switch (displayMode) {
-      case 'game':
-        this.currentComponent = this.gameStatsComponent;
-        break;
-      case 'players':
-        this.currentComponent = this.playersStatsComponent;
-        break;
-      case 'sessions':
-        this.currentComponent = this.sessionsStatsComponent;
-        break;
-      default:
-        console.error('Invalid display mode:', displayMode);
-        return;
-    }
-
-    this.currentComponent.show(this.overlay);
-  }
-
-  handleBackClick() {
-    this.currentComponent.remove();
-    this.currentComponent = null;
-    this.backButton.hide();
-    this.buttonsContainer.show();
+  handleOpenStatsOverlay() {
+    this.statsButton.hide();
+    this.overlay.show();
   }
 
   remove() {
-    document.removeEventListener('initStatsOverlay', this.show.bind(this));
-    document.removeEventListener('closeStatsOverlay', this.hide.bind(this));
-    document.removeEventListener('setStatsOverlay', this.handleButtonClick.bind(this));
-    document.removeEventListener('backToSelection', this.handleBackClick.bind(this));
+    document.removeEventListener(eventNames.UserEvents.OPEN_STATS_OVERLAY, this.handleOpenStatsOverlay);
 
     this.statsButton.remove();
-    this.closeButton.remove();
-    this.buttonsContainer.remove();
-    this.backButton.remove();
+    this.overlay.remove();
+    this.removeStylesheet();
+  }
 
-    if (this.currentComponent) {
-      this.currentComponent.remove();
-      this.currentComponent = null;
+  appendStylesheet() {
+    this.link = document.createElement("link");
+    this.link.rel = "stylesheet";
+    this.link.href = chrome.runtime.getURL("content/gui/modules/stats/stats.css");
+    document.head.appendChild(this.link);
+  }
+
+  removeStylesheet() {
+    if (this.link) {
+      this.link.remove();
     }
   }
 }
+
+export default Stats;
