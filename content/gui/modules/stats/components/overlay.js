@@ -13,9 +13,11 @@ export class Overlay {
     this.backButton = new BackButton();
     this.menu = new OverlayMenu();
 
-    this.overlay.addEventListener("set-stats", (event) => {
+    this.currentComponent = null;
+
+    document.addEventListener("set-stats", (event) => {
       this.handleSetStats(event.detail.display);
-    });
+    });    
   }
 
   show() {
@@ -28,41 +30,52 @@ export class Overlay {
     this.closeButton.remove();
     this.backButton.remove();
     this.menu.remove();
+    if (this.currentComponent) {
+      this.currentComponent.remove();
+    }
   }
 
   showMenu() {
+    if (this.currentComponent) {
+      this.currentComponent.remove();
+      this.currentComponent = null;
+    }
     this.menu.show(this.overlay);
     this.closeButton.render(this.overlay);
     this.backButton.remove();
   }
 
   showComponent(component) {
-    component.show(this.overlay);
+    if (this.currentComponent) {
+      this.currentComponent.remove();
+    }
+    this.currentComponent = component;
+    this.currentComponent.show(this.overlay);
     this.closeButton.render(this.overlay);
     this.backButton.render(this.overlay);
     this.menu.remove();
   }
 
   handleSetStats(display) {
-    
-    if (display === "menu") {
-      this.showMenu();
-    } else {
-      const componentsMap = {
-        game: GameStatsComponent,
-        players: PlayersStatsComponent,
-        sessions: SessionsStatsComponent,
-      };
+    const componentsMap = {
+      game: GameStatsComponent,
+      players: PlayersStatsComponent,
+      sessions: SessionsStatsComponent,
+    };
 
-      if (componentsMap[display]) {
-        const component = new componentsMap[display]();
-        this.showComponent(component);
-      }
+    if (componentsMap[display]) {
+      const component = new componentsMap[display]();
+      this.showComponent(component);
+    } else {
+      this.showMenu();
     }
   }
 
   remove() {
     this.hide();
+    document.removeEventListener("set-stats", (event) => {
+      this.handleSetStats(event.detail.display);
+    });    
     this.overlay.remove();
   }
 
