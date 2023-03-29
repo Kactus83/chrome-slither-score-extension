@@ -89,7 +89,18 @@ export class EndSessionComponent {
       this.endSessionButton.parentElement.removeChild(this.endSessionButton);
     }
     this.rankingComponent.remove(); 
+  
+    if (this.overlay.parentElement) {
+      this.overlay.parentElement.removeChild(this.overlay);
+    }
+    if (this.closeButton.parentElement) {
+      this.closeButton.parentElement.removeChild(this.closeButton);
+    }
+    if (this.confirmButton.parentElement) {
+      this.confirmButton.parentElement.removeChild(this.confirmButton);
+    }
   }
+  
 }
 
 export default EndSessionComponent;

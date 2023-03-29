@@ -19,7 +19,7 @@ import {
   
       case 'END_GAME_SESSION':
         await endSession();
-        return { displayType: 'INIT_GAME_SESSION' };
+        return { displayType: 'INIT_SESSION' };
   
       case 'SELECT_ACTIVE_PLAYER':
         await setActivePlayer(request.playerName);

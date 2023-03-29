@@ -22,8 +22,7 @@ export async function handlePageAndRouting(request) {
       }
 
     case 'LAUNCH_INIT_GAME_SESSION':
-      const players = localDatas.players;
-      return { displayType: 'INIT_SESSION', datas: players };
+      return { displayType: 'INIT_SESSION' };
 
     case 'LAUNCH_ADD_PLAYER_TO_DATAS':
       return { displayType: 'ADD_PLAYER_TO_DATAS', datas: 'first-add' };

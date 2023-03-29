@@ -10,6 +10,10 @@ export class NewTurnDisplay {
     this.ranking = new RankingComponent();
     this.endSession = new EndSessionComponent();
     this.loginObserver = new LoginDivObserver(this.playerSelect);
+
+    // Liez les gestionnaires d'événements et stockez-les dans des variables d'instance
+    this.boundHandleInitEndSession = this.handleInitEndSession.bind(this);
+    this.boundHandleInitInProgress = this.handleInitInProgress.bind(this);
   }
 
   async init() {
@@ -21,17 +25,16 @@ export class NewTurnDisplay {
 
     await this.loginObserver.observe();
 
-    document.addEventListener(eventNames.UserEvents.INIT_END_SESSION, this.handleInitEndSession.bind(this));
-    document.addEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.handleInitInProgress.bind(this));
+    // Utilisez les gestionnaires d'événements liés pour ajouter les écouteurs d'événements
+    document.addEventListener(eventNames.UserEvents.INIT_END_SESSION, this.boundHandleInitEndSession);
+    document.addEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.boundHandleInitInProgress);
   }
 
-  
   async insert() {
     await this.ranking.insert();
     await this.playerSelect.insert();
     await this.endSession.insert();
   }
-  
 
   remove() {
     this.ranking.remove();
@@ -39,8 +42,9 @@ export class NewTurnDisplay {
     this.endSession.remove();
     this.loginObserver.stop();
 
-    document.removeEventListener(eventNames.UserEvents.INIT_END_SESSION, this.handleInitEndSession.bind(this));
-    document.removeEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.handleInitInProgress.bind(this));
+    // Utilisez les gestionnaires d'événements liés pour supprimer les écouteurs d'événements
+    document.removeEventListener(eventNames.UserEvents.INIT_END_SESSION, this.boundHandleInitEndSession);
+    document.removeEventListener(eventNames.UserEvents.INIT_IN_PROGRESS, this.boundHandleInitInProgress);
   }
 
   appendStylesheet() {
