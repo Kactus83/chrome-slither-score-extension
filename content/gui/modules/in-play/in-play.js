@@ -1,25 +1,34 @@
+import { ScoreCounter } from './components/score-counter.js';
+
 export class InPlayComponent {
   constructor() {
     this.overlay = null;
+    this.scoreCounter = new ScoreCounter();
   }
-
+  
   init() {
     this.appendStylesheet();
-
     this.overlay = document.createElement('div');
     this.overlay.classList.add('in-play-overlay');
-
+    this.scoreCounter.init();
     this.observeLastScore();
   }
 
   insert() {
     document.body.appendChild(this.overlay);
-  }
+    this.scoreCounter.insert();
+    this.scoreCounter.observe();
+  }  
 
   remove() {
     if (this.overlay) {
       this.overlay.parentElement.removeChild(this.overlay);
       this.overlay = null;
+    }
+  
+    if (this.scoreCounter) {
+      this.scoreCounter.remove();
+      this.scoreCounter.stop();
     }
   }
 

@@ -1,3 +1,40 @@
-
-.in-play-overlay {
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.score-container {
+  position: fixed;
+  left: 8px;
+  bottom: 4px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(50, 0, 100, 0.65);
+  padding: 8px 12px;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  z-index: 9999;
+  animation: slideIn 0.3s ease;
+}
+
+.score-text {
+  font-size: 24px;
+  font-weight: bold;
+  color: #fff;
+  margin: 2px 0;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.rank-text {
+  font-size: 14px;
+  color: #fff;
+  margin: 2px 0;
+}
