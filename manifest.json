@@ -12,8 +12,7 @@
         "notifications"
     ],
     "host_permissions": [
-        "https://www.slither.io/*",
-        "https://www.wikipedia.fr/*"
+        "https://www.slither.io/*"
     ],
     "web_accessible_resources": [
         {
@@ -82,7 +81,6 @@
         {
             "matches": [
                 "http://slither.io/*",
-                "https://www.wikipedia.fr/*",
                 "https://slither.io/*"
             ],
             "js": [
