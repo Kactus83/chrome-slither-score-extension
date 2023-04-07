@@ -6,7 +6,7 @@ function generateSessionId() {
   return new Date().getTime();
 }
 
-export async function startSession(playerNames) {
+export async function startSession(sessionParams) {
   const localDatas = await loadLocalDatas();
 
   // Sauvegarder la session actuelle dans les archives, si elle existe
@@ -14,9 +14,8 @@ export async function startSession(playerNames) {
     localDatas.archives.push(localDatas.actual_session);
   }
 
-  // Créer une nouvelle session avec les noms de joueurs fournis
-  const newSession = new Session(generateSessionId(), new Date());
-  newSession.player_names = playerNames;
+  // Créer une nouvelle session avec les paramètres fournis
+  const newSession = new Session(generateSessionId(), new Date(), sessionParams);
   localDatas.actual_session = newSession;
 
   await saveLocalDatas(localDatas);
@@ -43,16 +42,18 @@ export async function updateSession(updatedSession) {
   }
 }
 
-export async function addSessionScore(value, date) {
+export async function addSessionScore(value, endDate) {
   const localDatas = await loadLocalDatas();
-  const activePlayerName = localDatas.actual_session.active_player;
+  const activePlayerId = localDatas.actual_session.current_score?.playerId;
   
-  if (!activePlayerName) {
+  if (!activePlayerId) {
     console.error("No active player to add score for.");
     return;
   }
 
-  const newScore = new Score(activePlayerName, value, date);
+  const activePlayer = localDatas.players.find(player => player.id === activePlayerId);
+
+  const newScore = new Score(activePlayerId, activePlayer?.name, value, localDatas.actual_session.current_score.startDate, endDate);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);
@@ -60,34 +61,34 @@ export async function addSessionScore(value, date) {
     console.log("score added : ");
     console.log(localDatas.actual_session);
 
-    // Reset active player after adding the score
-    await resetActivePlayer();
+    // Reset active score after adding the score
+    await resetActiveScore();
   }
 }
 
-export async function setActivePlayer(playerName) {
+export async function setActiveScore(playerId, startDate) {
   const localDatas = await loadLocalDatas();
 
   if (localDatas.actual_session) {
-    localDatas.actual_session.active_player = playerName;
+    localDatas.actual_session.current_score = { playerId, startDate };
     await saveLocalDatas(localDatas);
   }
 }
 
-async function resetActivePlayer() {
+async function resetActiveScore() {
   const localDatas = await loadLocalDatas();
 
   if (localDatas.actual_session) {
-    localDatas.actual_session.active_player = null;
+    localDatas.actual_session.current_score = null;
     await saveLocalDatas(localDatas);
   }
 }
 
-export async function getActivePlayer() {
+export async function getActiveScore() {
   const localDatas = await loadLocalDatas();
 
   if (localDatas.actual_session) {
-    return localDatas.actual_session.active_player;
+    return localDatas.actual_session.current_score;
   } else {
     return null;
   }
@@ -105,4 +106,3 @@ export async function getAllSessions() {
 
   return allSessions;
 }
-

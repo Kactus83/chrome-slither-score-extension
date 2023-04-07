@@ -22,21 +22,21 @@ export class SessionStatsService {
 
   async getNextPlayers() {
     await this.ensureDatas();
-  
-    const players = this.datas.actual_session.player_names;
+
+    const players = this.datas.actual_session.session_params.playerParams;
     const scores = this.datas.actual_session.scores;
     const scoreCounts = {};
-  
+
     players.forEach(player => {
-      scoreCounts[player] = 0;
+      scoreCounts[player.playerId] = 0;
     });
-  
+
     scores.forEach(score => {
-      scoreCounts[score.playerName]++;
+      scoreCounts[score.playerId]++;
     });
-  
-    return players.sort((a, b) => scoreCounts[a] - scoreCounts[b]).sort((a, b) => {
-      const countDiff = scoreCounts[a] - scoreCounts[b];
+
+    return players.sort((a, b) => scoreCounts[a.playerId] - scoreCounts[b.playerId]).sort((a, b) => {
+      const countDiff = scoreCounts[a.playerId] - scoreCounts[b.playerId];
       if (countDiff !== 0) {
         return countDiff;
       }
@@ -45,13 +45,12 @@ export class SessionStatsService {
       return aIndex - bIndex;
     });
   }
-  
 
-  async getPlayerBestScore(playerName) {
+  async getPlayerBestScore(playerId) {
     await this.ensureDatas();
 
     const scores = this.datas.actual_session.scores;
-    const playerScores = scores.filter(score => score.playerName === playerName);
+    const playerScores = scores.filter(score => score.playerId === playerId);
 
     return Math.max(...playerScores.map(score => score.value));
   }
@@ -73,10 +72,11 @@ export class SessionStatsService {
   async getBestScoreRanking() {
     await this.ensureDatas();
 
-    const players = this.datas.actual_session.player_names;
-    const bestScores = await Promise.all(players.map(async playerName => ({
-      playerName,
-      bestScore: await this.getPlayerBestScore(playerName),
+    const players = this.datas.actual_session.session_params.playerParams;
+    const bestScores = await Promise.all(players.map(async player => ({
+      playerId: player.playerId,
+      playerName: player.name,
+      bestScore: await this.getPlayerBestScore(player.playerId),
     })));
 
     return bestScores.sort((a, b) => b.bestScore - a.bestScore);
@@ -85,31 +85,32 @@ export class SessionStatsService {
   async getAverageScoreRanking() {
     await this.ensureDatas();
 
-    const players = this.datas.actual_session.player_names;
+    const players = this.datas.actual_session.session_params.playerParams;
     const playerStatsService = new PlayerStatsService();
 
-    const averageScores = await Promise.all(players.map(async playerName => ({
-      playerName,
-      averageScore: await playerStatsService.getPlayerAverageScore(playerName),
+    const averageScores = await Promise.all(players.map(async player => ({
+      playerId: player.playerId,
+      playerName: player.name,
+      averageScore: await playerStatsService.getPlayerAverageScore(player.playerId),
     })));
 
     return averageScores.sort((a, b) => b.averageScore - a.averageScore);
   }
 
-  async getPlayerScoreCount(playerName) {
+  async getPlayerScoreCount(playerId) {
     await this.ensureDatas();
 
     const scores = this.datas.actual_session.scores;
-    const playerScores = scores.filter(score => score.playerName === playerName);
+    const playerScores = scores.filter(score => score.playerId === playerId);
 
     return playerScores.length;
   }
 
-  async getPlayerTotalScore(playerName) {
+  async getPlayerTotalScore(playerId) {
     await this.ensureDatas();
 
     const scores = this.datas.actual_session.scores;
-    const playerScores = scores.filter(score => score.playerName === playerName);
+    const playerScores = scores.filter(score => score.playerId === playerId);
 
     return playerScores.reduce((sum, score) => sum + score.value, 0);
   }
@@ -117,31 +118,31 @@ export class SessionStatsService {
   async getTotalScores() {
     await this.ensureDatas();
 
-    const players = this.datas.actual_session.player_names;
+    const players = this.datas.actual_session.session_params.playerParams;
     const totalScores = {};
 
-    players.forEach(playerName => {
-      totalScores[playerName] = this.getPlayerTotalScore(playerName);
+    players.forEach(player => {totalScores[player.playerId] = this.getPlayerTotalScore(player.playerId);
     });
 
     return totalScores;
   }
-  
+
   async getLastScore() {
     await this.ensureDatas();
-  
+
     const scores = this.datas.actual_session.scores;
-  
+
     if (scores.length === 0) {
       console.log("pas de score à renvoyer..");
       return null;
     }
-  
+
     // Trie les scores par date (ordre croissant)
-    const sortedScores = scores.sort((a, b) => new Date(a.date) - new Date(b.date));
-  
+    const sortedScores = scores.sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+
     // Retourne le score le plus récent (dernier élément du tableau trié)
     return sortedScores[sortedScores.length - 1];
   }
-  
+
 }
+
