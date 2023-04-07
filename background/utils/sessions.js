@@ -92,3 +92,17 @@ export async function getActivePlayer() {
     return null;
   }
 }
+
+export async function getAllSessions() {
+  const localDatas = await loadLocalDatas();
+  const actualSession = localDatas.actual_session;
+  const archivedSessions = localDatas.archives;
+
+  const allSessions = [...archivedSessions];
+  if (actualSession !== null) {
+    allSessions.push(actualSession);
+  }
+
+  return allSessions;
+}
+

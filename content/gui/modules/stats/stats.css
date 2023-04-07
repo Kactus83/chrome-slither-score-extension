@@ -1,3 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -214,4 +220,94 @@ tr:nth-child(9) {
 
 tr:nth-child(10) {
   background-color: #ff4040;
+}
+
+.game-stats-container {
+  width: 80%;
+  max-width: 800px;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  text-align: center;
+  color: #333;
+  margin: 0 auto;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.podiums-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  gap: 20px;
+}
+
+.podium-container {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.podium-container h3 {
+  font-size: 18px;
+  margin-bottom: 10px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.place-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-size: 14px;
+  margin-bottom: 5px;
+}
+
+.place-container span {
+  font-weight: normal;
+  display: block;
+}
+
+.place-container:last-child {
+  margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+  .podiums-container {
+    flex-direction: column;
+  }
+
+  .podium-container {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+
+.game-stats-container .place-container:nth-child(2),
+.podium-container .place-container:nth-child(2) {
+  font-size: 24px;
+  color: #eeee70;
+  background-color: rgba(238, 238, 112, 0.2);
+}
+
+.game-stats-container .place-container:nth-child(3),
+.podium-container .place-container:nth-child(3) {
+  font-size: 20px;
+  color: #ffa060;
+  background-color: rgba(255, 160, 96, 0.2);
+}
+
+.game-stats-container .place-container:nth-child(4),
+.podium-container .place-container:nth-child(4) {
+  font-size: 18px;
+  color: #9099ff;
+  background-color: rgba(144, 153, 255, 0.2);
+}
+
+.podium-container {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.podium-container h3,
+.game-stats-container h3 {
+  color: #ffffff;
 }

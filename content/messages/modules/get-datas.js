@@ -6,6 +6,10 @@ export function sendGetActualSession() {
     return sendRequest({ type: 'GET_ACTUAL_SESSION' });
 }
 
+export function sendGetAllSessions() {
+    return sendRequest({ type: 'GET_ALL_SESSIONS' });
+}
+
 export function sendGetAllPlayers() {
     return sendRequest({ type: 'GET_ALL_PLAYERS' });
 }

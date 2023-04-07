@@ -24,6 +24,7 @@ export async function handleMessage(request) {
       return handleGameStates(request);
 
     case 'GET_ACTUAL_SESSION':
+    case 'GET_ALL_SESSIONS':
     case 'GET_ALL_PLAYERS':
     case 'GET_ACTIVE_PLAYER':
     case 'GET_PLAYER_NAME_AVAILABILITY':
