@@ -40,11 +40,13 @@ export class SessionsStatsComponent {
   
     table.appendChild(headerRow);
   
-    const playerNames = sessionData.player_names;
+    const playerParams = sessionData.session_params.playerParams; // Accédez aux PlayerParam
     const scores = sessionData.scores;
   
-    playerNames.forEach((playerName) => {
-      const playerScores = scores.filter(score => score.playerName === playerName).map(score => score.value);
+    playerParams.forEach((playerParam) => {
+      const playerName = playerParam.name; // Accédez au nom du joueur depuis PlayerParam
+      const playerId = playerParam.playerId; // Accédez à l'ID du joueur depuis PlayerParam
+      const playerScores = scores.filter(score => score.playerId === playerId).map(score => score.value); // Filtrez les scores en fonction de l'ID du joueur
       const bestScore = Math.max(...playerScores);
       const worstScore = Math.min(...playerScores);
       const averageScore = playerScores.reduce((a, b) => a + b, 0) / playerScores.length;
