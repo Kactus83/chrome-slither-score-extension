@@ -1,4 +1,4 @@
-import { addSessionScore, setActivePlayer } from '../../utils/sessions.js';
+import { addSessionScore, setActiveScore } from '../../utils/sessions.js';
 
 export async function handleGameStates(request) {
   switch (request.type) {
@@ -6,12 +6,13 @@ export async function handleGameStates(request) {
       return { displayType: 'WAIT_NEXT_TURN' };
 
     case 'IN_PROGRESS':
-      await setActivePlayer(request.playerName);
+      await setActiveScore(request.playerId, new Date());
       return { displayType: 'IN_PROGRESS' };
 
     case 'GAME_OVER':
       const playerScore = request.playerScore;
-      await addSessionScore(playerScore, new Date());
+      const endDate = new Date();
+      await addSessionScore(playerScore, endDate);
       return { displayType: 'GAME_OVER' };
 
     default:

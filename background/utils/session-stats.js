@@ -19,7 +19,7 @@ export class SessionStatsService {
       await this.updateDatas();
     }
   }
-
+  
   async getNextPlayers() {
     await this.ensureDatas();
 
@@ -35,16 +35,13 @@ export class SessionStatsService {
       scoreCounts[score.playerId]++;
     });
 
-    return players.sort((a, b) => scoreCounts[a.playerId] - scoreCounts[b.playerId]).sort((a, b) => {
-      const countDiff = scoreCounts[a.playerId] - scoreCounts[b.playerId];
-      if (countDiff !== 0) {
-        return countDiff;
-      }
-      const aIndex = players.indexOf(a);
-      const bIndex = players.indexOf(b);
-      return aIndex - bIndex;
-    });
+    // Retourner l'objet joueur entier au lieu de l'ID
+    return players.sort((a, b) => scoreCounts[a.playerId] - scoreCounts[b.playerId]).map(player => ({
+      id: player.playerId,
+      name: player.name
+    }));
   }
+
 
   async getPlayerBestScore(playerId) {
     await this.ensureDatas();

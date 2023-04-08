@@ -22,33 +22,33 @@ export class PlayerSelectComponent {
     return response.datas.nextPlayers;
   }
 
-  createPlayerSelectContainer(playerNames) {
+  createPlayerSelectContainer(players) {
     const playerSelectContainer = document.createElement('div');
     playerSelectContainer.classList.add('player-select-container');
-
+  
     const playerSelectLabel = document.createElement('span');
     playerSelectLabel.textContent = 'Joueur suivant : ';
     playerSelectLabel.classList.add('player-select-label');
     playerSelectContainer.appendChild(playerSelectLabel);
-
+  
     const playerSelect = document.createElement('select');
     playerSelect.classList.add('player-select');
-
-    playerNames.forEach(playerName => {
+  
+    players.forEach(player => {
       const option = document.createElement('option');
-      option.value = playerName;
-      option.textContent = playerName;
+      option.value = player.id; 
+      option.textContent = player.name; 
       playerSelect.appendChild(option);
     });
-
+  
     playerSelectContainer.appendChild(playerSelect);
-
+  
     return playerSelectContainer;
   }
 
   handlePlayerSelectChange(event) {
-    const selectedPlayerName = event.target.value;
-    const customEvent = new CustomEvent(eventNames.UserEvents.SELECT_ACTIVE_PLAYER, { detail: selectedPlayerName });
+    const selectedPlayerId = event.target.value; 
+    const customEvent = new CustomEvent(eventNames.UserEvents.SELECT_ACTIVE_PLAYER, { detail: selectedPlayerId });
     document.dispatchEvent(customEvent);
   }
 

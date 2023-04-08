@@ -106,3 +106,16 @@ export async function getAllSessions() {
 
   return allSessions;
 }
+
+export async function getActivePlayer() {
+  const localDatas = await loadLocalDatas();
+
+  if (localDatas.actual_session && localDatas.actual_session.current_score) {
+    const activePlayerId = localDatas.actual_session.current_score.playerId;
+    const activePlayer = localDatas.players.find(player => player.id === activePlayerId);
+    return activePlayer;
+  } else {
+    return null;
+  }
+}
+

@@ -1,7 +1,6 @@
 import {
     startSession,
     endSession,
-    setActivePlayer,
   } from '../../utils/sessions.js';
   import { registerPlayer } from '../../utils/player-service.js';
   import { loadLocalDatas } from '../../utils/local-datas.js';
@@ -22,7 +21,6 @@ import {
         return { displayType: 'INIT_SESSION' };
   
       case 'SELECT_ACTIVE_PLAYER':
-        await setActivePlayer(request.playerName);
         return { displayType: 'SELECT_ACTIVE_PLAYER', datas: { selectedPlayerName: request.playerName } };
   
       case 'ADD_PLAYER_TO_DATAS':

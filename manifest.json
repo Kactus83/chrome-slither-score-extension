@@ -1,7 +1,7 @@
 {
     "manifest_version": 3,
-    "name": "Slither Score",
-    "version": "1.0.0",
+    "name": "Slither Score Extension",
+    "version": "1.5.0",
     "description": "Add On pour concours slither.io",
     "permissions": [
         "tabs",

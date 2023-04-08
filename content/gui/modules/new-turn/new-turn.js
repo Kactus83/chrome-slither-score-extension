@@ -64,8 +64,8 @@ export class NewTurnDisplay {
   handleInitInProgress(event) {
     this.remove();
 
-    const selectedPlayerName = event.detail;
-    const inProgressEvent = new CustomEvent(eventNames.GameEvents.IN_PROGRESS, { detail: selectedPlayerName });
+    const selectedPlayerId = event.detail;
+    const inProgressEvent = new CustomEvent(eventNames.GameEvents.IN_PROGRESS, { detail: selectedPlayerId });
     document.dispatchEvent(inProgressEvent);
   }
 }
