@@ -46,13 +46,32 @@ export async function addSessionScore(value, endDate) {
   const localDatas = await loadLocalDatas();
   const activePlayerId = localDatas.actual_session.current_score?.playerId;
   const activePlayerName = localDatas.actual_session.current_score?.playerName;
+  const activePlayer = localDatas.players.find(player => player.id === activePlayerId);
   
   if (!activePlayerId) {
     console.error("No active player to add score for.");
     return;
   }
 
-  const newScore = new Score(activePlayerId, activePlayerName, value, localDatas.actual_session.current_score.startDate, endDate);
+  let additionalTurn = false;
+  let countInStats = true;
+  const scoreLimit = localDatas.actual_session.session_params.scoreLimit;
+  const currentPlayerScores = localDatas.actual_session.scores.filter(score => score.playerId === activePlayerId);
+
+  // Check if it's the first consecutive failed attempt
+  const firstConsecutiveFailedAttempt = currentPlayerScores.length === 0 || currentPlayerScores[currentPlayerScores.length - 1].value >= scoreLimit;
+
+  if (value < scoreLimit && firstConsecutiveFailedAttempt) {
+    if (activePlayer.difficulty === 'facile') {
+      additionalTurn = true;
+      countInStats = false;
+    } else if (activePlayer.difficulty === 'moyen') {
+      additionalTurn = true;
+      countInStats = true;
+    }
+  }
+
+  const newScore = new Score(activePlayerId, activePlayerName, value, localDatas.actual_session.current_score.startDate, endDate, additionalTurn, countInStats);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);
@@ -60,7 +79,6 @@ export async function addSessionScore(value, endDate) {
     console.log("score added : ");
     console.log(localDatas.actual_session);
 
-    // Reset active score after adding the score
     await resetActiveScore();
   }
 }

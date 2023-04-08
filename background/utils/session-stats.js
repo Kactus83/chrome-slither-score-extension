@@ -33,13 +33,15 @@ export class SessionStatsService {
     });
 
     scores.forEach(score => {
-      scoreCounts[score.playerId]++;
+      if (!score.additionalTurn) {
+        scoreCounts[score.playerId]++;
+      }
     });
 
-    // Retourner l'objet joueur entier au lieu de l'ID
     return players.sort((a, b) => scoreCounts[a.playerId] - scoreCounts[b.playerId]).map(player => ({
       id: player.playerId,
-      name: player.name
+      name: player.name,
+      difficulty: player.difficulty
     }));
   }
 

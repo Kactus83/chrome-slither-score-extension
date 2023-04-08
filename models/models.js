@@ -52,14 +52,17 @@ export class LocalDatas {
     }
   }
   
-  // La classe Score représente un score, avec l'identifiant du joueur, le nom du joueur, la valeur du score, la date de début et la date de fin.
-  export class Score {
-    constructor(playerId, playerName, value, startDate, endDate) {
-      this.playerId = playerId; // Identifiant du joueur ayant obtenu ce score
-      this.playerName = playerName; // Nom du joueur ayant obtenu ce score
-      this.value = value; // Valeur du score
-      this.startDate = startDate; // Date de début du score
-      this.endDate = endDate; // Date de fin du score
-    }
+// La classe Score représente un score, avec l'identifiant du joueur, le nom du joueur, la valeur du score, la date de début et la date de fin.
+export class Score {
+  constructor(playerId, playerName, value, startDate, endDate, extraTurn = false, scoreCounts = true) {
+    this.playerId = playerId; // Identifiant du joueur ayant obtenu ce score
+    this.playerName = playerName; // Nom du joueur ayant obtenu ce score
+    this.value = value; // Valeur du score
+    this.startDate = startDate; // Date de début du score
+    this.endDate = endDate; // Date de fin du score
+    this.extraTurn = extraTurn; // Indique si le score donne droit à un tour supplémentaire
+    this.scoreCounts = scoreCounts; // Indique si le score doit être pris en compte dans les statistiques
   }
+}
+
   
