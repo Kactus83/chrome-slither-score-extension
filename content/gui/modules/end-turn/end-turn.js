@@ -27,20 +27,40 @@ export class EndTurnDisplay {
       console.error('Error: End turn component already exists.');
       return null;
     }
-
+  
     this.hideLastScore();
-
+  
     const overlay = document.createElement('div');
     overlay.classList.add('end-turn-display');
-
+  
     const response = await sendGetLastScore();
-
+  
     const playerScore = document.createElement('div');
     playerScore.textContent = `Joueur: ${response.datas.lastScore.playerName}, Score: ${response.datas.lastScore.value}`;
     playerScore.classList.add('player-score');
-
-    overlay.appendChild(playerScore);
-
+  
+    const extraTurn = document.createElement('div');
+    extraTurn.textContent = `Extra turn: ${response.datas.lastScore.extraTurn ? 'Yes' : 'No'}`;
+    extraTurn.classList.add('extra-turn');
+  
+    const overPlayed = document.createElement('div');
+    overPlayed.textContent = `Over played: ${response.datas.lastScore.overPlayed ? 'Yes' : 'No'}`;
+    overPlayed.classList.add('over-played');
+  
+    const countScore = document.createElement('div');
+    countScore.textContent = `Count score: ${response.datas.lastScore.scoreCounts ? 'Yes' : 'No'}`;
+    countScore.classList.add('count-score');
+  
+    const infoContainer = document.createElement('div');
+    infoContainer.classList.add('info-container');
+  
+    infoContainer.appendChild(playerScore);
+    infoContainer.appendChild(extraTurn);
+    infoContainer.appendChild(overPlayed);
+    infoContainer.appendChild(countScore);
+  
+    overlay.appendChild(infoContainer);
+  
     return overlay;
   }
 
