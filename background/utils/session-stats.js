@@ -8,6 +8,7 @@ export class SessionStatsService {
 
   async initialize() {
     this.datas = await loadLocalDatas();
+    console.log(this.datas);
   }
 
   async updateDatas() {
@@ -68,16 +69,16 @@ export class SessionStatsService {
 
   async getBestScoreRanking() {
     await this.ensureDatas();
-
+  
     const players = this.datas.actual_session.session_params.playerParams;
     const bestScores = await Promise.all(players.map(async player => ({
       playerId: player.playerId,
       playerName: player.name,
       bestScore: await this.getPlayerBestScore(player.playerId),
     })));
-
+  
     return bestScores.sort((a, b) => b.bestScore - a.bestScore);
-  }
+  }  
 
   async getAverageScoreRanking() {
     await this.ensureDatas();

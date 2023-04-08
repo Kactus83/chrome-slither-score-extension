@@ -6,8 +6,8 @@ export function sendGameStatusWaitTurn() {
     return sendRequest({ type: 'WAIT_NEXT_TURN' });
   }
   
-export function sendGameStatusInProgress(playerName) {
-    return sendRequest({ type: 'IN_PROGRESS', playerName });
+export function sendGameStatusInProgress(playerId) {
+    return sendRequest({ type: 'IN_PROGRESS', playerId });
 }
   
 export function sendGameStatusGameOver(playerScore) {

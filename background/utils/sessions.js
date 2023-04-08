@@ -45,15 +45,14 @@ export async function updateSession(updatedSession) {
 export async function addSessionScore(value, endDate) {
   const localDatas = await loadLocalDatas();
   const activePlayerId = localDatas.actual_session.current_score?.playerId;
+  const activePlayerName = localDatas.actual_session.current_score?.playerName;
   
   if (!activePlayerId) {
     console.error("No active player to add score for.");
     return;
   }
 
-  const activePlayer = localDatas.players.find(player => player.id === activePlayerId);
-
-  const newScore = new Score(activePlayerId, activePlayer?.name, value, localDatas.actual_session.current_score.startDate, endDate);
+  const newScore = new Score(activePlayerId, activePlayerName, value, localDatas.actual_session.current_score.startDate, endDate);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);
@@ -70,7 +69,10 @@ export async function setActiveScore(playerId, startDate) {
   const localDatas = await loadLocalDatas();
 
   if (localDatas.actual_session) {
-    localDatas.actual_session.current_score = { playerId, startDate };
+    const numericPlayerId = parseInt(playerId, 10);
+    const activePlayer = localDatas.players.find(player => player.id === numericPlayerId);
+    const playerName = activePlayer?.name;
+    localDatas.actual_session.current_score = { playerId: numericPlayerId, playerName, startDate };
     await saveLocalDatas(localDatas);
   }
 }

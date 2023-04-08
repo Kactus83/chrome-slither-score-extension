@@ -2,8 +2,8 @@ import { sendRequest } from './send-request.js';
 
 // USER ACTION REQUEST
 
-export function sendInitGameSession(playersNames) {
-    return sendRequest({ type: 'INIT_GAME_SESSION', playersNames });
+export function sendInitGameSession(sessionParams) {
+    return sendRequest({ type: 'INIT_GAME_SESSION', sessionParams });
   }
 
 export function sendResumeGameSession() {

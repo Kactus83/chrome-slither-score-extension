@@ -1,3 +1,4 @@
+import { PlayerParam, SessionParams } from '../../../../models/models.js';
 import eventNames from '../../../events/eventNames.js';
 import { sendGetAllPlayers } from '../../../messages/send-messages.js';
 
@@ -29,9 +30,9 @@ export class StartSessionComponent {
 
   insert() {
     this.overlay.appendChild(this.playerContainer);
+    this.overlay.appendChild(this.minScoreInput);
     this.overlay.appendChild(this.startButton);
     this.overlay.appendChild(this.addUserButton);
-    this.overlay.appendChild(this.minScoreInput);
     document.body.appendChild(this.overlay);
   }
 
@@ -56,16 +57,21 @@ export class StartSessionComponent {
 
   createPlayerContainer() {
     this.playerContainer = document.createElement('div');
-    this.playerContainer.style.display = 'flex';
-    this.playerContainer.style.flexWrap = 'wrap';
+    this.playerContainer.style.display = 'grid';
+    this.playerContainer.style.gridTemplateColumns = 'repeat(auto-fill, minmax(150px, 1fr))';
+    this.playerContainer.style.gap = '10px';
     this.playerContainer.style.marginBottom = '15px';
-
+  
     this.players.forEach(player => {
       const playerDiv = document.createElement('div');
       playerDiv.classList.add('player-select');
       playerDiv.setAttribute('data-player-name', player.name);
-      playerDiv.textContent = player.name;
-
+  
+      const playerNameDiv = document.createElement('div');
+      playerNameDiv.textContent = player.name;
+      playerNameDiv.classList.add('player-name');
+      playerDiv.appendChild(playerNameDiv);
+  
       const difficultySelect = document.createElement('select');
       ['facile', 'moyen', 'difficile'].forEach(difficulty => {
         const option = document.createElement('option');
@@ -74,15 +80,21 @@ export class StartSessionComponent {
         difficultySelect.appendChild(option);
       });
       this.difficultySelects[player.name] = difficultySelect;
-      playerDiv.appendChild(difficultySelect);
-
-      playerDiv.addEventListener('click', () => {
-        playerDiv.classList.toggle('selected-player');
+  
+      const difficultyLabel = document.createElement('label');
+      difficultyLabel.textContent = 'Difficulté: ';
+      difficultyLabel.appendChild(difficultySelect);
+      playerDiv.appendChild(difficultyLabel);
+  
+      playerDiv.addEventListener('click', (event) => {
+        if (event.target !== difficultySelect) {
+          playerNameDiv.classList.toggle('selected-player');
+        }
       });
-
+  
       this.playerContainer.appendChild(playerDiv);
     });
-  }
+  }  
 
   createAddUserButton() {
     this.addUserButton = document.createElement('button');
@@ -100,18 +112,19 @@ export class StartSessionComponent {
     this.startButton = document.createElement('button');
     this.startButton.textContent = 'Start Session';
     this.startButton.classList.add('start-session-button');
-
+  
     this.startButton.addEventListener('click', () => {
-      const selectedPlayerDivs = this.playerContainer.querySelectorAll('.selected-player');
-      const selectedPlayers = Array.from(selectedPlayerDivs).map(div => {
-        const playerName = div.getAttribute('data-player-name');
+      const selectedPlayerDivs = this.playerContainer.querySelectorAll('.player-select .selected-player');
+      const selectedPlayers = Array.from(selectedPlayerDivs).map(playerNameDiv => {
+        const playerName = playerNameDiv.parentNode.getAttribute('data-player-name');
+        const playerId = this.players.find(player => player.name === playerName).id; // Trouver l'id du joueur
         const difficulty = this.difficultySelects[playerName].value;
-        return { name: playerName, difficulty: difficulty };
+        return new PlayerParam(playerId, playerName, difficulty); // Créer une instance de PlayerParam avec l'id du joueur
       });
       console.log("selected players in component : ");
       console.log(selectedPlayers);
       const minScore = parseInt(this.minScoreInput.value, 10);
-      const sessionParams = { players: selectedPlayers, minScore: minScore };
+      const sessionParams = new SessionParams(selectedPlayers, minScore); // Créer une instance de SessionParams
       const event = new CustomEvent(eventNames.UserEvents.INIT_SESSION, { detail: sessionParams });
       this.remove();
       document.dispatchEvent(event);

@@ -29,7 +29,7 @@ export async function registerPlayer(playerName) {
     const localDatas = await loadLocalDatas();
     if (await checkPlayerNameAvailability(localDatas, playerName)) {
         const registrationDate = new Date(); 
-        const id = localDatas.players.length; 
+        const id = localDatas.players.length + 1; 
         const player = new Player(id, playerName, registrationDate);
         console.log(player);
         localDatas.players.push(player);

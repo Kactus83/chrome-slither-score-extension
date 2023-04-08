@@ -18,6 +18,7 @@
         {
           "matches": ["<all_urls>"],
           "resources": [
+            "models/models.js",
             "content/gui/main-gui.js",
             "content/messages/modules/handle-messages.js",
             "content/messages/send-messages.js",
