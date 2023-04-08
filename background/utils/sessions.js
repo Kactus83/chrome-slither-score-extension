@@ -54,24 +54,33 @@ export async function addSessionScore(value, endDate) {
   }
 
   let additionalTurn = false;
+  let overPlayed = false;
   let countInStats = true;
   const scoreLimit = localDatas.actual_session.session_params.scoreLimit;
   const currentPlayerScores = localDatas.actual_session.scores.filter(score => score.playerId === activePlayerId);
 
-  // Check if it's the first consecutive failed attempt
-  const firstConsecutiveFailedAttempt = currentPlayerScores.length === 0 || currentPlayerScores[currentPlayerScores.length - 1].value >= scoreLimit;
+  const otherPlayerScores = localDatas.actual_session.scores.filter(score => score.playerId !== activePlayerId);
+  const otherPlayerMinScoreCount = Math.min(...otherPlayerScores.map(score => score.scoreCounts ? 1 : 0), 1);
 
-  if (value < scoreLimit && firstConsecutiveFailedAttempt) {
-    if (activePlayer.difficulty === 'facile') {
-      additionalTurn = true;
-      countInStats = false;
-    } else if (activePlayer.difficulty === 'moyen') {
-      additionalTurn = true;
-      countInStats = true;
+  const currentPlayerScoreCount = currentPlayerScores.reduce((sum, score) => sum + (score.scoreCounts ? 1 : 0), 0);
+
+  if (currentPlayerScoreCount - otherPlayerMinScoreCount > 1) {
+    overPlayed = true;
+  }
+
+  if (!overPlayed) {
+    if (value < scoreLimit) {
+      if (activePlayer.difficulty === 'facile') {
+        additionalTurn = true;
+        countInStats = false;
+      } else if (activePlayer.difficulty === 'moyen') {
+        additionalTurn = true;
+        countInStats = true;
+      }
     }
   }
 
-  const newScore = new Score(activePlayerId, activePlayerName, value, localDatas.actual_session.current_score.startDate, endDate, additionalTurn, countInStats);
+  const newScore = new Score(activePlayerId, activePlayerName, value, localDatas.actual_session.current_score.startDate, endDate, additionalTurn, overPlayed, countInStats);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);

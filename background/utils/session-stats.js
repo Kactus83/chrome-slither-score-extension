@@ -33,7 +33,7 @@ export class SessionStatsService {
     });
 
     scores.forEach(score => {
-      if (!score.additionalTurn) {
+      if (!score.extraTurn) {
         scoreCounts[score.playerId]++;
       }
     });
@@ -44,7 +44,6 @@ export class SessionStatsService {
       difficulty: player.difficulty
     }));
   }
-
 
   async getPlayerBestScore(playerId) {
     await this.ensureDatas();
