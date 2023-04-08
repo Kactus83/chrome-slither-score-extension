@@ -1,5 +1,6 @@
 import { loadLocalDatas, saveLocalDatas } from './local-datas.js';
 import { Session, Score } from '../../models/models.js';
+import { GameRules } from './game-rules.js';
 
 // Génère un identifiant unique pour les sessions
 function generateSessionId() {
@@ -47,40 +48,14 @@ export async function addSessionScore(value, endDate) {
   const activePlayerId = localDatas.actual_session.current_score?.playerId;
   const activePlayerName = localDatas.actual_session.current_score?.playerName;
   const activePlayer = localDatas.players.find(player => player.id === activePlayerId);
-  
+
   if (!activePlayerId) {
     console.error("No active player to add score for.");
     return;
   }
 
-  let additionalTurn = false;
-  let overPlayed = false;
-  let countInStats = true;
-  const scoreLimit = localDatas.actual_session.session_params.scoreLimit;
-  const currentPlayerScores = localDatas.actual_session.scores.filter(score => score.playerId === activePlayerId);
-
-  const otherPlayerScores = localDatas.actual_session.scores.filter(score => score.playerId !== activePlayerId);
-  const otherPlayerMinScoreCount = Math.min(...otherPlayerScores.map(score => score.scoreCounts ? 1 : 0), 1);
-
-  const currentPlayerScoreCount = currentPlayerScores.reduce((sum, score) => sum + (score.scoreCounts ? 1 : 0), 0);
-
-  if (currentPlayerScoreCount - otherPlayerMinScoreCount > 1) {
-    overPlayed = true;
-  }
-
-  if (!overPlayed) {
-    if (value < scoreLimit) {
-      if (activePlayer.difficulty === 'facile') {
-        additionalTurn = true;
-        countInStats = false;
-      } else if (activePlayer.difficulty === 'moyen') {
-        additionalTurn = true;
-        countInStats = true;
-      }
-    }
-  }
-
-  const newScore = new Score(activePlayerId, activePlayerName, value, localDatas.actual_session.current_score.startDate, endDate, additionalTurn, overPlayed, countInStats);
+  const gameRules = new GameRules(localDatas.actual_session);
+  const newScore = gameRules.determineScoreProperties(activePlayerId, activePlayerName, value, activePlayer.difficulty, localDatas.actual_session.current_score.startDate, endDate);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);

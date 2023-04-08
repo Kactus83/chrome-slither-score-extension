@@ -1,4 +1,5 @@
 import { loadLocalDatas } from './local-datas.js';
+import { GameRules } from './game-rules.js';
 
 export class SessionStatsService {
   constructor() {
@@ -25,17 +26,12 @@ export class SessionStatsService {
     await this.ensureDatas();
 
     const players = this.datas.actual_session.session_params.playerParams;
-    const scores = this.datas.actual_session.scores;
+    const gameRules = new GameRules(this.datas.actual_session);
+
     const scoreCounts = {};
 
     players.forEach(player => {
-      scoreCounts[player.playerId] = 0;
-    });
-
-    scores.forEach(score => {
-      if (!score.extraTurn) {
-        scoreCounts[score.playerId]++;
-      }
+      scoreCounts[player.playerId] = gameRules.countPlayerScores(player.playerId);
     });
 
     return players.sort((a, b) => scoreCounts[a.playerId] - scoreCounts[b.playerId]).map(player => ({
