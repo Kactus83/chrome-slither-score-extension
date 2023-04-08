@@ -6,7 +6,23 @@ export class GameRules {
   }
 
   countPlayerScores(playerId) {
-    return this.session.scores.filter(score => score.playerId === playerId && score.scoreCounts).length;
+    let scoreCount = 0;
+    let isLastScoreExtraTurn = false;
+  
+    for (let i = 0; i < this.session.scores.length; i++) {
+      const score = this.session.scores[i];
+  
+      if (score.playerId === playerId) {
+        if (!isLastScoreExtraTurn || (isLastScoreExtraTurn && score.extraTurn)) {
+          scoreCount++;
+        }
+      }
+  
+      isLastScoreExtraTurn = score.extraTurn && score.playerId === playerId;
+    }
+  
+    console.log(playerId, scoreCount);
+    return scoreCount;
   }
 
   isScoreValid(value) {
@@ -15,22 +31,37 @@ export class GameRules {
 
   isOverPlayed(playerId) {
     const currentPlayerScoreCount = this.countPlayerScores(playerId);
-    const otherPlayerScores = this.session.scores.filter(score => score.playerId !== playerId);
-    const otherPlayerMinScoreCount = Math.min(...otherPlayerScores.map(score => this.countPlayerScores(score.playerId)), 1);
-    return currentPlayerScoreCount - otherPlayerMinScoreCount > 1;
+    const otherPlayerIds = this.session.session_params.playerParams
+      .filter(player => player.playerId !== playerId)
+      .map(player => player.playerId);
+  
+    const otherPlayerMinScoreCount = Math.min(
+      ...otherPlayerIds.map(id => this.countPlayerScores(id))
+    );
+  
+    if (otherPlayerMinScoreCount > 0 && currentPlayerScoreCount - otherPlayerMinScoreCount > 1) {
+      return true;
+    }
+  
+    return false;
   }
-
+  
   isActualScoreExtraTurn(value) {
     const playerId = this.session.current_score.playerId;
     const lastScore = this.session.scores.slice(-1)[0];
     const level = this.session.session_params.playerParams.find(p => p.playerId === playerId).level;
   
-    if ((!lastScore || lastScore.playerId !== playerId) && (!this.isScoreValid(value) || level !== 'difficile')) {
+    // Vérifie si le dernier score n'est pas un extraTurn du même joueur
+    const isNewTurn = !lastScore || lastScore.playerId !== playerId || !lastScore.extraTurn;
+  
+    // Si c'est un nouveau tour, que la difficulté n'est pas 'difficile' et que le score n'est pas valide,
+    // alors le joueur a un extraTurn, sinon false
+    if (isNewTurn && level !== 'difficile' && !this.isScoreValid(value)) {
       return true;
     }
   
     return false;
-  }  
+  }
   
   finalizeCurrentScore(value) {
     const currentScore = this.session.current_score;

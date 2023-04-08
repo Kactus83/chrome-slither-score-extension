@@ -24,20 +24,32 @@ export class SessionStatsService {
   
   async getNextPlayers() {
     await this.ensureDatas();
-
+  
     const players = this.datas.actual_session.session_params.playerParams;
+    const lastScore = this.datas.actual_session.scores.slice(-1)[0];
     const gameRules = new GameRules(this.datas.actual_session);
-
-    const scoreCounts = {};
-
-    players.forEach(player => {
-      scoreCounts[player.playerId] = gameRules.countPlayerScores(player.playerId);
+  
+    // Création d'un tableau de paires joueur-scoreCount
+    const scoreCounts = players.map(player => {
+      const scoreCount = gameRules.countPlayerScores(player.playerId);
+      return [player, scoreCount];
     });
-
-    return players.sort((a, b) => scoreCounts[a.playerId] - scoreCounts[b.playerId]).map(player => ({
-      id: player.playerId,
-      name: player.name,
-      difficulty: player.difficulty
+  
+    // Triage des paires en fonction du scoreCount (ordre croissant)
+    scoreCounts.sort((a, b) => a[1] - b[1]);
+  
+    // Si le dernier score a un extraTurn, placez ce joueur en premier dans la liste
+    if (lastScore && lastScore.extraTurn) {
+      const extraTurnPlayerIndex = scoreCounts.findIndex(pair => pair[0].playerId === lastScore.playerId);
+      const extraTurnPlayer = scoreCounts.splice(extraTurnPlayerIndex, 1)[0];
+      scoreCounts.unshift(extraTurnPlayer);
+    }
+  
+    // Récupération des joueurs triés et conversion en objet
+    return scoreCounts.map(pair => ({
+      id: pair[0].playerId,
+      name: pair[0].name,
+      difficulty: pair[0].difficulty
     }));
   }
 
