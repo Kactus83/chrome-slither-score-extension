@@ -55,7 +55,7 @@ export async function addSessionScore(value, endDate) {
   }
 
   const gameRules = new GameRules(localDatas.actual_session);
-  const newScore = gameRules.determineScoreProperties(activePlayerId, activePlayerName, value, activePlayer.difficulty, localDatas.actual_session.current_score.startDate, endDate);
+  const newScore = gameRules.finalizeCurrentScore(value, endDate);
 
   if (localDatas.actual_session) {
     localDatas.actual_session.scores.push(newScore);
