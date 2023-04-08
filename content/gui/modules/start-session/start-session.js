@@ -8,6 +8,8 @@ export class StartSessionComponent {
     this.playerContainer = null;
     this.addUserButton = null;
     this.startButton = null;
+    this.difficultySelects = {};
+    this.minScoreInput = null;
   }
 
   async init() {
@@ -17,6 +19,7 @@ export class StartSessionComponent {
     this.createPlayerContainer();
     this.createAddUserButton();
     this.createStartButton();
+    this.createMinScoreInput();
   }
 
   async fetchAllPlayers() {
@@ -28,6 +31,7 @@ export class StartSessionComponent {
     this.overlay.appendChild(this.playerContainer);
     this.overlay.appendChild(this.startButton);
     this.overlay.appendChild(this.addUserButton);
+    this.overlay.appendChild(this.minScoreInput);
     document.body.appendChild(this.overlay);
   }
 
@@ -62,6 +66,16 @@ export class StartSessionComponent {
       playerDiv.setAttribute('data-player-name', player.name);
       playerDiv.textContent = player.name;
 
+      const difficultySelect = document.createElement('select');
+      ['facile', 'moyen', 'difficile'].forEach(difficulty => {
+        const option = document.createElement('option');
+        option.value = difficulty;
+        option.textContent = difficulty;
+        difficultySelect.appendChild(option);
+      });
+      this.difficultySelects[player.name] = difficultySelect;
+      playerDiv.appendChild(difficultySelect);
+
       playerDiv.addEventListener('click', () => {
         playerDiv.classList.toggle('selected-player');
       });
@@ -89,12 +103,26 @@ export class StartSessionComponent {
 
     this.startButton.addEventListener('click', () => {
       const selectedPlayerDivs = this.playerContainer.querySelectorAll('.selected-player');
-      const selectedPlayers = Array.from(selectedPlayerDivs).map(div => div.getAttribute('data-player-name'));
+      const selectedPlayers = Array.from(selectedPlayerDivs).map(div => {
+        const playerName = div.getAttribute('data-player-name');
+        const difficulty = this.difficultySelects[playerName].value;
+        return { name: playerName, difficulty: difficulty };
+      });
       console.log("selected players in component : ");
       console.log(selectedPlayers);
-      const event = new CustomEvent(eventNames.UserEvents.INIT_SESSION, { detail: selectedPlayers });
+      const minScore = parseInt(this.minScoreInput.value, 10);
+      const sessionParams = { players: selectedPlayers, minScore: minScore };
+      const event = new CustomEvent(eventNames.UserEvents.INIT_SESSION, { detail: sessionParams });
       this.remove();
       document.dispatchEvent(event);
     });
+  }
+
+  createMinScoreInput() {
+    this.minScoreInput = document.createElement('input');
+    this.minScoreInput.setAttribute('type', 'number');
+    this.minScoreInput.setAttribute('min', '0');
+    this.minScoreInput.setAttribute('placeholder', 'Score minimum pour rejouer');
+    this.minScoreInput.classList.add('min-score-input');
   }
 }

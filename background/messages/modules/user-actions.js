@@ -11,7 +11,7 @@ import {
   
     switch (request.type) {
       case 'INIT_GAME_SESSION':
-        await startSession(request.playersNames);
+        await startSession(request.session_params);
         return { displayType: 'INIT_GAME_SESSION' };
   
       case 'RESUME_GAME_SESSION':
