@@ -26,11 +26,12 @@ export class GameRules {
   }
 
   isScoreValid(value) {
-    return value >= this.session.session_params.scoreLimit;
+    return value >= this.session.session_params.minScoreToReplay;
   }
 
   isOverPlayed(playerId) {
     const currentPlayerScoreCount = this.countPlayerScores(playerId);
+    const lastScore = this.session.scores.slice(-1)[0];
     const otherPlayerIds = this.session.session_params.playerParams
       .filter(player => player.playerId !== playerId)
       .map(player => player.playerId);
@@ -39,7 +40,11 @@ export class GameRules {
       ...otherPlayerIds.map(id => this.countPlayerScores(id))
     );
   
-    if (otherPlayerMinScoreCount > 0 && currentPlayerScoreCount - otherPlayerMinScoreCount > 1) {
+    if (currentPlayerScoreCount - otherPlayerMinScoreCount >= 1 && (lastScore.playerId === playerId && lastScore.extraTurn)) {
+      return true;
+    }
+  
+    if (currentPlayerScoreCount - otherPlayerMinScoreCount >= 2) {
       return true;
     }
   
@@ -53,6 +58,7 @@ export class GameRules {
   
     // Vérifie si le dernier score n'est pas un extraTurn du même joueur
     const isNewTurn = !lastScore || lastScore.playerId !== playerId || !lastScore.extraTurn;
+    console.log(lastScore, this.isScoreValid(value));
   
     // Si c'est un nouveau tour, que la difficulté n'est pas 'difficile' et que le score n'est pas valide,
     // alors le joueur a un extraTurn, sinon false
@@ -75,8 +81,9 @@ export class GameRules {
     const level = this.session.session_params.playerParams.find(p => p.playerId === playerId).level;
     const lastScore = this.session.scores.slice(-1)[0];
     const lastPlayerId = lastScore?.playerId;
-    const extraTurn = this.isActualScoreExtraTurn(value);
-    const countScore = !overPlayed && level === 'facile' && isBelowLimit && (!lastScore || lastScore.extraTurn || lastPlayerId !== playerId);
+    const extraTurn = !overPlayed && this.isActualScoreExtraTurn(value);
+    console.log(level, extraTurn, overPlayed);
+    const countScore = !(level === 'facile' && !overPlayed && extraTurn);
 
     return new Score(playerId, playerName, value, startDate, endDate, extraTurn, overPlayed, countScore);
   }
