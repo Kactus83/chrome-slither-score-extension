@@ -40,7 +40,7 @@ export class GameRules {
       ...otherPlayerIds.map(id => this.countPlayerScores(id))
     );
   
-    if (currentPlayerScoreCount - otherPlayerMinScoreCount >= 1 && (lastScore.playerId === playerId && lastScore.extraTurn)) {
+    if (currentPlayerScoreCount - otherPlayerMinScoreCount >= 1 && (lastScore.playerId === playerId && !lastScore.extraTurn)) {
       return true;
     }
   
